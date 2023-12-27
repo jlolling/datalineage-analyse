@@ -1,13 +1,42 @@
-component;Query-Attribute;TableName-Attribute;IOType
-tDBInput;QUERY;;Input
-tMysqlInput;QUERY;;Input
-tPostgresqlInput;QUERY;;Input
-tSAPRFCTableInput;;TABLE;Input
-tSAPTableInput;;TABLE;Input
-tMSSqlInput;QUERY;;Input
-tJDBCInput;QUERY;;Input
-tDBOutput;;TABLE;Output
-tMysqlOutput;;TABLE;OUTPUT
-tPostgresqlOutput;;TABLE;Output
-tMSSqlOutput;;TABLE;Output
-
+{
+	"dbinput-components": [
+		{
+			"componentName": "tDBInput",
+			"queryAttribute": "QUERY"
+		},
+		{
+			"componentName": "tPostgresqlInput",
+			"queryAttribute": "QUERY"
+		},
+		{
+			"componentName": "tMysqlInput",
+			"queryAttribute": "QUERY"
+		},
+		{
+			"componentName": "tMSSqlInput",
+			"queryAttribute": "QUERY"
+		},
+		{
+			"componentName": "tJDBCInput",
+			"queryAttribute": "QUERY"
+		},
+		{
+			"componentName": "tSAPRFCTableInput",
+			"tableAttribute": "TABLE"
+		}
+	],
+	"dboutput-components": [
+		{
+			"componentName": "tDBOutput",
+			"tableAttribute": "TABLE"
+		},
+		{
+			"componentName": "tMysqlOutput",
+			"tableAttribute": "TABLE"
+		},
+		{
+			"componentName": "tPostgresqlOutput",
+			"tableAttribute": "TABLE"
+		}
+	]
+}
