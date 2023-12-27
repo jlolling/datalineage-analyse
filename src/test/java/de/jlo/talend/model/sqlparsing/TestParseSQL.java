@@ -1,6 +1,7 @@
 package de.jlo.talend.model.sqlparsing;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -11,6 +12,12 @@ import de.jlo.talend.model.parser.sql.SQLParser;
 import de.jlo.talend.model.parser.sql.SQLStatement;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.Statements;
+import net.sf.jsqlparser.statement.delete.Delete;
+import net.sf.jsqlparser.statement.insert.Insert;
+import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.truncate.Truncate;
+import net.sf.jsqlparser.statement.update.Update;
 import net.sf.jsqlparser.util.TableAndProcedureNameFinder;
 
 public class TestParseSQL {
@@ -18,22 +25,23 @@ public class TestParseSQL {
 	@Test
 	public void testSelectsStrict() throws Exception {
 		String sql1 = "with ws1 as (\n"
-				    + "    select schema_c.function1(x) as alias_x from schema_c.table_c\n"
+				    + "    select schema_c.function1(x) as alias_x from schema_c.table_c a\n"
 				    + "), \n"
 				    + "ws2 as (\n"
-				    + "    select y from schema_d.table_d\n"
+				    + "    select y from schema_d.table_d as b\n"
 				    + ") \n"
 				    + "select \n"
 				    + "    a as alias_a, \n"
 				    + "    b as alias_b, \n"
 				    + "    (select c from schema_e.table_e) as alias_c \n"
 				    + "from schema_a.table_1 ta \n"
-				    + "join schema_b.table_b tb using(c) \n"
-				    + "join ws1 using(c)";
+				    + "join schema_b.table_b tb using(c)\n"
+				    + "join ws1 using(c)"
+				    + "where ta.field = @var1";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
 		tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
-		List<String> tableList = tablesNamesFinder.getListTableNames();
+		List<String> tableList = tablesNamesFinder.getListTableNamesInput();
 		for (String t : tableList) {
 			System.out.println(t);
 		}
@@ -43,6 +51,68 @@ public class TestParseSQL {
 			System.out.println(f);
 		}
 		assertEquals(1, functionNames.size());
+	}
+
+	@Test
+	public void testScriptStrict() throws Exception {
+		String sql1 = "set var1='1234';\n"
+				+ "insert into schema_b.table_ins\n"
+				+ "with ws1 as (\n"
+			    + "    select schema_c.function1(x) as alias_x from schema_c.table_with1 a\n"
+			    + "), \n"
+			    + "ws2 as (\n"
+			    + "    select y from schema_d.table_with2 b\n"
+			    + ") \n"
+			    + "select \n"
+			    + "    a as alias_a, \n"
+			    + "    b as alias_b, \n"
+			    + "    (select c from schema_e.table_sel1) as alias_c \n"
+			    + "from schema_a.table_sel2 ta \n"
+			    + "join schema_b.table_sel3 tb using(c)\n"
+			    + "join ws1 using(c)"
+			    + "where ta.field = @var1;\n"
+			    + "create table table_cr (field1 varchar, field2 varchar) engine InnoDB;\n";
+		Statements list = CCJSqlParserUtil.parseStatements(sql1);
+		for (Statement stmt : list.getStatements()) {
+			System.out.println(stmt.toString());
+			System.out.println("========================");
+			if (stmt instanceof Insert || stmt instanceof Select || stmt instanceof Update || stmt instanceof Delete || stmt instanceof Truncate) {
+				TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
+				tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
+				List<String> tableListIn = tablesNamesFinder.getListTableNamesInput();
+				for (String t : tableListIn) {
+					System.out.println(t);
+				}
+				assertEquals(5, tableListIn.size());
+				List<String> tableListOut = tablesNamesFinder.getListTableNamesOutput();
+				for (String t : tableListOut) {
+					System.out.println(t);
+				}
+				assertEquals(1, tableListOut.size());
+				List<String> tableListCreate = tablesNamesFinder.getListTableNamesOutput();
+				for (String t : tableListCreate) {
+					System.out.println(t);
+				}
+				assertEquals(1, tableListCreate.size());
+				List<String> functionNames = tablesNamesFinder.getListFunctionSignatures();
+				for (String f : functionNames) {
+					System.out.println(f);
+				}
+				assertEquals(1, functionNames.size());
+			}
+		}
+	}
+
+	@Test
+	public void testStatWithoutTableStrict() throws Exception {
+		String sql1 = "set var1='xyz'";
+		Statement stmt = CCJSqlParserUtil.parse(sql1);
+		if (stmt instanceof Insert || stmt instanceof Select || stmt instanceof Update || stmt instanceof Delete || stmt instanceof Truncate) {
+			assertTrue(false);
+		} else {
+			System.out.println(stmt.getClass());
+			assertTrue(true);
+		}
 	}
 
 	@Test
@@ -62,7 +132,7 @@ public class TestParseSQL {
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
 		tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
-		List<String> tableList = tablesNamesFinder.getListTableNames();
+		List<String> tableList = tablesNamesFinder.getListTableNamesInput();
 		for (String t : tableList) {
 			System.out.println(t);
 		}
@@ -187,7 +257,7 @@ public class TestParseSQL {
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
 		tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
-		List<String> tableList = tablesNamesFinder.getListTableNames();
+		List<String> tableList = tablesNamesFinder.getListTableNamesInput();
 		for (String t : tableList) {
 			System.out.println(t);
 		}
@@ -200,7 +270,7 @@ public class TestParseSQL {
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
 		tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
-		List<String> tableList = tablesNamesFinder.getListTableNames();
+		List<String> tableList = tablesNamesFinder.getListTableNamesInput();
 		for (String t : tableList) {
 			System.out.println(t);
 		}
@@ -213,7 +283,7 @@ public class TestParseSQL {
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
 		tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
-		List<String> tableList = tablesNamesFinder.getListTableNames();
+		List<String> tableList = tablesNamesFinder.getListTableNamesInput();
 		for (String t : tableList) {
 			System.out.println(t);
 		}

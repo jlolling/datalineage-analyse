@@ -118,7 +118,7 @@ public class TaskJobDatabaseTableCollector {
 			Statement stmt = CCJSqlParserUtil.parse(sql);
 			TableAndProcedureNameFinder finder = new TableAndProcedureNameFinder();
 			finder.retrieveTablesAndFunctionSignatures(stmt);
-			return finder.getListTableNames();
+			return finder.getListTableNamesInput();
 		} else {
 			return SQLParser.findFromTables(sql);
 		}
@@ -190,7 +190,7 @@ public class TaskJobDatabaseTableCollector {
 						Statement stmt = CCJSqlParserUtil.parse(sql);
 						TableAndProcedureNameFinder finder = new TableAndProcedureNameFinder();
 						finder.retrieveTablesAndFunctionSignatures(stmt);
-						List<String> listTables = finder.getListTableNames();
+						List<String> listTables = finder.getListTableNamesInput();
 						for (String t : listTables) {
 							addInputTable(job, compId, t);
 						}

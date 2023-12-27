@@ -2,6 +2,8 @@ package de.jlo.talend.model;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.junit.Test;
 
 public class TestModel {
@@ -21,10 +23,17 @@ public class TestModel {
 		assertEquals(expected, countConn);
 	}
 	
+	@Test
 	public void testReadJobContext() throws Exception {
 		Model model = new Model(projectRoot);
-		String jobName = "";
-		Job testJob = model.getLatestJob()
+		String jobName = "manage_batchjobs_check_failed___one_task";
+		Job testJob = model.getLatestJob(jobName);
+		assertEquals("0.3", testJob.getVersion());
+		List<ContextParameter> context = testJob.getContext();
+		for (ContextParameter p : context) {
+			System.out.println(p.getName() + "=" + p.getValue());
+		}
+		assertEquals(21, context.size());
 	}
 
 }

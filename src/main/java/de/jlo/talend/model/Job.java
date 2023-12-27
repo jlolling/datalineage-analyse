@@ -134,7 +134,10 @@ public class Job implements Comparable<Job> {
 		return jobFolder + "/" + jobName + ":" + version;
 	}
 	
-	public Document getItemDoc() {
+	public Document getItemDoc() throws Exception {
+		if (itemDoc == null) {
+			itemDoc = model.readItem(this);
+		}
 		return itemDoc;
 	}
 	
@@ -151,11 +154,8 @@ public class Job implements Comparable<Job> {
 	}
 	
 	public void retrieveContext() throws Exception {
-		if (itemDoc == null) {
-			throw new IllegalStateException("Item document not set!");
-		}
 		context = new ArrayList<>();
-		Element root = itemDoc.getRootElement();
+		Element root = getItemDoc().getRootElement();
 		List<Node> contextNodes = root.selectNodes("context/contextParameter");
 		for (Node cn : contextNodes) {
 			String id = ((Element) cn).attributeValue("internalId");
@@ -175,11 +175,8 @@ public class Job implements Comparable<Job> {
 	}
 	
 	public void retrieveTRunJobs() throws Exception {
-		if (itemDoc == null) {
-			throw new IllegalStateException("Item document not set!");
-		}
 		embeddedJobs.clear();
-		Element root = itemDoc.getRootElement();
+		Element root = getItemDoc().getRootElement();
 		List<Node> tRunJobNodes = root.selectNodes("node[@componentName='tRunJob']");
 		for (Node cn : tRunJobNodes) {
 			TRunJob tRunJob = new TRunJob(cn, model);
