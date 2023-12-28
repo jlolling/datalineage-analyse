@@ -11,6 +11,7 @@ import net.sf.jsqlparser.statement.create.table.CreateTable;
 import net.sf.jsqlparser.statement.create.view.CreateView;
 import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.insert.Insert;
+import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.select.SelectVisitor;
 import net.sf.jsqlparser.statement.select.TableFunction;
@@ -73,6 +74,12 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 		super.visit(stat);
 	}
 	
+    @Override
+    public void visit(PlainSelect plainSelect) {
+    	currentStatement = plainSelect;
+    	super.visit(plainSelect);
+    }
+
 	@Override
 	public void visit(CreateTable stat) {
 		currentStatement = stat;
@@ -136,7 +143,7 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
             }
         }
     }
-
+    
     @Override
     public void visit(TableFunction valuesList) {
     	Function function = valuesList.getFunction();

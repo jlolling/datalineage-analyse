@@ -13,7 +13,6 @@ import de.jlo.talend.model.parser.sql.SQLStatement;
 import de.jlo.talend.model.parser.sql.TableAndProcedureNameFinder;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.Statements;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.insert.Insert;
@@ -56,7 +55,7 @@ public class TestParseSQL {
 
 	@Test
 	public void testCreateTableFromSelectStrict() throws Exception {
-		String sql1 = "CREATE TABLE new_tbl as (SELECT * FROM orig_tbl)";
+		String sql1 = "CREATE TABLE new_tbl as SELECT * FROM orig_tbls";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
 		tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
@@ -93,8 +92,8 @@ public class TestParseSQL {
 			    + "where ta.field = @var1;\n"
 			    + ""
 			    + "create table table_cr1 (field1 varchar, field2 varchar) engine InnoDB;\n";
-		Statements list = CCJSqlParserUtil.parseStatements(sql1);
-		for (Statement stmt : list.getStatements()) {
+		List<Statement> list = CCJSqlParserUtil.parseStatements(sql1);
+		for (Statement stmt : list) {
 			System.out.println(stmt.toString());
 			System.out.println("========================");
 			if (stmt instanceof Insert || stmt instanceof Select || stmt instanceof Update || stmt instanceof Delete || stmt instanceof Truncate) {
