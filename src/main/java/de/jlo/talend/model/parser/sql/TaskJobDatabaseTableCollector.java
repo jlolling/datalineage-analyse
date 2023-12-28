@@ -16,7 +16,6 @@ import de.jlo.talend.model.Job;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.util.TableAndProcedureNameFinder;
 
 public class TaskJobDatabaseTableCollector {
 	
