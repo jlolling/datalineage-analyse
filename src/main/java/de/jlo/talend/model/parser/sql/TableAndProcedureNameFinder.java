@@ -152,8 +152,6 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 		}
     }
     
-    
-
 	public List<String> getListTableNamesInput() {
 		return listTableNamesInput;
 	}
