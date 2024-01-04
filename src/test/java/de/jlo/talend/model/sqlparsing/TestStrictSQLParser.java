@@ -3,6 +3,7 @@ package de.jlo.talend.model.sqlparsing;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
@@ -53,7 +54,7 @@ public class TestStrictSQLParser {
 
 	@Test
 	public void testCreateTableFromSelectStrict() throws Exception {
-		String sql1 = "CREATE TABLE new_tbl as SELECT * FROM orig_tbls";
+		String sql1 = "CREATE TABLE new_tbl as SELECT * FROM `orig_tbls`";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
 		tablesNamesFinder.analyse(stmt);
@@ -68,12 +69,27 @@ public class TestStrictSQLParser {
 		}
 		assertEquals(1, tableList.size());
 	}
+	
+	@Test
+	public void testRemoveEmptyLines() throws IOException {
+		String test = "insert into schema_b.table_ins\n"
+				+ "-- comment\n"
+				+ "\n\n\n"
+				+ "with ws1 as (\n";
+		String expected =  "insert into schema_b.table_ins\n"
+				+ "-- comment\n"
+				+ "with ws1 as (\n";
+		String actual = StrictSQLParser.cleanupEmptyLines(test);
+		assertEquals("not match", expected, actual);
+	}
 
 	@Test
 	public void testScriptStrict0() throws Exception {
 		String sql1 = "set var1='1234';\n"
 				+ ""
 				+ "insert into schema_b.table_ins\n"
+				+ "-- comment\n"
+				+ "\n"
 				+ "with ws1 as (\n"
 			    + "    select schema_c.function1(x) as alias_x from schema_c.table_with1 a\n"
 			    + "), \n"
@@ -129,8 +145,8 @@ public class TestStrictSQLParser {
 	@Test
 	public void testScriptStrict() throws Exception {
 		String sql1 = "set var1='1234';\n"
-				+ ""
-				+ "insert into schema_b.table_ins\n"
+				+ "update `table_upd` set x=y;\n"
+				+ "insert into schema_b.table_ins\n\n\n"
 				+ "with ws1 as (\n"
 			    + "    select schema_c.function1(x) as alias_x from schema_c.table_with1 a\n"
 			    + "), \n"
@@ -145,13 +161,17 @@ public class TestStrictSQLParser {
 			    + "join schema_b.table_sel3 tb using(c)\n"
 			    + "join ws1 using(c)"
 			    + "where ta.field = @var1;\n"
-			    + ""
-			    + "create table table_cr1 (field1 varchar, field2 varchar) engine InnoDB;\n";
+			    + "select * from table_sel4;\n"
+			    + "create table table_cr1 (field1 varchar, field2 varchar) engine InnoDB;"
+			    + "create table table_cr2 (field1 varchar, field2 varchar) engine InnoDB;\n";
 		StrictSQLParser p = new StrictSQLParser();
 		p.parseScriptFromCode(sql1);
-		assertEquals("input", 5, p.getTablesRead().size());
-		assertEquals("output", 1, p.getTablesWritten().size());
-		assertEquals("create", 1, p.getTablesCreated().size());
+		assertEquals("input", 6, p.getTablesRead().size());
+		for (String t : p.getTablesWritten()) {
+			System.out.println(t);
+		}
+		assertEquals("output", 2, p.getTablesWritten().size());
+		assertEquals("create", 2, p.getTablesCreated().size());
 	}
 
 	@Test
@@ -266,6 +286,19 @@ public class TestStrictSQLParser {
 			System.out.println(t);
 		}
 		assertEquals(2, tableList.size());
+	}
+	
+	@Test
+	public void testDummySelect() throws Exception {
+		String sql1 = "select current_timestamp";
+		Statement stmt = CCJSqlParserUtil.parse(sql1);
+		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
+		tablesNamesFinder.analyse(stmt);
+		List<String> tableList = tablesNamesFinder.getListTableNamesInput();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals(0, tableList.size());
 	}
 	
 	@Test
