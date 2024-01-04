@@ -116,10 +116,10 @@ public class TaskJobDatabaseTableCollector {
 		if (preferSQLParser) {
 			Statement stmt = CCJSqlParserUtil.parse(sql);
 			TableAndProcedureNameFinder finder = new TableAndProcedureNameFinder();
-			finder.retrieveTablesAndFunctionSignatures(stmt);
+			finder.analyse(stmt);
 			return finder.getListTableNamesInput();
 		} else {
-			return SQLParser.findFromTables(sql);
+			return SimpleSQLParser.findFromTables(sql);
 		}
 	}
 
@@ -188,7 +188,7 @@ public class TaskJobDatabaseTableCollector {
 					try {
 						Statement stmt = CCJSqlParserUtil.parse(sql);
 						TableAndProcedureNameFinder finder = new TableAndProcedureNameFinder();
-						finder.retrieveTablesAndFunctionSignatures(stmt);
+						finder.analyse(stmt);
 						List<String> listTables = finder.getListTableNamesInput();
 						for (String t : listTables) {
 							addInputTable(job, compId, t);
@@ -199,7 +199,7 @@ public class TaskJobDatabaseTableCollector {
 						}
 					} catch (Exception pe) {
 						// try to find the tables with patterns if a full parsing fails
-						List<String> listTables = SQLParser.findFromTables(sql);
+						List<String> listTables = SimpleSQLParser.findFromTables(sql);
 						for (String t : listTables) {
 							addInputTable(job, compId, t);
 						}
@@ -209,16 +209,16 @@ public class TaskJobDatabaseTableCollector {
 						LOG.debug("Component: " + compId + " pattern matching SQL: " + sql);
 					}
 					// try to find the tables with patterns if a full parse fails
-					SQLParser p = new SQLParser();
+					SimpleSQLParser p = new SimpleSQLParser();
 					p.setIncludeComments(false);
 					p.parseScript(sql);
 					List<SQLStatement> stats = p.getStatements();
 					for (SQLStatement stat : stats) {
-						List<String> listTables = SQLParser.findFromTables(stat.getSQL());
+						List<String> listTables = SimpleSQLParser.findFromTables(stat.getSQL());
 						for (String t : listTables) {
 							addInputTable(job, compId, t);
 						}
-						String outTable = SQLParser.findInsertUpdateTables(stat.getSQL());
+						String outTable = SimpleSQLParser.findInsertUpdateTables(stat.getSQL());
 						if (outTable != null) {
 							addOutputTable(job, outTable);
 						}

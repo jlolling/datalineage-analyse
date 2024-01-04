@@ -30,7 +30,7 @@ import de.jlo.talend.model.parser.StringReplacer;
 /**
  * Klasse enthält Methoden zum Zerlegen von kompletten SQL-Scripten
  */
-public final class SQLParser {
+public final class SimpleSQLParser {
 
     private List<SQLStatement> parsedStatements;
     protected int           blockCount;             // zählt die Anzahl der veschachtelten Codeblöcke
@@ -80,7 +80,7 @@ public final class SQLParser {
 		insertUpdateTablePattern = Pattern.compile(insertUpdateTableRegex, Pattern.CASE_INSENSITIVE);
     }
 
-    public SQLParser() {
+    public SimpleSQLParser() {
     	if (fromTablePattern == null) {
         	fromTablePattern = Pattern.compile(fromTableRegex, Pattern.CASE_INSENSITIVE);
     	}
@@ -95,21 +95,21 @@ public final class SQLParser {
     	}
     }
 
-    public SQLParser(String text) {
+    public SimpleSQLParser(String text) {
         parseScript(text);
     }
 
-    public SQLParser(File file, String charset) throws IOException {
+    public SimpleSQLParser(File file, String charset) throws IOException {
     	String sql = readSQLFile(file, charset);
         parseScript(sql);
     }
 
-    public SQLParser(String text, boolean disableParser) {
+    public SimpleSQLParser(String text, boolean disableParser) {
         this.parserDisabled = disableParser;
         parseScript(text);
     }
 
-    public SQLParser(String text, boolean disableParser, boolean enableAutoDetectPLSQL) {
+    public SimpleSQLParser(String text, boolean disableParser, boolean enableAutoDetectPLSQL) {
         this.parserDisabled = disableParser;
         this.autoDetectPLSQL = enableAutoDetectPLSQL;
         parseScript(text);

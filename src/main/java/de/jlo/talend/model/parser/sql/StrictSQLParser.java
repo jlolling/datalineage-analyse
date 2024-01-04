@@ -17,7 +17,7 @@ import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.truncate.Truncate;
 import net.sf.jsqlparser.statement.update.Update;
 
-public class SQLScriptParser {
+public class StrictSQLParser {
 	
 	private List<String> listInputTables = new ArrayList<>();
 	private List<String> listOutputTables = new ArrayList<>();
@@ -25,7 +25,7 @@ public class SQLScriptParser {
 	private List<String> listFunctions = new ArrayList<>();
 	private String defaultSchema = null;
 	
-	public SQLScriptParser() {}
+	public StrictSQLParser() {}
 	
 	private String getFullQualifiedName(String name) {
 		if (defaultSchema != null) {
@@ -50,7 +50,7 @@ public class SQLScriptParser {
 		for (Statement stmt : listStatements) {
 			if (stmt instanceof Insert || stmt instanceof Update || stmt instanceof Delete || stmt instanceof Truncate) {
 				TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
-				tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
+				tablesNamesFinder.analyse(stmt);
 				List<String> tableList = tablesNamesFinder.getListTableNamesOutput();
 				for (String tableName : tableList) {
 					String name = getFullQualifiedName(tableName);
@@ -67,7 +67,7 @@ public class SQLScriptParser {
 				}
 			} else if (stmt instanceof Select) {
 				TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
-				tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
+				tablesNamesFinder.analyse(stmt);
 				List<String> tableList = tablesNamesFinder.getListTableNamesInput();
 				for (String tableName : tableList) {
 					String name = getFullQualifiedName(tableName);
@@ -83,7 +83,7 @@ public class SQLScriptParser {
 				}
 			} else if (stmt instanceof Function) {
 				TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
-				tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
+				tablesNamesFinder.analyse(stmt);
 				List<String> functionList = tablesNamesFinder.getListFunctionSignatures();
 				for (String name : functionList) {
 					if (listFunctions.contains(name) == false) {
@@ -99,7 +99,7 @@ public class SQLScriptParser {
 				}
 			} else if (stmt instanceof CreateTable) {
 				TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
-				tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
+				tablesNamesFinder.analyse(stmt);
 				List<String> tableList = tablesNamesFinder.getListTableNamesCreate();
 				for (String tableName : tableList) {
 					String name = getFullQualifiedName(tableName);
@@ -116,7 +116,7 @@ public class SQLScriptParser {
 				}
 			} else if (stmt instanceof CreateView) {
 				TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
-				tablesNamesFinder.retrieveTablesAndFunctionSignatures(stmt);
+				tablesNamesFinder.analyse(stmt);
 				List<String> tableList = tablesNamesFinder.getListTableNamesCreate();
 				for (String tableName : tableList) {
 					String name = getFullQualifiedName(tableName);

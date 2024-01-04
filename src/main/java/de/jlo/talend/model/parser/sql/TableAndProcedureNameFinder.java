@@ -53,7 +53,11 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 	    otherItemNames = new ArrayList<>();
 	}
 	
-	public void retrieveTablesAndFunctionSignatures(Statement statement) {
+	/**
+	 * Entry method to analyze a Statement
+	 * @param statement
+	 */
+	public void analyse(Statement statement) {
 		init();
 		statement.accept(this);
 		listFunctionSignatures = new ArrayList<String>();
@@ -89,7 +93,8 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 	@Override
 	public void visit(CreateView stat) {
 		currentStatement = stat;
-		super.visit(stat);
+		stat.getView().accept(this);
+		stat.getSelect().accept((SelectVisitor) this);
 	}
 	
 	@Override
