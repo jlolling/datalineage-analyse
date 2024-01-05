@@ -1,11 +1,5 @@
 package de.jlo.talend.model.parser.sql;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +19,10 @@ public class StrictSQLParser {
 	private List<String> listInputTables = new ArrayList<>();
 	private List<String> listOutputTables = new ArrayList<>();
 	private List<String> listCreateTables = new ArrayList<>();
+	private List<String> listCreateTempTables = new ArrayList<>();
 	private List<String> listFunctions = new ArrayList<>();
 	private String defaultSchema = null;
+	private StringBuilder errorText = new StringBuilder();
 	
 	public StrictSQLParser() {}
 	
@@ -34,53 +30,57 @@ public class StrictSQLParser {
 		if (defaultSchema != null) {
 			int pos = name.indexOf(".");
 			if (pos == -1) {
-				return cleanupEnclosures(defaultSchema + "." + name);
+				return SQLCodeUtil.cleanupEnclosures(defaultSchema + "." + name);
 			} else {
-				return cleanupEnclosures(name);
+				return SQLCodeUtil.cleanupEnclosures(name);
 			}
 		} else {
-			return cleanupEnclosures(name);
+			return SQLCodeUtil.cleanupEnclosures(name);
 		}
-	}
-	
-	private String cleanupEnclosures(String name) {
-		if (name != null) {
-			return name.replace("`", "").replace("[", "").replace("]", "").replace("\"", "");
-		} else {
-			return null;
-		}
-	}
-	
-	public static String cleanupEmptyLines(String text) throws IOException {
-		BufferedReader r = new BufferedReader(new StringReader(text));
-		String line = null;
-		StringBuilder sb = new StringBuilder();
-		while ((line = r.readLine()) != null) {
-			if (line.trim().isEmpty() == false) {
-				sb.append(line);
-				sb.append("\n");
-			}
-		}
-		return sb.toString();
 	}
 	
 	public void reset() {
 		listInputTables = new ArrayList<>();
 		listOutputTables = new ArrayList<>();
 		listCreateTables = new ArrayList<>();
+		listCreateTempTables = new ArrayList<>();
 		listFunctions = new ArrayList<>();
 	}
 	
+	public String getParserErrorLog() {
+		if (errorText.length() > 0) {
+			return errorText.toString();
+		} else {
+			return null;
+		}
+	}
+	
 	public void parseScriptFromFile(String scriptPath) throws Exception {
-		String code = readContentfromFile(scriptPath, null);
-		parseScriptFromCode(code);
+		String code = SQLCodeUtil.readContentfromFile(scriptPath, null);
+		SimpleSQLParser sp = new SimpleSQLParser();
+		sp.parseScript(code);
+		List<SQLStatement> list = sp.getStatements();
+		int index = 0;
+		for (SQLStatement stat : list) {
+			try {
+				index++;
+				parseScriptFromCode(stat.getSQL());
+			} catch (Exception e) {
+				String message = "Statement #" + index + " SQL:\n" + stat.getSQL() + "\nfails: " + e.getMessage();
+				if (errorText.length() > 0) {
+					errorText.append("\n##############################");
+				}
+				errorText.append(message);
+			}
+		}
 	}
 	
 	public void parseScriptFromCode(String sqlScriptCode) throws Exception {
 		if (sqlScriptCode == null || sqlScriptCode.trim().isEmpty()) {
 			throw new IllegalArgumentException("SQL script cannot be null or empty");
 		}
-		List<Statement> listStatements = CCJSqlParserUtil.parseStatements(cleanupEmptyLines(sqlScriptCode));
+		String cleanedCode = SQLCodeUtil.removeIntoFromSelect(SQLCodeUtil.replaceHashCommentsAndAssignments(SQLCodeUtil.cleanupEmptyLines(sqlScriptCode)));
+		List<Statement> listStatements = CCJSqlParserUtil.parseStatements(cleanedCode);
 		int index = 0;
 		for (Statement stmt : listStatements) {
 			index++;
@@ -98,7 +98,7 @@ public class StrictSQLParser {
 					tableList = tablesNamesFinder.getListTableNamesInput();
 					for (String tableName : tableList) {
 						String name = getFullQualifiedName(tableName);
-						if (listInputTables.contains(name) == false) {
+						if (listInputTables.contains(name) == false && listCreateTempTables.contains(name) == false) {
 							listInputTables.add(name);
 						}
 					}
@@ -108,7 +108,7 @@ public class StrictSQLParser {
 					List<String> tableList = tablesNamesFinder.getListTableNamesInput();
 					for (String tableName : tableList) {
 						String name = getFullQualifiedName(tableName);
-						if (listInputTables.contains(name) == false) {
+						if (listInputTables.contains(name) == false && listCreateTempTables.contains(name) == false) {
 							listInputTables.add(name);
 						}
 					}
@@ -130,7 +130,7 @@ public class StrictSQLParser {
 					List<String> tableList = tablesNamesFinder.getListTableNamesInput();
 					for (String tableName : tableList) {
 						String name = getFullQualifiedName(tableName);
-						if (listInputTables.contains(name) == false) {
+						if (listInputTables.contains(name) == false && listCreateTempTables.contains(name) == false) {
 							listInputTables.add(name);
 						}
 					}
@@ -144,10 +144,18 @@ public class StrictSQLParser {
 							listCreateTables.add(name);
 						}
 					}
+					tableList = tablesNamesFinder.getListTableNamesTemp();
+					for (String tableName : tableList) {
+						String name = getFullQualifiedName(tableName);
+						if (listCreateTempTables.contains(name) == false) {
+							listCreateTempTables.add(name);
+						}
+					}
 					tableList = tablesNamesFinder.getListTableNamesInput();
 					for (String tableName : tableList) {
 						String name = getFullQualifiedName(tableName);
-						if (listInputTables.contains(name) == false) {
+						// prevent we list temporary tables here
+						if (listInputTables.contains(name) == false && listCreateTempTables.contains(name) == false) {
 							listInputTables.add(name);
 						}
 					}
@@ -197,24 +205,4 @@ public class StrictSQLParser {
 		}
 	}
 	
-	private static String readContentfromFile(String filePath, String charset) throws Exception {
-		if (filePath == null) {
-			return null;
-		}
-		File f = new File(filePath);
-		if (f.exists() == false) {
-			throw new Exception("File: " + filePath + " does not exist.");
-		}
-		if (charset == null || charset.trim().isEmpty()) {
-			charset = "UTF-8";
-		}
-		Path p = java.nio.file.Paths.get(filePath);
-		byte[] bytes = Files.readAllBytes(p);
-		if (bytes != null && bytes.length > 0) {
-			return new String(bytes, charset);
-		} else {
-			return null;
-		}
-	}
-
 }

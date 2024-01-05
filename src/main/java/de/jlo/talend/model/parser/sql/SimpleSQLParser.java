@@ -53,7 +53,6 @@ public final class SimpleSQLParser {
 	private static final String fromTableRegex = "\\s{1,}(from|join)[\\s]{1,}([a-z_]{1}[a-z0-9_\\.]*)";
 	private static final String withNameRegex1 = "with\\s{1,}([a-z_]{1}[a-z_0-9]*)\\s{1,}as\\s*\\(";
 	private static final String withNameRegex2 = "\\)\\s*[,]\\s*([a-z_]{1}[a-z_0-9]*)\\s{1,}as\\s*\\(";
-	private static final String fromTableAntiRegex = "(extract\\s{0,}\\()\\s{1,}(from)[\\s]{1,}([a-z_]{1}[a-z0-9_\\.]*)\\)";
     static String[]         plsqlKeyWords   = {
             "DECLARE",
             "CREATE OR REPLACE PROCEDURE",

@@ -1,5 +1,11 @@
 package de.jlo.talend.model.parser.sql;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -109,4 +115,79 @@ public class SQLCodeUtil {
         return sb.toString();
     }
 
+	public static String cleanupEnclosures(String name) {
+		if (name != null) {
+			return name.replace("`", "").replace("[", "").replace("]", "").replace("\"", "");
+		} else {
+			return null;
+		}
+	}
+	
+	public static String cleanupEmptyLines(String text) throws IOException {
+		BufferedReader r = new BufferedReader(new StringReader(text));
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		boolean prevLineNotEmpty = false;
+		while ((line = r.readLine()) != null) {
+			if (line.trim().isEmpty() == false) {
+				sb.append(line);
+				sb.append("\n");
+				prevLineNotEmpty = true;
+			} else {
+				if (prevLineNotEmpty) {
+					sb.append("\n");
+				}
+				prevLineNotEmpty = false;
+			}
+		}
+		return sb.toString().trim();
+	}
+	
+	public static String replaceHashCommentsAndAssignments(String text) throws IOException {
+		BufferedReader r = new BufferedReader(new StringReader(text));
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while ((line = r.readLine()) != null) {
+			if (line.trim().startsWith("#")) {
+				line = line.replace("#", "-- ");
+			}
+			sb.append(line.replace(":=", "="));
+			sb.append("\n");
+		}
+		return sb.toString().trim();
+	}
+	
+	public static String removeIntoFromSelect(String text) throws IOException {
+		BufferedReader r = new BufferedReader(new StringReader(text));
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while ((line = r.readLine()) != null) {
+			line = RegexUtil.replaceByRegexGroups(line, "(into\\s{1,}@[a-z0-9_]{1,}\\s{0,},{0,1}\\s{0,}[@a-z0-9_]{0,}\\s{0,},{0,1}\\s{0,}[@a-z0-9_]{0,})", "");
+			sb.append(line);
+			sb.append("\n");
+		}
+		return sb.toString().trim();
+	}
+	
+	public static String readContentfromFile(String filePath, String charset) throws Exception {
+		if (filePath == null) {
+			return null;
+		}
+		File f = new File(filePath);
+		if (f.exists() == false) {
+			throw new Exception("File: " + filePath + " does not exist.");
+		}
+		if (charset == null || charset.trim().isEmpty()) {
+			charset = "UTF-8";
+		}
+		Path p = java.nio.file.Paths.get(filePath);
+		byte[] bytes = Files.readAllBytes(p);
+		if (bytes != null && bytes.length > 0) {
+			return new String(bytes, charset);
+		} else {
+			return null;
+		}
+	}
+
+	
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.jlo.talend.model.parser.sql.SQLCodeUtil;
 import de.jlo.talend.model.parser.sql.StrictSQLParser;
 import de.jlo.talend.model.parser.sql.TableAndProcedureNameFinder;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
@@ -71,6 +72,65 @@ public class TestStrictSQLParser {
 	}
 	
 	@Test
+	public void testCreateTempoTableFromSelectStrict0() throws Exception {
+		String sql1 = "CREATE TEMPORARY TABLE IF NOT EXISTS new_tbl as SELECT * FROM `orig_tbls`";
+		Statement stmt = CCJSqlParserUtil.parse(sql1);
+		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
+		tablesNamesFinder.analyse(stmt);
+		List<String> tableList2 = tablesNamesFinder.getListTableNamesCreate();
+		for (String t : tableList2) {
+			System.out.println(t);
+		}
+		assertEquals(0, tableList2.size());
+		List<String> tableList = tablesNamesFinder.getListTableNamesInput();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals(1, tableList.size());
+		tableList = tablesNamesFinder.getListTableNamesTemp();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals(1, tableList.size());
+	}
+
+	@Test
+	public void testCreateTempoTableFromSelectStrict() throws Exception {
+		String sql1 = "CREATE TEMPORARY TABLE IF NOT EXISTS new_tbl as SELECT * FROM `orig_tbls`";
+		StrictSQLParser p = new StrictSQLParser();
+		p.parseScriptFromCode(sql1);
+		List<String> tableList2 = p.getTablesCreated();
+		for (String t : tableList2) {
+			System.out.println(t);
+		}
+		assertEquals("create", 0, tableList2.size());
+		List<String> tableList = p.getTablesRead();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals("input", 1, tableList.size());
+	}
+
+	@Test
+	public void testCreateTempoTableFromSelectStrictPreventTemp() throws Exception {
+		String sql1 = "CREATE TEMPORARY TABLE IF NOT EXISTS temp_tbl as SELECT * FROM `orig_tbls`;\n"
+				+ "select * from temp_tbl;\n"
+				+ "select * from any_table;";
+		StrictSQLParser p = new StrictSQLParser();
+		p.parseScriptFromCode(sql1);
+		List<String> listTables = p.getTablesCreated();
+		for (String name : listTables) {
+			System.out.println(name);
+		}
+		assertEquals("create", 0, listTables.size());
+		listTables = p.getTablesRead();
+		for (String name : listTables) {
+			System.out.println(name);
+		}
+		assertEquals("input", 2, listTables.size());
+	}
+
+	@Test
 	public void testRemoveEmptyLines() throws IOException {
 		String test = "insert into schema_b.table_ins\n"
 				+ "-- comment\n"
@@ -78,8 +138,9 @@ public class TestStrictSQLParser {
 				+ "with ws1 as (\n";
 		String expected =  "insert into schema_b.table_ins\n"
 				+ "-- comment\n"
-				+ "with ws1 as (\n";
-		String actual = StrictSQLParser.cleanupEmptyLines(test);
+				+ "\n"
+				+ "with ws1 as (";
+		String actual = SQLCodeUtil.cleanupEmptyLines(test);
 		assertEquals("not match", expected, actual);
 	}
 
@@ -197,7 +258,7 @@ public class TestStrictSQLParser {
 
 	@Test
 	public void testStatWithoutTableStrict() throws Exception {
-		String sql1 = "set var1='xyz'";
+		String sql1 = "set var1 = 'xyz'";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		if (stmt instanceof Insert || stmt instanceof Select || stmt instanceof Update || stmt instanceof Delete || stmt instanceof Truncate) {
 			assertTrue(false);
@@ -208,7 +269,7 @@ public class TestStrictSQLParser {
 	}
 
 	@Test
-	public void testSelectsStrictOracle() throws Exception {
+	public void testSelectsStrictOracle0() throws Exception {
 		String sql1 = "with ws1 as (\n"
 				    + "    select schema_c.function1(x) as alias_x from schema_c.table_c\n"
 				    + "), \n"
@@ -237,7 +298,7 @@ public class TestStrictSQLParser {
 	}
 
 	@Test
-	public void testSelectProc() throws Exception {
+	public void testSelectProc0() throws Exception {
 		String sql1 = "select a from procedureCall(1,2)";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
@@ -250,7 +311,7 @@ public class TestStrictSQLParser {
 	}
 
 	@Test
-	public void testTruncateTable() throws Exception {
+	public void testTruncateTable0() throws Exception {
 		String sql1 = "truncate table schema_a.table_a";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
@@ -263,7 +324,7 @@ public class TestStrictSQLParser {
 	}
 
 	@Test
-	public void testDeleteTable() throws Exception {
+	public void testDeleteTable0() throws Exception {
 		String sql1 = "delete from schema_a.table_a a";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
@@ -276,7 +337,7 @@ public class TestStrictSQLParser {
 	}
 
 	@Test
-	public void testUpdateTable() throws Exception {
+	public void testUpdateTable0() throws Exception {
 		String sql1 = "update schema_a.table_a a set x = b.v from schema_a.table_b b";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
@@ -289,7 +350,7 @@ public class TestStrictSQLParser {
 	}
 	
 	@Test
-	public void testDummySelect() throws Exception {
+	public void testDummySelect0() throws Exception {
 		String sql1 = "select current_timestamp";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
@@ -302,7 +363,7 @@ public class TestStrictSQLParser {
 	}
 	
 	@Test
-	public void testCreateTableFromSelect() throws Exception {
+	public void testCreateTableFromSelect0() throws Exception {
 		String sql1 = "create table schema_a.table_target as select f1,f2 from schema_a.table_source";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
@@ -320,7 +381,7 @@ public class TestStrictSQLParser {
 	}
 	
 	@Test
-	public void testCreateView() throws Exception {
+	public void testCreateView0() throws Exception {
 		String sql1 = "create view schema_a.view_target as (select f1,f2 from schema_a.table_source)";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
@@ -338,7 +399,7 @@ public class TestStrictSQLParser {
 	}
 
 	@Test
-	public void testCreateViewWithJoin() throws Exception {
+	public void testCreateViewWithJoin0() throws Exception {
 		String sql1 = "create view schema_a.view_target as (select a.f1,b.f2 from schema_a.table_source1 a inner join schema_a.table_source2 b on a.f1 = b.f1)";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);
 		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
@@ -353,6 +414,69 @@ public class TestStrictSQLParser {
 			System.out.println(t);
 		}
 		assertEquals(2, tableList.size());
+	}
+
+	@Test
+	public void testInsertWithVars0() throws Exception {
+		String sql1 = "INSERT INTO Report.BENELUX_SEGMENT_KPI_CALC_VERSIONS\n"
+				+ "(kpi_name, comment)\n"
+				+ "values ('STOCK_ORDERS', @comment_ext);";
+		Statement stmt = CCJSqlParserUtil.parse(sql1);
+		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
+		tablesNamesFinder.analyse(stmt);
+		List<String> tableList = tablesNamesFinder.getListTableNamesOutput();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals(1, tableList.size());
+	}
+
+	@Test
+	public void testSelectWithInto() throws Exception {
+		String sql1 = "SELECT MAX(id) FROM Report.BENELUX_SEGMENT_KPI_CALC_VERSIONS WHERE kpi_name='STOCK_ORDERS' INTO @ver_1;";
+		StrictSQLParser p = new StrictSQLParser();
+		p.parseScriptFromCode(sql1);
+		List<String> tableList = p.getTablesRead();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals(1, tableList.size());
+	}
+
+	@Test
+	public void testSelectEnquotedFields() throws Exception {
+		String sql1 = "SELECT 1234_a FROM Report.BENELUX_SEGMENT_KPI_CALC_VERSIONS";
+		StrictSQLParser p = new StrictSQLParser();
+		p.parseScriptFromCode(sql1);
+		List<String> tableList = p.getTablesRead();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals(1, tableList.size());
+	}
+
+	@Test
+	public void testInsertIgnore() throws Exception {
+		String sql1 = "insert ignore into ins_table (f1,f2) values('1','2')";
+		StrictSQLParser p = new StrictSQLParser();
+		p.parseScriptFromCode(sql1);
+		List<String> tableList = p.getTablesWritten();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals(1, tableList.size());
+	}
+
+	@Test
+	public void testInsertOnConflict() throws Exception {
+		String sql1 = "INSERT INTO t1 (a,b,c) VALUES (1,2,3),(4,5,6) ON DUPLICATE KEY UPDATE c=VALUES(a)+VALUES(b)";
+		StrictSQLParser p = new StrictSQLParser();
+		p.parseScriptFromCode(sql1);
+		List<String> tableList = p.getTablesWritten();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals(1, tableList.size());
 	}
 
 }

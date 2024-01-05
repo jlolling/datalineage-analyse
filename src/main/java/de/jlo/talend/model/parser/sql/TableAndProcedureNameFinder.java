@@ -28,8 +28,9 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 	private List<String> listTableNamesInput = null;
 	private List<String> listTableNamesOutput = null;
 	private List<String> listTableNamesCreate = null;
-	private Statement currentStatement = null; 
+	private Statement currentStatement = null;
     private List<String> otherItemNames = null;
+    private List<String> listTempTableNames = null;
 
 	
 	@Override
@@ -49,8 +50,9 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 		listTableNamesInput = new ArrayList<>();
 		listTableNamesOutput = new ArrayList<>();
 		listTableNamesCreate = new ArrayList<>();
-		currentStatement = null; 
+		currentStatement = null;
 	    otherItemNames = new ArrayList<>();
+	    listTempTableNames = new ArrayList<>();
 	}
 	
 	/**
@@ -86,7 +88,22 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 
 	@Override
 	public void visit(CreateTable stat) {
-		currentStatement = stat;
+		boolean isTemporaryTable = false;
+		List<String> options = stat.getCreateOptionsStrings();
+		if (options != null && options.size() > 0) {
+			for (String option : options) {
+				if (option.toLowerCase().contains("temporary")) {
+					isTemporaryTable = true;
+				}
+			}
+		}
+		if (isTemporaryTable == false) {
+			// we do not collect temporary tables
+			currentStatement = stat;
+		} else {
+			currentStatement = null;
+			listTempTableNames.add(extractTableName(stat.getTable()));
+		}
 		super.visit(stat);
 	}
 	
@@ -167,6 +184,10 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 
 	public List<String> getListTableNamesCreate() {
 		return listTableNamesCreate;
+	}
+
+	public List<String> getListTableNamesTemp() {
+		return listTempTableNames;
 	}
 
 	public List<String> getListFunctionSignatures() {
