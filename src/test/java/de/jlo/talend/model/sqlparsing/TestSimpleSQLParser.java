@@ -169,6 +169,23 @@ public class TestSimpleSQLParser {
 	}
 
 	@Test
+	public void testSeparateStatements() {
+		String script = "select * from table1 t1\njoin table2 t2 \non t1.field = t2.field;"
+			    + "\n\n"
+			    + "-- my comment\n" // <-- this is the problem!
+			    + "select * from table2";
+		SimpleSQLParser p = new SimpleSQLParser();
+		p.setUseScriptDetecting(true);
+		p.parseScript(script);
+		List<SQLStatement> stats = p.getStatements();
+		for (SQLStatement s : stats) {
+			System.out.println("################");
+			System.out.println(s.getSQL() + " line: " + s.getStartLineNumber() + " pos: " + s.getStartPos());
+		}
+		assertEquals("Number statements wrong", 2, stats.size());
+	}
+
+	@Test
 	public void testInsert() {
 		String expected = "db.mytable";
 		String test = "insert into\n" + expected + "\n (field1,field2)";

@@ -31,7 +31,6 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 	private Statement currentStatement = null;
     private List<String> otherItemNames = null;
     private List<String> listTempTableNames = null;
-
 	
 	@Override
     public void visit(Function function) {

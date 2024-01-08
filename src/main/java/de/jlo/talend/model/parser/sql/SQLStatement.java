@@ -40,6 +40,7 @@ public class SQLStatement implements Serializable {
     private int                type;
     private int                startPos;
     private int                endPos;
+    private int                lineNumber		          = 0;
     private String             message                    = "";
     protected boolean          hidden                     = false;
     public static final String START_SEQUENCE_FOR_SUMMARY = "-[";
@@ -301,5 +302,13 @@ public class SQLStatement implements Serializable {
 
 	public boolean isPrepared() {
 		return isPrepared;
+	}
+
+	public int getStartLineNumber() {
+		return lineNumber;
+	}
+
+	public void setStartLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
 	}
 }

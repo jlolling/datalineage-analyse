@@ -170,11 +170,16 @@ public final class SimpleSQLParser {
                 boolean isNotEmpty = false;
                 boolean plsql = false;
                 boolean plsqlTested = false;
+                int lineNumber = 1;
+                int lineNumberStart = 0;
                 for (; i < text.length(); i++) {
                 	if (i > 0) {
                 		c0 = text.charAt(i - 1);
                 	}
                     c = text.charAt(i); // Zeichen lesen
+                    if (c == '\n') {
+                    	lineNumber++;
+                    }
                     if (i < text.length() - 1) {
                         c1 = text.charAt(i + 1);
                     } else {
@@ -184,7 +189,7 @@ public final class SimpleSQLParser {
                         if (c == '\'') { // String-Konstante ??
                             inStringConstant = true; // es ist ein String-Beginn !
                             temp.append(c); // Zeichen merken
-                        } else if ((c == '/') && (c1 == '*')) { // MÃ¶glicher Block-Kommentarbeginn ?
+                        } else if ((c == '/') && (c1 == '*')) { // Moeglicher Block-Kommentarbeginn ?
                             // ok es ist ein Block-Kommentar !
                             inBlockComment = true;
                             i++; // Zeiger ein weiter da zwei Zeichen analysiert wurden
@@ -215,6 +220,9 @@ public final class SimpleSQLParser {
                         		endOfStatement = true;
                             }
                         	if (endOfStatement) {
+                        		if (lineNumberStart == 0) {
+                        			lineNumberStart = 1;
+                        		}
                                 if (isPreparedStatement && plsql == false) {
                                 	String sqlStr = temp.toString().trim();
                                 	if (sqlStr.isEmpty() == false) {
@@ -222,6 +230,7 @@ public final class SimpleSQLParser {
                                         sql.setPrepared(true);
                                         sql.setHasNamedParams(hasNamedParams);
                                         sql.setTextRange(as, i);
+                                        sql.setStartLineNumber(lineNumberStart);
                                         parsedStatements.add(sql);
                                 	}
                                 } else if (isNotEmpty) {
@@ -229,6 +238,7 @@ public final class SimpleSQLParser {
                                 	if (sqlStr.isEmpty() == false) {
 	                                    final SQLStatement sql = new SQLStatement(temp.toString().trim());
 	                                    sql.setTextRange(as, i);
+                                        sql.setStartLineNumber(lineNumberStart);
 	                                    parsedStatements.add(sql);
                                 	}
                                 }
@@ -238,13 +248,14 @@ public final class SimpleSQLParser {
                         	}
                         } else { // nur normale Zeichen
                             if (endOfStatement) { // vorheriges Statement-Ende gefunden,
-                                // nun sinnvollen Start des nÃ¤chsten finden
+                                // nun sinnvollen Start des nächsten finden
                                 if ((Character.isWhitespace(c) == false || c == '\n') && 
                                 		((c0 == '\n' && c == scriptEnd && Character.isWhitespace(c1)) == false) &&
                                 		c != statementEnd) {
                                     endOfStatement = false;
                                     temp.append(c); // merken
                                     as = i; // Start des Statements im text merken
+                                    lineNumberStart = lineNumber;
                                     plsqlTested = false;
                                 }
                                 if (plsqlTested == false) {
@@ -273,7 +284,7 @@ public final class SimpleSQLParser {
                             }
                         }
                     } else {
-                        // das Ende der zu Ã¼berspringenden Textpassagen finden
+                        // das Ende der zu überspringenden Textpassagen finden
                         if (inLineComment) {
                             // Zeilenkommentare enden am Ende der Zeile
                             if (c == '\n') {
@@ -305,7 +316,7 @@ public final class SimpleSQLParser {
                             temp.append(c); // die Zeichen sind aber wichtig !
                         }
                     }
-                } // Ende der ersten Schleife in a steht nun der Beginn der zu Ã¼berspringenden Textstelle
+                } // Ende der ersten Schleife in a steht nun der Beginn der zu überspringenden Textstelle
                 // ist die Schleife komplett durch den Text durch ?
                 if (!endOfStatement && (i == text.length())) {
                     // in temp ist nun ein komplettes Statement enthalten und der text ist durch !
@@ -318,10 +329,12 @@ public final class SimpleSQLParser {
                                 final SQLStatement statement = new SQLStatement(remainingText);
                                 statement.setPrepared(true);
                                 statement.setTextRange(as, i - 1);
+                                statement.setStartLineNumber(lineNumberStart);
                                 parsedStatements.add(statement);
                             } else if (isNotEmpty) {
                                 final SQLStatement sql = new SQLStatement(remainingText);
                                 sql.setTextRange(as, i - 1);
+                                sql.setStartLineNumber(lineNumberStart);
                                 parsedStatements.add(sql);
                             }
                         }

@@ -66,9 +66,9 @@ public class StrictSQLParser {
 				index++;
 				parseScriptFromCode(stat.getSQL());
 			} catch (Exception e) {
-				String message = "Statement #" + index + " SQL:\n" + stat.getSQL() + "\nfails: " + e.getMessage();
+				String message = "Statement #" + index + " starting at line: " + stat.getStartLineNumber() + " SQL:\n" + stat.getSQL() + "\nfails: " + e.getMessage();
 				if (errorText.length() > 0) {
-					errorText.append("\n##############################");
+					errorText.append("\n##############################\n");
 				}
 				errorText.append(message);
 			}
