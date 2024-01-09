@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import de.jlo.talend.model.parser.sql.ContextVarResolver;
+import de.jlo.talend.model.parser.ContextVarResolver;
 import de.jlo.talend.model.parser.sql.SQLCodeUtil;
 
-public class TestConvertTalend2SQL {
+public class TestContextVarResolver {
 	
 	@Test
 	public void testReplaceContextInOutput1() throws Exception {

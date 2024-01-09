@@ -1,4 +1,4 @@
-package de.jlo.talend.model.parser.sql;
+package de.jlo.talend.model.parser;
 
 import java.io.File;
 import java.io.FileInputStream;

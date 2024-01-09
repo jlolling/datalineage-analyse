@@ -11,6 +11,7 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 
 import de.jlo.talend.model.Model;
+import de.jlo.talend.model.parser.ContextVarResolver;
 import de.jlo.talend.model.ContextParameter;
 import de.jlo.talend.model.Job;
 import net.sf.jsqlparser.JSQLParserException;
