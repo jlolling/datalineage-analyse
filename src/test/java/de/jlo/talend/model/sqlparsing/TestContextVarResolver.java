@@ -71,7 +71,7 @@ public class TestContextVarResolver {
 
 	@Test
 	public void testRetrievePureSQL() throws Exception {
-		String tq = "\"SELECT\n\\\"\"+context.B17_MANAGEMENT_DB_Database+\"\\\".\\\"\" + context.B17_MANAGEMENT_DB_Schema +   \"\\\".\\\"measureconfig\\\".\\\"job_instance_id\\\"\nFROM \\\"\"+context.B17_MANAGEMENT_DB_Database+\"\\\".\\\"\"+context.B17_MANAGEMENT_DB_Schema+\"\\\".\\\"measureconfig\\\"\"";
+		String tq = "\"SELECT\n\\\"\"+context.B17_MANAGEMENT_DB_Database+\"\\\".\\\"\" + context.B17_MANAGEMENT_DB_Schema +  \"\\\".\\\"measureconfig\\\".\\\"job_instance_id\\\"\nFROM \\\"\"+context.B17_MANAGEMENT_DB_Database+\"\\\".\\\"\"+context.B17_MANAGEMENT_DB_Schema+\"\\\".\\\"measureconfig\\\"\"";
 		System.out.println(tq);
 		// first replace the context vars
 		ContextVarResolver r = new ContextVarResolver();
