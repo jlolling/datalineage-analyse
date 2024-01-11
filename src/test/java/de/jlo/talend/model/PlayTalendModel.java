@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.jlo.talend.model.Model;
-import de.jlo.talend.model.parser.sql.TaskJobDatabaseTableCollector;
 import de.jlo.talend.model.Job;
 
 

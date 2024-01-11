@@ -1,4 +1,4 @@
-package de.jlo.talend.model.parser.sql;
+package de.jlo.analyse.sql;
 
 import java.io.BufferedReader;
 import java.io.File;

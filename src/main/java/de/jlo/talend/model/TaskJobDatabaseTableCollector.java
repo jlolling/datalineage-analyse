@@ -1,4 +1,4 @@
-package de.jlo.talend.model.parser.sql;
+package de.jlo.talend.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,10 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
-import de.jlo.talend.model.Model;
 import de.jlo.talend.model.parser.ContextVarResolver;
-import de.jlo.talend.model.ContextParameter;
-import de.jlo.talend.model.Job;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;

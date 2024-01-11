@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import de.jlo.talend.model.parser.sql.SQLCodeUtil;
+import de.jlo.analyse.sql.SQLCodeUtil;
 
 public class TestSQLCodeUtil {
 	

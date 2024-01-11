@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.jlo.analyse.sql.SQLStatement;
+import de.jlo.analyse.sql.SimpleSQLParser;
 import de.jlo.talend.model.parser.ContextVarResolver;
-import de.jlo.talend.model.parser.sql.SQLStatement;
-import de.jlo.talend.model.parser.sql.SimpleSQLParser;
 
 public class TestSimpleSQLParser {
 

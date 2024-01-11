@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import de.jlo.analyse.sql.SQLCodeUtil;
 import de.jlo.talend.model.parser.ContextVarResolver;
-import de.jlo.talend.model.parser.sql.SQLCodeUtil;
 
 public class TestContextVarResolver {
 	
