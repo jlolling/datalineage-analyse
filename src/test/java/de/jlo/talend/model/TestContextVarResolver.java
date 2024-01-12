@@ -1,4 +1,4 @@
-package de.jlo.talend.model.sqlparsing;
+package de.jlo.talend.model;
 
 import static org.junit.Assert.assertEquals;
 

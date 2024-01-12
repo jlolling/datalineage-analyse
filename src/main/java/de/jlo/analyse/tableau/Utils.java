@@ -53,5 +53,38 @@ public class Utils {
     	}
     }
 
+	public static String getFileNameWithoutExt(String filePath) {
+		String name = getFileName(filePath);
+		int pos = name.lastIndexOf('.');
+		if (pos > 0) {
+			return name.substring(0, pos);
+		} else {
+			return name;
+		}
+	}
+
+	public static String getFileName(String filePath) {
+		if (filePath == null) {
+			return null;
+		}
+		filePath = filePath.replace('\\', '/');
+		File f = new File(filePath);
+		return f.getName();
+	}
+
+	public static boolean doesFileExist(String filePath) {
+		if (filePath == null || filePath.trim().isEmpty()) {
+			return false;
+		}
+		filePath = filePath.replace('\\', '/');
+		File file = new File(filePath);
+		return file.exists();
+	}
+
+	public static void failIfFileNotExists(String filePath) throws Exception {
+		if (doesFileExist(filePath) == false) {
+			throw new Exception("The given file path: " + filePath + " does not exist!");
+		}
+	}
 
 }

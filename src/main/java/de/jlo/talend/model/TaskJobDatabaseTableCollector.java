@@ -10,6 +10,10 @@ import org.apache.logging.log4j.Logger;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
+import de.jlo.analyse.sql.SQLCodeUtil;
+import de.jlo.analyse.sql.SQLStatement;
+import de.jlo.analyse.sql.SimpleSQLParser;
+import de.jlo.analyse.sql.TableAndProcedureNameFinder;
 import de.jlo.talend.model.parser.ContextVarResolver;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
