@@ -51,10 +51,23 @@ public class TableauWorkbook {
 			if (serverNodes.size() > 0) {
 				Element serverNode = (Element) serverNodes.get(0);
 				String host = serverNode.attributeValue("server");
-				for (Node objectNode : objectNodes) {
-					String sql = objectNode.getText();
-					if (sql != null) {
-						extractTables(sql, host);
+				if (host != null) {
+					for (Node objectNode : objectNodes) {
+						String sql = objectNode.getText();
+						String type = ((Element) objectNode).attributeValue("type");
+						if ("text".equals(type)) {
+							if (sql != null) {
+								extractTables(sql, host);
+							}
+						} else if ("table".equals(type)) {
+							// extract the dbname
+							String dbname = serverNode.attributeValue("dbname");
+							String tableName = ((Element) objectNode).attributeValue("table");
+							// Tableau added square brackets to the table name
+							tableName = tableName.replace("[", "").replace("]", "");
+							DatabaseTable table = new DatabaseTable(host, dbname + "." + tableName);
+							addTable(table);
+						}
 					}
 				}
 			}

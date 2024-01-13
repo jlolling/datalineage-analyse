@@ -20,7 +20,7 @@
     <WorksheetBackgroundTransparency />
     <ZoneBackgroundTransparency />
   </document-format-change-manifest>
-  <repository-location derived-from='http://localhost:8649/workbooks/Merchant_Report?rev=17.7' id='Merchant_Report' path='/workbooks' revision='17.8' />
+  <repository-location derived-from='' id='Merchant_Report' path='/workbooks' revision='17.8' />
   <preferences>
     <color-palette custom='true' name='Kloeckner Corporate Colors' type='regular'>
       <color>#ca0237</color>
@@ -70,8 +70,8 @@
     <datasource caption='Orders_and_products' inline='true' name='federated.06qucpo1owni64197k4b91nfqu4a' version='18.1'>
       <connection class='federated'>
         <named-connections>
-          <named-connection caption='10.248.253.13' name='mysql.1vahe021t2vebh166ozwa00frur4'>
-            <connection class='mysql' dbname='ARBEIT' odbc-native-protocol='' one-time-sql='' port='3306' server='10.248.253.13' server-oauth='' source-charset='' username='tbl_usr' workgroup-auth-mode='prompt' />
+          <named-connection caption='1.2.3.4' name='mysql.1vahe021t2vebh166ozwa00frur4'>
+            <connection class='mysql' dbname='ARBEIT' odbc-native-protocol='' one-time-sql='' port='3306' server='1.2.3.4' server-oauth='' source-charset='' username='' workgroup-auth-mode='prompt' />
           </named-connection>
         </named-connections>
         <ObjectModelEncapsulateLegacy-relation connection='mysql.1vahe021t2vebh166ozwa00frur4' name='Custom SQL Query' type='text'><![CDATA[# Orders and Products
@@ -821,8 +821,8 @@ GROUP BY d.Material, c.merchant_id, c.merchant, c.merchant_start_date, date(h.`d
     <datasource caption='Vizalerts_Email' inline='true' name='federated.0i8758h0endt6b1559vus0njs8mg' version='18.1'>
       <connection class='federated'>
         <named-connections>
-          <named-connection caption='10.248.253.13' name='mysql.1hccpr21b17qyy11xezrl1rjmvzn'>
-            <connection class='mysql' dbname='Report' odbc-native-protocol='' one-time-sql='' port='3306' server='10.248.253.13' server-oauth='' source-charset='' username='tbl_usr' workgroup-auth-mode='prompt' />
+          <named-connection caption='1.2.3.4' name='mysql.1hccpr21b17qyy11xezrl1rjmvzn'>
+            <connection class='mysql' dbname='Report' odbc-native-protocol='' one-time-sql='' port='3306' server='1.2.3.4' server-oauth='' source-charset='' username='tbl_usr' workgroup-auth-mode='prompt' />
           </named-connection>
         </named-connections>
         <ObjectModelEncapsulateLegacy-relation connection='mysql.1hccpr21b17qyy11xezrl1rjmvzn' name='Custom SQL Query' type='text'>SELECT `Merchant_Report_Email_Recipients_2`.`country` AS Country,	-- `country`,&#13;
@@ -1455,7 +1455,7 @@ inner join Report.Merchant_Report_sendout_schedule schedule&#13;
       <connection class='federated'>
         <named-connections>
           <named-connection caption='Merchant Rev Data' name='mysql.1yxbjq215e1o1m14a1cav122kfrm'>
-            <connection class='mysql' dbname='ARBEIT' odbc-native-protocol='' one-time-sql='' port='3306' server='10.248.253.13' server-oauth='' source-charset='' username='tbl_usr' workgroup-auth-mode='prompt' />
+            <connection class='mysql' dbname='ARBEIT' odbc-native-protocol='' one-time-sql='' port='3306' server='1.2.3.4' server-oauth='' source-charset='' username='tbl_usr' workgroup-auth-mode='prompt' />
           </named-connection>
         </named-connections>
         <ObjectModelEncapsulateLegacy-relation connection='mysql.1yxbjq215e1o1m14a1cav122kfrm' name='Custom SQL Query' type='text'><![CDATA[# Rev Data DB
@@ -4346,8 +4346,8 @@ FROM
     <datasource caption='Merchant_GA_Data2' inline='true' name='federated.0x839os1ik1kn512p2uep0xe8c2s' version='18.1'>
       <connection class='federated'>
         <named-connections>
-          <named-connection caption='10.248.253.13' name='mysql.1w7l0l41u6a4dw196r2oa0sscsr8'>
-            <connection class='mysql' dbname='ARBEIT' odbc-native-protocol='' one-time-sql='' port='3306' server='10.248.253.13' server-oauth='' source-charset='' username='tbl_usr' workgroup-auth-mode='prompt' />
+          <named-connection caption='1.2.3.4' name='mysql.1w7l0l41u6a4dw196r2oa0sscsr8'>
+            <connection class='mysql' dbname='ARBEIT' odbc-native-protocol='' one-time-sql='' port='3306' server='1.2.3.4' server-oauth='' source-charset='' username='tbl_usr' workgroup-auth-mode='prompt' />
           </named-connection>
         </named-connections>
         <ObjectModelEncapsulateLegacy-relation connection='mysql.1w7l0l41u6a4dw196r2oa0sscsr8' name='Benutzerdefinierte SQL-Abfrage' type='text'>SELECT a.report_date as Datum&#13;
@@ -5798,7 +5798,7 @@ GROUP BY a.report_date, a.profile_id, a.d_ga_page_path, a.merchant_id, a.m_ga_pa
           </formatted-text>
         </title>
       </layout-options>
-      <repository-location derived-from='https://webreporting.kloecknerconnect.com/workbooks/Merchant_Report/Dashboard?rev=' id='Dashboard' path='/workbooks/Merchant_Report' revision='' />
+      <repository-location derived-from='https://localhost/workbooks/Merchant_Report/Dashboard?rev=' id='Dashboard' path='/workbooks/Merchant_Report' revision='' />
       <table>
         <view>
           <datasources>

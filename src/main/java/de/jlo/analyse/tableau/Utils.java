@@ -1,8 +1,11 @@
 package de.jlo.analyse.tableau;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.apache.logging.log4j.LogManager;
@@ -84,6 +87,24 @@ public class Utils {
 	public static void failIfFileNotExists(String filePath) throws Exception {
 		if (doesFileExist(filePath) == false) {
 			throw new Exception("The given file path: " + filePath + " does not exist!");
+		}
+	}
+	
+	public static void saveResourceAsFile(String resourceName, String targetFilePath) throws Exception {
+		InputStream is = Utils.class.getResourceAsStream(resourceName);
+		try (BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(new File(targetFilePath)))) {
+			byte[] buffer = new byte[1024];
+			int len = 0;
+			while ((len = is.read(buffer)) != -1) {
+				os.write(buffer, 0, len);
+				os.flush();
+			}
+		} catch (Exception e) {
+			throw new Exception("Save resource: " + resourceName + " as file: " + targetFilePath + " failed: " + e.getMessage(), e);
+		} finally {
+			if (is != null) {
+				is.close();
+			}
 		}
 	}
 
