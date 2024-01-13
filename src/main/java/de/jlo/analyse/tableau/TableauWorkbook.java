@@ -51,7 +51,7 @@ public class TableauWorkbook {
 			if (serverNodes.size() > 0) {
 				Element serverNode = (Element) serverNodes.get(0);
 				String host = serverNode.attributeValue("server");
-				if (host != null) {
+				if (host != null && host.trim().isEmpty() == false) {
 					for (Node objectNode : objectNodes) {
 						String sql = objectNode.getText();
 						String type = ((Element) objectNode).attributeValue("type");
