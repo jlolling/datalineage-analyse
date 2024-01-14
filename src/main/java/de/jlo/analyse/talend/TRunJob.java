@@ -2,7 +2,7 @@ package de.jlo.analyse.talend;
 
 import org.dom4j.Element;
 
-public class TRunJob extends TalendComponent {
+public class TRunJob extends Component {
 	
 	private Job referencedJob = null;
 	

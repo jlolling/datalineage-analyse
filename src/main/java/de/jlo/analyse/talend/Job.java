@@ -20,7 +20,7 @@ public class Job implements Comparable<Job> {
 	private Document itemDoc = null;
 	private List<ContextParameter> context = null;
 	private List<TRunJob> embeddedJobs = new ArrayList<>();
-	private List<TalendComponent> listComponents = new ArrayList<>();
+	private List<Component> listComponents = new ArrayList<>();
 	private Model model = null;
 	
 	public Job(Model model) {
@@ -196,7 +196,7 @@ public class Job implements Comparable<Job> {
 		Element root = getItemDoc().getRootElement();
 		List<Node> components = root.selectNodes("node[not(@componentName='tRunJob')]");
 		for (Node cn : components) {
-			TalendComponent c = new TalendComponent(this, (Element) cn);
+			Component c = new Component(this, (Element) cn);
 			listComponents.add(c);
 		}
 	}

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.dom4j.Element;
 
-public class TalendComponent {
+public class Component {
 	
 	private Element element = null;
 	private Job job = null;
@@ -13,7 +13,7 @@ public class TalendComponent {
 	private String componentName = null;
 	private List<ComponentAttribute> listAttributes = new ArrayList<>();
 	
-	public TalendComponent(Job job, Element element) {
+	public Component(Job job, Element element) {
 		if (element == null) {
 			throw new IllegalArgumentException("element cannot be null");
 		}
@@ -66,8 +66,8 @@ public class TalendComponent {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof TalendComponent) {
-			return ((TalendComponent) o).uniqueId.equals(uniqueId);
+		if (o instanceof Component) {
+			return ((Component) o).uniqueId.equals(uniqueId);
 		} else {
 			return false;
 		}

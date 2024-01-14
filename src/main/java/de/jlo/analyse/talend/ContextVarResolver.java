@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +17,12 @@ public class ContextVarResolver {
 	
 	public ContextVarResolver() {
 		contextVarPattern = Pattern.compile(contextVarRegex, Pattern.CASE_INSENSITIVE);
+	}
+	
+	public void setContext(List<ContextParameter> context) {
+		for (ContextParameter p : context) {
+			addContextVar(p.getName(), p.getValue());
+		}
 	}
 	
 	public void addContextVar(String name, String value) {
