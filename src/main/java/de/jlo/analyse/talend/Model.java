@@ -1,4 +1,4 @@
-package de.jlo.talend.model;
+package de.jlo.analyse.talend;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +17,6 @@ import java.util.regex.Pattern;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.Node;
 import org.dom4j.QName;
 
 import org.apache.logging.log4j.LogManager;
@@ -156,43 +154,6 @@ public class Model {
     	return list;
     }
 
-    public List<Node> getComponents(Job job, String componentName) throws Exception {
-    	Document doc = readItem(job);
-    	return getComponents(doc, componentName);
-    }
-	
-    public List<Node> getComponents(Document doc, String ... componentNamePart) throws Exception {
-    	Element root = doc.getRootElement();
-    	Iterator<Element> it = root.elementIterator("node");
-    	List<Node> allNodes = new ArrayList<Node>();
-    	while (it.hasNext()) {
-    		Element e = it.next();
-    		String cn = e.attributeValue("componentName");
-    		if (componentNamePart != null) {
-        		for (String name : componentNamePart) {
-            		if (cn.toLowerCase().contains(name.toLowerCase())) {
-                		allNodes.add(e);
-            		}
-        		}
-    		}
-    	}
-    	return allNodes;
-    }
-    
-    public List<Node> getAllComponents(Document doc) throws Exception {
-    	Element root = doc.getRootElement();
-    	Iterator<Element> it = root.elementIterator("node");
-    	List<Node> allNodes = new ArrayList<Node>();
-    	while (it.hasNext()) {
-    		Element e = it.next();
-    		String cn = e.attributeValue("componentName");
-    		if (cn != null) {
-        		allNodes.add(e);
-    		}
-    	}
-    	return allNodes;
-    }
-
     private void registerJobs(File folder) throws Exception {
         File[] list = folder.listFiles();
         if (list == null) {
@@ -323,28 +284,6 @@ public class Model {
 	
 	public int getCountJobs() {
 		return listAllJobs.size();
-	}
-
-	public static String getComponentId(Element comp) {
-		return getComponentAttribute(comp, "UNIQUE_NAME");
-	}
-
-	public static String getComponentAttribute(Element comp, String attributeName) {
-		if (comp == null) {
-			throw new IllegalArgumentException("comp cannot be null");
-		}
-		if (attributeName == null || attributeName.trim().isEmpty()) {
-			throw new IllegalArgumentException("attributeName cannot be null or empty");
-		}
-		List<Element> params = comp.elements();
-		for (Element param : params) {
-			String name = param.attributeValue("name");
-			String value = param.attributeValue("value");
-			if (attributeName.equalsIgnoreCase(name)) {
-				return value;
-			}
-		}
-		return null;
 	}
 
 }

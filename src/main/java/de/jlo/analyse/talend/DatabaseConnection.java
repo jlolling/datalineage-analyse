@@ -1,4 +1,4 @@
-package de.jlo.talend.model;
+package de.jlo.analyse.talend;
 
 import org.dom4j.Element;
 import org.dom4j.QName;

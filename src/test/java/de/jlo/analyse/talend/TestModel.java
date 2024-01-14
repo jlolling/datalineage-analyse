@@ -1,4 +1,4 @@
-package de.jlo.talend.model;
+package de.jlo.analyse.talend;
 
 import static org.junit.Assert.assertEquals;
 

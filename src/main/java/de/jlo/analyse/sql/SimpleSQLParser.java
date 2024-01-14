@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.jlo.talend.model.parser.StringReplacer;
+import de.jlo.analyse.talend.StringReplacer;
 
 /**
  * Klasse enthält Methoden zum Zerlegen von kompletten SQL-Scripten

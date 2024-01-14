@@ -6,8 +6,6 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import de.jlo.analyse.sql.SQLCodeUtil;
-
 public class TestSQLCodeUtil {
 	
 	@Test

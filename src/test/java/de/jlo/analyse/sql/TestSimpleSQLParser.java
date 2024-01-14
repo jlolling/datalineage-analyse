@@ -1,14 +1,9 @@
 package de.jlo.analyse.sql;
 
 import static org.junit.Assert.assertEquals;
-
 import java.util.List;
-
 import org.junit.Test;
-
-import de.jlo.analyse.sql.SQLStatement;
-import de.jlo.analyse.sql.SimpleSQLParser;
-import de.jlo.talend.model.parser.ContextVarResolver;
+import de.jlo.analyse.talend.ContextVarResolver;
 
 public class TestSimpleSQLParser {
 

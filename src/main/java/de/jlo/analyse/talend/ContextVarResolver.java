@@ -1,4 +1,4 @@
-package de.jlo.talend.model.parser;
+package de.jlo.analyse.talend;
 
 import java.io.File;
 import java.io.FileInputStream;

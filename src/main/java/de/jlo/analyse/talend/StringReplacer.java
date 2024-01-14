@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.jlo.talend.model.parser;
+package de.jlo.analyse.talend;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

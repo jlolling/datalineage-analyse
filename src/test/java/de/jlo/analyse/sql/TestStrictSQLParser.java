@@ -8,9 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.jlo.analyse.sql.SQLCodeUtil;
-import de.jlo.analyse.sql.StrictSQLParser;
-import de.jlo.analyse.sql.TableAndProcedureNameFinder;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.create.table.CreateTable;

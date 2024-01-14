@@ -1,4 +1,4 @@
-package de.jlo.talend.model;
+package de.jlo.analyse.talend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ public class Job implements Comparable<Job> {
 	private Document itemDoc = null;
 	private List<ContextParameter> context = null;
 	private List<TRunJob> embeddedJobs = new ArrayList<>();
+	private List<TalendComponent> listComponents = new ArrayList<>();
 	private Model model = null;
 	
 	public Job(Model model) {
@@ -40,21 +41,27 @@ public class Job implements Comparable<Job> {
 	public String getId() {
 		return id;
 	}
+	
 	public void setId(String id) {
 		this.id = id;
 	}
+	
 	public String getProjectName() {
 		return projectName;
 	}
+	
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
+	
 	public String getJobName() {
 		return jobName;
 	}
+	
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
 	}
+	
 	public String getVersion() {
 		return version;
 	}
@@ -179,11 +186,21 @@ public class Job implements Comparable<Job> {
 		Element root = getItemDoc().getRootElement();
 		List<Node> tRunJobNodes = root.selectNodes("node[@componentName='tRunJob']");
 		for (Node cn : tRunJobNodes) {
-			TRunJob tRunJob = new TRunJob(cn, model);
+			TRunJob tRunJob = new TRunJob(this, (Element) cn);
 			embeddedJobs.add(tRunJob);
 		}
 	}
 	
+	public void retrieveComponents() throws Exception {
+		listComponents.clear();
+		Element root = getItemDoc().getRootElement();
+		List<Node> components = root.selectNodes("node[not(@componentName='tRunJob')]");
+		for (Node cn : components) {
+			TalendComponent c = new TalendComponent(this, (Element) cn);
+			listComponents.add(c);
+		}
+	}
+
 	public List<TRunJob> getEmbeddedJobs() {
 		return embeddedJobs;
 	}
@@ -195,32 +212,4 @@ public class Job implements Comparable<Job> {
 		return context;
 	}
 	
-	public static List<ComponentAttribute> getComponentAttributes(Element component) {
-		List<Element> params = component.elements();
-		List<ComponentAttribute> attributes = new ArrayList<>();
-		for (Element param : params) {
-			ComponentAttribute a = new ComponentAttribute();
-			a.setName(param.attributeValue("name"));
-			a.setField(param.attributeValue("field"));
-			a.setValue(param.attributeValue("value"));
-			attributes.add(a);
-		}
-		return attributes;
-	}
-	
-	public static ComponentAttribute getComponentAttributeByName(Element component, String nameToSearchFor) {
-		List<Element> params = component.elements();
-		for (Element param : params) {
-			String name = param.attributeValue("name");
-			if (name.equalsIgnoreCase(nameToSearchFor)) {
-				ComponentAttribute a = new ComponentAttribute();
-				a.setName(param.attributeValue("name"));
-				a.setField(param.attributeValue("field"));
-				a.setValue(param.attributeValue("value"));
-				return a;
-			}
-		}
-		return null;
-	}
-
 }

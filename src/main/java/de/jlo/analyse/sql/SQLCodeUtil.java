@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.jlo.analyse.RegexUtil;
+
 public class SQLCodeUtil {
 	
 	private static Pattern globalMapVarPattern = null;
