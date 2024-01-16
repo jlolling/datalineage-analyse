@@ -21,17 +21,17 @@ public class Job implements Comparable<Job> {
 	private List<ContextParameter> context = null;
 	private List<TRunJob> embeddedJobs = new ArrayList<>();
 	private List<Component> listComponents = new ArrayList<>();
-	private Project model = null;
+	private Project project = null;
 	
-	public Job(Project model) {
-		if (model == null) {
+	public Job(Project project) {
+		if (project == null) {
 			throw new IllegalArgumentException("model cannot be null");
 		}
-		this.model = model;
+		this.project = project;
 	}
 	
-	public Project getModel() {
-		return model;
+	public Project getProject() {
+		return project;
 	}
 	
 	public void addTRunjob(TRunJob tRunjob) {
@@ -143,7 +143,7 @@ public class Job implements Comparable<Job> {
 	
 	public Document getItemDoc() throws Exception {
 		if (itemDoc == null) {
-			itemDoc = model.readItem(this);
+			itemDoc = project.readItem(this);
 		}
 		return itemDoc;
 	}

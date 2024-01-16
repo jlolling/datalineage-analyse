@@ -16,10 +16,10 @@ public class TRunJob extends Component {
 		if (referencedJobId == null) {
 			String jobName = getComponentAttributeByName("PROCESS").getValue();
 			String version = getComponentAttributeByName("PROCESS:PROCESS_TYPE_VERSION").getValue();
-			referencedJob = getJob().getModel().getJobByVersion(jobName, version);
+			referencedJob = getJob().getProject().getJobByVersion(jobName, version);
 		} else {
 			referencedJobId = referencedJobId.replace("TALEND:", "");
-			referencedJob = getJob().getModel().getJobById(referencedJobId);
+			referencedJob = getJob().getProject().getJobById(referencedJobId);
 		}
 	}
 		
