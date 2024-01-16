@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class TestModel {
+public class TestProject {
 	
 	private String projectRoot = "/Users/jan/development/tos-workspace/XOM_COMMON"; // set this to your Talend project root dir 
 	
