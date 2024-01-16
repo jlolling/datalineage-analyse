@@ -220,7 +220,7 @@ public class Project {
     
     private DatabaseConnection readDatabaseConnectionFromFile(File itemFile) throws Exception {
     	Document itemDoc = readFile(itemFile);
-    	Element databaseConnectionNode = (Element) itemDoc.selectSingleNode("/xmi:XMI/TalendMetadata:DatabaseConnection");
+    	Element databaseConnectionNode = (Element) itemDoc.selectSingleNode("/TalendMetadata:DatabaseConnection");
     	if (databaseConnectionNode != null) {
         	return new DatabaseConnection(databaseConnectionNode);
     	} else {

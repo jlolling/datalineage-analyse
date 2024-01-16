@@ -30,6 +30,10 @@ public class Component {
 	public Job getJob() {
 		return job;
 	}
+
+	public String getUniqueId() {
+		return uniqueId;
+	}
 	
 	public String getComponentName() {
 		return componentName;
@@ -76,6 +80,11 @@ public class Component {
 	@Override
 	public int hashCode() {
 		return uniqueId.hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		return uniqueId + " (" + componentName + ")";
 	}
 	
 }

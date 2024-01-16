@@ -19,8 +19,8 @@ public class Job implements Comparable<Job> {
 	private String pathWithoutExtension = null;
 	private Document itemDoc = null;
 	private List<ContextParameter> context = null;
-	private List<TRunJob> embeddedJobs = new ArrayList<>();
-	private List<Component> listComponents = new ArrayList<>();
+	private List<TRunJob> embeddedJobs = null;
+	private List<Component> listComponents = null;
 	private Project project = null;
 	
 	public Job(Project project) {
@@ -160,7 +160,7 @@ public class Job implements Comparable<Job> {
 		this.jobFolder = jobFolder;
 	}
 	
-	public void retrieveContext() throws Exception {
+	private void retrieveContext() throws Exception {
 		context = new ArrayList<>();
 		Element root = getItemDoc().getRootElement();
 		List<Node> contextNodes = root.selectNodes("context/contextParameter");
@@ -181,8 +181,8 @@ public class Job implements Comparable<Job> {
 		}
 	}
 	
-	public void retrieveTRunJobs() throws Exception {
-		embeddedJobs.clear();
+	private void retrieveTRunJobs() throws Exception {
+		embeddedJobs = new ArrayList<>();
 		Element root = getItemDoc().getRootElement();
 		List<Node> tRunJobNodes = root.selectNodes("node[@componentName='tRunJob']");
 		for (Node cn : tRunJobNodes) {
@@ -191,8 +191,8 @@ public class Job implements Comparable<Job> {
 		}
 	}
 	
-	public void retrieveComponents() throws Exception {
-		listComponents.clear();
+	private void retrieveComponents() throws Exception {
+		listComponents = new ArrayList<>();
 		Element root = getItemDoc().getRootElement();
 		List<Node> components = root.selectNodes("node[not(@componentName='tRunJob')]");
 		for (Node cn : components) {
@@ -201,7 +201,10 @@ public class Job implements Comparable<Job> {
 		}
 	}
 
-	public List<TRunJob> getEmbeddedJobs() {
+	public List<TRunJob> getEmbeddedJobs() throws Exception {
+		if (embeddedJobs == null) {
+			retrieveTRunJobs();
+		}
 		return embeddedJobs;
 	}
 	
@@ -210,6 +213,25 @@ public class Job implements Comparable<Job> {
 			retrieveContext();
 		}
 		return context;
+	}
+
+	public List<Component> getComponents() throws Exception {
+		if (listComponents == null) {
+			retrieveComponents();
+		}
+		return listComponents;
+	}
+	
+	public Component getComponent(String uniqueId) throws Exception {
+		if (listComponents == null) {
+			retrieveComponents();
+		}
+		for (Component c : listComponents) {
+			if (c.getUniqueId().equals(uniqueId)) {
+				return c;
+			}
+		}
+		return null;
 	}
 	
 }

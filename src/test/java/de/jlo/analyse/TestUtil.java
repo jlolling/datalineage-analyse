@@ -31,7 +31,11 @@ public class TestUtil {
 	
 	public static String getWorkDir() {
 		Path currentRelativePath = Paths.get("");
-		return currentRelativePath.toAbsolutePath().toString();
+		String path = currentRelativePath.toAbsolutePath().toString();
+		if (path.endsWith("/") == false && path.endsWith("\\") == false) {
+			path = path + "/";
+		}
+		return path;
 	}
 
 }

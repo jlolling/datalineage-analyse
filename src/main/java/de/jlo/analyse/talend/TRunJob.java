@@ -13,12 +13,16 @@ public class TRunJob extends Component {
 	
 	public void retrieveReferencedJob() {
 		String referencedJobId = getComponentValueByName("PROCESS:PROCESS_TYPE_PROCESS");
+		System.out.println("referencedJobId: " + referencedJobId);
 		if (referencedJobId == null) {
-			String jobName = getComponentAttributeByName("PROCESS").getValue();
-			String version = getComponentAttributeByName("PROCESS:PROCESS_TYPE_VERSION").getValue();
+			String jobName = getComponentValueByName("PROCESS");
+			String version = getComponentValueByName("PROCESS:PROCESS_TYPE_VERSION");
 			referencedJob = getJob().getProject().getJobByVersion(jobName, version);
 		} else {
-			referencedJobId = referencedJobId.replace("TALEND:", "");
+			int pos = referencedJobId.indexOf(':');
+			if (pos > 0) {
+				referencedJobId = referencedJobId.substring(pos + 1);
+			}
 			referencedJob = getJob().getProject().getJobById(referencedJobId);
 		}
 	}
