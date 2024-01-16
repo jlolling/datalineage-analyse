@@ -22,20 +22,20 @@ import org.dom4j.QName;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Model {
+public class Project {
 	
-	private static final Logger LOG = LogManager.getLogger(Model.class);
+	private static final Logger LOG = LogManager.getLogger(Project.class);
 	private Map<String, List<Job>> mapNameJobs = new HashMap<>();
 	private Map<String, DatabaseConnection> mapIdConnections = new HashMap<>();
 	private List<Job> listAllJobs = new ArrayList<>();
 	private String projectRootDir = null;
 	private String processFolderPath = null;
 	
-	public Model(String projectRootFoldderPath) throws Exception {
+	public Project(String projectRootFoldderPath) throws Exception {
 		readProject(projectRootFoldderPath);
 	}
 	
-	public Model() {}
+	public Project() {}
 	
 	/**
 	 * Reads all Talend jobs and fills the job map

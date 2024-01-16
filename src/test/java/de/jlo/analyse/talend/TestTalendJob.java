@@ -8,7 +8,7 @@ public class TestTalendJob {
 	
 	@Test
 	public void testCompare1() {
-		Model model = new Model();
+		Project model = new Project();
 		Job job1 = new Job(model);
 		job1.setId("12345");
 		job1.setJobName("testjob");
@@ -23,7 +23,7 @@ public class TestTalendJob {
 
 	@Test
 	public void testCompare2() {
-		Model model = new Model();
+		Project model = new Project();
 		Job job1 = new Job(model);
 		job1.setId("12345");
 		job1.setJobName("testjob");
@@ -38,7 +38,7 @@ public class TestTalendJob {
 
 	@Test
 	public void testCompare3() {
-		Model model = new Model();
+		Project model = new Project();
 		Job job1 = new Job(model);
 		job1.setId("12345");
 		job1.setJobName("testjob");

@@ -12,7 +12,7 @@ public class TestModel {
 	
 	@Test
 	public void testReadModel() throws Exception {
-		Model model = new Model();
+		Project model = new Project();
 		int countJobs = model.readProject(projectRoot);
 		System.out.println("Count jobs: " + countJobs);
 		int expected = 42;
@@ -25,7 +25,7 @@ public class TestModel {
 	
 	@Test
 	public void testReadJobContext() throws Exception {
-		Model model = new Model(projectRoot);
+		Project model = new Project(projectRoot);
 		String jobName = "manage_batchjobs_check_failed___one_task";
 		Job testJob = model.getLatestJob(jobName);
 		assertEquals("0.3", testJob.getVersion());

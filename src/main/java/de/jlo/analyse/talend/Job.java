@@ -21,16 +21,16 @@ public class Job implements Comparable<Job> {
 	private List<ContextParameter> context = null;
 	private List<TRunJob> embeddedJobs = new ArrayList<>();
 	private List<Component> listComponents = new ArrayList<>();
-	private Model model = null;
+	private Project model = null;
 	
-	public Job(Model model) {
+	public Job(Project model) {
 		if (model == null) {
 			throw new IllegalArgumentException("model cannot be null");
 		}
 		this.model = model;
 	}
 	
-	public Model getModel() {
+	public Project getModel() {
 		return model;
 	}
 	
