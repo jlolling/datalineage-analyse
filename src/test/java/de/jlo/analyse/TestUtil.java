@@ -4,6 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import de.jlo.analyse.tableau.Utils;
 
@@ -25,6 +27,11 @@ public class TestUtil {
 				is.close();
 			}
 		}
+	}
+	
+	public static String getWorkDir() {
+		Path currentRelativePath = Paths.get("");
+		return currentRelativePath.toAbsolutePath().toString();
 	}
 
 }
