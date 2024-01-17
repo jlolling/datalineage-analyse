@@ -47,6 +47,26 @@ public class TestContextVarResolver {
 	}
 
 	@Test
+	public void testReplaceContextInOutput4() throws Exception {
+		ContextVarResolver r = new ContextVarResolver();
+		r.addContextVar("TABLE", "mytable");
+		String testSQL = "context.TABLE + \"_temp\"";
+		String expected = "mytable_temp";
+		String actual = r.replaceContextVars(testSQL);
+		assertEquals("Fail", expected, actual);
+	}
+
+	@Test
+	public void testReplaceContextInOutput5() throws Exception {
+		ContextVarResolver r = new ContextVarResolver();
+		r.addContextVar("TABLE", "mytable");
+		String testSQL = "context.TABLE";
+		String expected = "mytable";
+		String actual = r.replaceContextVars(testSQL);
+		assertEquals("Fail", expected, actual);
+	}
+
+	@Test
 	public void testReplaceContextEncapulated() throws Exception {
 		ContextVarResolver r = new ContextVarResolver();
 		r.addContextVar("DB1_Schema", "schema_1");
@@ -57,6 +77,17 @@ public class TestContextVarResolver {
 		assertEquals("Fail", expected, actual);
 	}
 	
+	@Test
+	public void testReplaceContextEncapulated2() throws Exception {
+		ContextVarResolver r = new ContextVarResolver();
+		r.addContextVar("DB1_Schema", "schema_1");
+		r.addContextVar("DB2_Schema", "schema_2");
+		String testSQL = "\"select * from \" + context.DB1_Schema + \".table1,\n\" + context.DB2_Schema + \".table2\"";
+		String expected = "select * from schema_1.table1,\nschema_2.table2";
+		String actual = SQLCodeUtil.convertJavaToSqlCode(r.replaceContextVars(testSQL));
+		assertEquals("Fail", expected, actual);
+	}
+
 	@Test
 	public void testReplaceContextSimple() throws Exception {
 		ContextVarResolver r = new ContextVarResolver();

@@ -1,4 +1,4 @@
-package de.jlo.analyse.tableau;
+package de.jlo.analyse;
 
 public class DatabaseTable {
 	

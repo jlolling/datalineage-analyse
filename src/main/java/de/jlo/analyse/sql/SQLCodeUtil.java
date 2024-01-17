@@ -54,7 +54,7 @@ public class SQLCodeUtil {
         					.replace("\t", " ")
         					.replace("\\n", "");
         final StringBuilder sb = new StringBuilder(javaCode.length());
-        // Zeile für Zeile verpacken in doppelte Hochkomma
+        // Zeile fuer Zeile verpacken in doppelte Hochkomma
         char c;
         char c1 = ' ';
         boolean inString = false;

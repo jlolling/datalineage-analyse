@@ -222,6 +222,19 @@ public class Job implements Comparable<Job> {
 		return listComponents;
 	}
 	
+	public List<Component> getComponents(String componentName) throws Exception {
+		if (listComponents == null) {
+			retrieveComponents();
+		}
+		List<Component> list = new ArrayList<>();
+		for (Component c : listComponents) {
+			if (c.getComponentName().equalsIgnoreCase(componentName)) {
+				list.add(c);
+			}
+		}
+		return list;
+	}
+	
 	public Component getComponent(String uniqueId) throws Exception {
 		if (listComponents == null) {
 			retrieveComponents();

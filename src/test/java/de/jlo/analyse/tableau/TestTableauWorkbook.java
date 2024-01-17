@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.jlo.analyse.DatabaseTable;
 import de.jlo.analyse.TestUtil;
 
 public class TestTableauWorkbook {

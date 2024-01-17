@@ -7,6 +7,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
+import de.jlo.analyse.DatabaseTable;
 import de.jlo.analyse.sql.StrictSQLParser;
 
 public class TableauWorkbook {
