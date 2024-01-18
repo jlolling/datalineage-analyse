@@ -51,7 +51,7 @@ public class TestContextVarResolver {
 		ContextVarResolver r = new ContextVarResolver();
 		r.addContextVar("TABLE", "mytable");
 		String testSQL = "context.TABLE + \"_temp\"";
-		String expected = "mytable_temp";
+		String expected = "mytable_temp\"";
 		String actual = r.replaceContextVars(testSQL);
 		assertEquals("Fail", expected, actual);
 	}

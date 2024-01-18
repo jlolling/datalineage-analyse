@@ -17,7 +17,7 @@ public class TestProject {
 		Project project = new Project();
 		int countJobs = project.readProject(projectRoot);
 		System.out.println("Count jobs: " + countJobs);
-		int expected = 5;
+		int expected = 6;
 		assertEquals("wrong number of jobs", expected, countJobs);
 		int countConn = project.getDatabaseConnections().size();
 		System.out.println("Count db connections: " + countConn);

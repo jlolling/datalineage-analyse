@@ -143,7 +143,7 @@ public class TestStrictSQLParser {
 
 	@Test
 	public void testScriptStrict0() throws Exception {
-		String sql1 = "set var1='1234';\n"
+		String sql1 = "set @var1 = '1234';\n"
 				+ ""
 				+ "insert into schema_b.table_ins\n"
 				+ "-- comment\n"
@@ -233,6 +233,282 @@ public class TestStrictSQLParser {
 	}
 
 	@Test
+	public void testLongSQL() throws Exception {
+		String sql1 = "CREATE TABLE Report.Customer_Service_Report_1_cw AS ( \n"
+				+ "SELECT \n"
+				+ "	YEAR(MAX(DATE_ADD(CURRENT_DATE, INTERVAL - WEEKDAY(CURRENT_DATE) - 1 DAY)))     as cyearMax, \n"
+				+ "	YEAR(MIN(DATE_ADD(CURRENT_DATE, INTERVAL - WEEKDAY(CURRENT_DATE) - 1 DAY)))     as cyearMin, \n"
+				+ "	WEEK(MAX(DATE_ADD(CURRENT_DATE, INTERVAL - WEEKDAY(CURRENT_DATE) - 1 DAY)), 3)  as cwMax, \n"
+				+ "	CURRENT_DATE                                                                    as last_update, \n"
+				+ "	base.cyear, \n"
+				+ "	CASE \n"
+				+ "    WHEN  \n"
+				+ "      (base.cyear NOT IN (2016, 2020, 2024) AND base.cw = 53) \n"
+				+ "      OR (MONTH(base.cw_dtMin) = 1 AND base.cw > 51) \n"
+				+ "    THEN 0  \n"
+				+ "    ELSE base.cw \n"
+				+ "  END AS cw, \n"
+				+ "	base.cw_dtMin, \n"
+				+ "	base.brand, \n"
+				+ "	base.brand_type, \n"
+				+ "	base.ticket_type, \n"
+				+ "	IF(base.type_total = '', 'not_in_type_total', base.type_total) type_total, \n"
+				+ "	base.channel, \n"
+				+ "	base.`28491752_value` as tool, \n"
+				+ "	base.satisfaction_rating, \n"
+				+ "	IFNULL(data.tickets, 0) tickets, \n"
+				+ "	data.min_first_reply, \n"
+				+ "	data.min_resolution \n"
+				+ "/* \n"
+				+ "################################ \n"
+				+ "# BASE: all Dimensions each Week (ensures that there are no missing values in tableau) \n"
+				+ "################################ \n"
+				+ "*/ \n"
+				+ "FROM ( \n"
+				+ "        SELECT \n"
+				+ "        dts.cyear, \n"
+				+ "        dts.cw, \n"
+				+ "        dts.cw_dtMin, \n"
+				+ "        dim.brand, \n"
+				+ "        dim.brand_type, \n"
+				+ "        dim.ticket_type, \n"
+				+ "        dim.type_total, \n"
+				+ "        dim.channel, \n"
+				+ "        dim.`28491752_value`, \n"
+				+ "        dim.satisfaction_rating \n"
+				+ " \n"
+				+ "        FROM (SELECT  \n"
+				+ "                -- `date`                                                                          as dt, \n"
+				+ "                WEEK(`date`, 3)                                                                 as cw, \n"
+				+ "                YEAR(`date`)                                                                    as cyear, \n"
+				+ "                DATE(MAX(`date`))     as cw_dtMax, \n"
+				+ "                DATE(MIN(`date`))     as cw_dtMin \n"
+				+ "                         \n"
+				+ "              from ARBEIT.DIM_DATE  \n"
+				+ "              WHERE `date` >= '2020-01-01'  \n"
+				+ "                and `date` <= DATE_ADD(CURRENT_DATE, INTERVAL - WEEKDAY(CURRENT_DATE) - 1 DAY) \n"
+				+ "              GROUP BY 1, 2 \n"
+				+ "        ) dts \n"
+				+ " \n"
+				+ "        CROSS JOIN ( \n"
+				+ "        SELECT \n"
+				+ "                  src.brand, \n"
+				+ "                  IF(src.brand = 'Admin Support (intern)'  \n"
+				+ "                      AND src.`360006503440_id` IS NOT NULL \n"
+				+ "                      AND `SYSTEM` = 0 \n"
+				+ "                      AND ABANDONED = 0, \"ka\", \"not_ka\") as brand_type,  \n"
+				+ "                      IFNULL( \n"
+				+ "                          (CASE  \n"
+				+ "                              WHEN src.brand like 'Support %' or src.brand = 'Kyto' THEN  \n"
+				+ "                                  (CASE \n"
+				+ "                                    WHEN src.`25180779_id` = 28636729 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Registration/Account' \n"
+				+ "                                    WHEN src.`25180779_id` = 28636739 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'My Order' \n"
+				+ "                                    WHEN src.`25180779_id` = 28636769 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Delivery and shipping conditions' \n"
+				+ "                                    WHEN src.`25180779_id` = 29236425 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Other' \n"
+				+ "                                    WHEN src.`25180779_id` = 29526209 AND SALES = 0 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 1 THEN 'Feedback' \n"
+				+ "                                    WHEN src.`25180779_id` = 29635975 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Product' \n"
+				+ "                                    WHEN src.`25180779_id` = 360000229869 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Product from other merchant' \n"
+				+ "                                    WHEN src.`25180779_id` = 38679545 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Payment/Invoice' \n"
+				+ "                                    WHEN src.`25180779_id` = 38679565 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Order cancellation' \n"
+				+ "                                    WHEN src.`25180779_id` = 38679605 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Incident' \n"
+				+ "                                    WHEN src.`25180779_id` = 40983905 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Product claim' \n"
+				+ "                                    WHEN src.`25180779_id` IS NULL AND src.`360006503440_id` IS NULL AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Empty' \n"
+				+ "                                    ELSE 'not_in_by_brand' \n"
+				+ "                                  END) \n"
+				+ "                              WHEN src.brand = 'Admin Support (intern)' AND src.`360006503440_id` IS NULL THEN \n"
+				+ "                                  (CASE  \n"
+				+ "                                    -- Admin Support (intern) - not KA \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758519 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Hanging orders' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758539 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Hanging contracts'  \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758559 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Hanging Quote requests' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758579 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Login' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758599 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Registration' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758619 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Products Onlineshop' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758639 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Quote' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758659 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Orderoverview' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758679 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Contractportal' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758699 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'KSC' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758719 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Marketplace' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758739 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Other Errors in Shop' \n"
+				+ "                                    WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` IS NULL AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Empty'  \n"
+				+ "                                    ELSE 'not_in_by_brand' \n"
+				+ "                                   END) \n"
+				+ "                              WHEN src.brand = 'Admin Support (intern)' AND src.`360006503440_id` IS NOT NULL THEN     \n"
+				+ "                                   (CASE \n"
+				+ "                                   -- Admin Support (intern) - KA \n"
+				+ "                                    WHEN src.`360006503440_id` IN (360006842880, 360014238659) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Issue with customer configuration in KA' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (360006842900, 360014238679) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Problem with PDF extraction' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (360006842920, 360014238699) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'DocParser' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (360006842940, 360014238719) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Wrong handling of KA' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (360006842960, 360014238759) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Feedback KA' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (360006503440, 360014238739) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Bug ERP' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (360014219399)               AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Bug KA' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (360013353300)               AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Match' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (1900002398094)              AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'IEPO' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (5205486064402)              AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Offboarding employee' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (10190157790354)             AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'DnD' \n"
+				+ "                                    WHEN src.`360006503440_id` IN (360009439140, 360014238779) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Other KA'                 \n"
+				+ "                                    ELSE 'not_in_by_brand' \n"
+				+ "                                    END) \n"
+				+ "                            END), 'not_in_by_brand') AS ticket_type, \n"
+				+ "                            src.type_total, \n"
+				+ "                            src.channel, \n"
+				+ "                            src.`28491752_value`, -- tool \n"
+				+ "                            src.satisfaction_rating \n"
+				+ "              FROM       \n"
+				+ "                  Report.Customer_Service_Report_0_base AS src \n"
+				+ "              -- WHERE src.brand LIKE 'Support %' or src.brand = 'Kyto' or src.brand = 'Admin Support (intern)' \n"
+				+ "                   \n"
+				+ "              GROUP BY  \n"
+				+ "                   \n"
+				+ "                  src.brand,  \n"
+				+ "                  ticket_type, \n"
+				+ "                  brand_type, \n"
+				+ "                  src.type_total, \n"
+				+ "                  src.channel, \n"
+				+ "                  src.`28491752_value`, -- tool \n"
+				+ "                  src.satisfaction_rating \n"
+				+ "                   \n"
+				+ "               -- HAVING ticket_type IS NOT NULL \n"
+				+ "        ) dim \n"
+				+ "      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10  \n"
+				+ ") base \n"
+				+ "/* \n"
+				+ "################################ \n"
+				+ "# DATA: actual data \n"
+				+ "################################ \n"
+				+ "*/ \n"
+				+ "LEFT JOIN ( \n"
+				+ "      SELECT \n"
+				+ "          src.cwMax, \n"
+				+ "          src.cyearMax, \n"
+				+ "          src.cw_start_solved, \n"
+				+ "          src.cw_solved, \n"
+				+ "          src.cyear_solved, \n"
+				+ "          src.brand, \n"
+				+ "          IF(src.brand = 'Admin Support (intern)'  \n"
+				+ "              AND src.`360006503440_id` IS NOT NULL \n"
+				+ "              AND `SYSTEM` = 0 \n"
+				+ "              AND ABANDONED = 0, \"ka\", \"not_ka\") as brand_type,  \n"
+				+ "          IFNULL( \n"
+				+ "              (CASE  \n"
+				+ "                  WHEN src.brand like 'Support %' or src.brand = 'Kyto' THEN  \n"
+				+ "                      (CASE \n"
+				+ "                        WHEN src.`25180779_id` = 28636729 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Registration/Account' \n"
+				+ "                        WHEN src.`25180779_id` = 28636739 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'My Order' \n"
+				+ "                        WHEN src.`25180779_id` = 28636769 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Delivery and shipping conditions' \n"
+				+ "                        WHEN src.`25180779_id` = 29236425 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Other' \n"
+				+ "                        WHEN src.`25180779_id` = 29526209 AND SALES = 0 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 1 THEN 'Feedback' \n"
+				+ "                        WHEN src.`25180779_id` = 29635975 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Product' \n"
+				+ "                        WHEN src.`25180779_id` = 360000229869 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Product from other merchant' \n"
+				+ "                        WHEN src.`25180779_id` = 38679545 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Payment/Invoice' \n"
+				+ "                        WHEN src.`25180779_id` = 38679565 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Order cancellation' \n"
+				+ "                        WHEN src.`25180779_id` = 38679605 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Incident' \n"
+				+ "                        WHEN src.`25180779_id` = 40983905 AND SALES = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND TECHNICAL = 0 THEN 'Product claim' \n"
+				+ "                        WHEN src.`25180779_id` IS NULL AND src.`360006503440_id` IS NULL AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Empty' \n"
+				+ "                        ELSE \"not_in_by_brand\" \n"
+				+ "                      END) \n"
+				+ "                  WHEN src.brand = 'Admin Support (intern)' AND src.`360006503440_id` IS NULL THEN \n"
+				+ "                      (CASE  \n"
+				+ "                        -- Admin Support (intern) - not KA \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758519 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Hanging orders' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758539 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Hanging contracts'  \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758559 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Hanging Quote requests' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758579 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Login' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758599 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Registration' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758619 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Products Onlineshop' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758639 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Quote' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758659 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Orderoverview' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758679 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Contractportal' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758699 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'KSC' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758719 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Marketplace' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` = 360020758739 AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Other Errors in Shop' \n"
+				+ "                        WHEN src.`360006503440_id` IS NULL AND src.`360016102099_id` IS NULL AND TECHNICAL = 1 AND `SYSTEM` = 0 AND ABANDONED = 0 AND SALES = 0 THEN 'Empty'  \n"
+				+ "                        ELSE \"not_in_by_brand\" \n"
+				+ "                       END) \n"
+				+ "                  WHEN src.brand = 'Admin Support (intern)' AND src.`360006503440_id` IS NOT NULL THEN     \n"
+				+ "                       (CASE \n"
+				+ "                       -- Admin Support (intern) - KA \n"
+				+ "                        WHEN src.`360006503440_id` IN (360006842880, 360014238659) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Issue with customer configuration in KA' \n"
+				+ "                        WHEN src.`360006503440_id` IN (360006842900, 360014238679) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Problem with PDF extraction' \n"
+				+ "                        WHEN src.`360006503440_id` IN (360006842920, 360014238699) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'DocParser' \n"
+				+ "                        WHEN src.`360006503440_id` IN (360006842940, 360014238719) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Wrong handling of KA' \n"
+				+ "                        WHEN src.`360006503440_id` IN (360006842960, 360014238759) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Feedback KA' \n"
+				+ "                        WHEN src.`360006503440_id` IN (360006503440, 360014238739) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Bug ERP' \n"
+				+ "                        WHEN src.`360006503440_id` IN (360014219399)               AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Bug KA' \n"
+				+ "                        WHEN src.`360006503440_id` IN (360013353300)               AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Match' \n"
+				+ "                        WHEN src.`360006503440_id` IN (1900002398094)              AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'IEPO' \n"
+				+ "                        WHEN src.`360006503440_id` IN (5205486064402)              AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Offboarding employee' \n"
+				+ "                        WHEN src.`360006503440_id` IN (10190157790354)             AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'DnD' \n"
+				+ "                        WHEN src.`360006503440_id` IN (360009439140, 360014238779) AND `SYSTEM` = 0 AND ABANDONED = 0 THEN 'Other KA'                 \n"
+				+ "                        ELSE \"not_in_by_brand\" \n"
+				+ "                        END) \n"
+				+ "                END), 'not_in_by_brand') AS ticket_type, \n"
+				+ "            src.type_total, \n"
+				+ "            src.channel, \n"
+				+ "            src.`28491752_value`, -- tool \n"
+				+ "            src.satisfaction_rating, \n"
+				+ "            COUNT(src.id) tickets, \n"
+				+ "            SUM(src.reply_time_in_minutes_business) min_first_reply, \n"
+				+ "            SUM(src.first_resolution_time_in_minutes_business) min_resolution \n"
+				+ "      FROM       \n"
+				+ "          Report.Customer_Service_Report_0_base AS src \n"
+				+ "      -- WHERE src.brand LIKE 'Support %' or src.brand = 'Kyto' or src.brand = 'Admin Support (intern)' \n"
+				+ "          -- src.brand != 'Admin Support (intern)' \n"
+				+ "          -- AND src.brand LIKE 'Support %' or src.brand = 'Kyto' or src.brand = 'Admin Support (intern)' \n"
+				+ "          -- AND src.`360006503440_id` IS NULL -- sonst werden auch KA-Themen in Admin Support (intern) mitegezählt unter Empty \n"
+				+ "      GROUP BY  \n"
+				+ "          src.cwMax, \n"
+				+ "          src.cyearMax, \n"
+				+ "          src.cw_start_solved, \n"
+				+ "          src.cw_solved, \n"
+				+ "          src.cyear_solved, \n"
+				+ "          src.brand,  \n"
+				+ "          ticket_type, \n"
+				+ "          src.type_total, \n"
+				+ "          src.channel, \n"
+				+ "          src.`28491752_value`, -- tool \n"
+				+ "          src.satisfaction_rating, \n"
+				+ "          brand_type \n"
+				+ "           \n"
+				+ "       -- HAVING ticket_type IS NOT NULL \n"
+				+ ") data \n"
+				+ "ON base.cyear                   = data.cyear_solved  \n"
+				+ "  AND base.cw                   = data.cw_solved  \n"
+				+ "  AND base.brand                = data.brand  \n"
+				+ "  AND base.brand_type           = data.brand_type \n"
+				+ "  AND base.ticket_type          = data.ticket_type \n"
+				+ "  AND base.type_total           = data.type_total \n"
+				+ "  AND base.channel              = data.channel \n"
+				+ "  AND base.`28491752_value`       = data.`28491752_value` -- tool \n"
+				+ "  AND base.satisfaction_rating  = data.satisfaction_rating \n"
+				+ "  \n"
+				+ "GROUP BY  \n"
+				+ "  base.cyear, \n"
+				+ "  base.cw, \n"
+				+ "  base.cw_dtMin, \n"
+				+ "  base.brand, \n"
+				+ "  base.brand_type, \n"
+				+ "  base.ticket_type, \n"
+				+ "  base.type_total, \n"
+				+ "  base.channel, \n"
+				+ "  base.`28491752_value`, -- tool \n"
+				+ "  base.satisfaction_rating, \n"
+				+ "  data.tickets, \n"
+				+ "  data.min_first_reply, \n"
+				+ "  data.min_resolution \n"
+				+ ")";
+		StrictSQLParser p = new StrictSQLParser();
+		p.parseScriptFromCode(sql1);
+		p.setTimeout(2000l);
+		for (String t : p.getTablesRead()) {
+			System.out.println(t);
+		}
+		assertEquals("input", 2, p.getTablesRead().size());
+		assertEquals("create", 1, p.getTablesCreated().size());
+	}
+
+	@Test
 	public void testCreateStrict() throws Exception {
 		String sql1 = "create table table_cr1 (field1 varchar, field2 varchar) engine InnoDB;\n"
 				+ "create table table_cr2 (field1 varchar, field2 varchar) engine InnoDB;";
@@ -254,15 +530,15 @@ public class TestStrictSQLParser {
 	}
 
 	@Test
-	public void testStatWithoutTableStrict() throws Exception {
-		String sql1 = "set var1 = 'xyz'";
-		Statement stmt = CCJSqlParserUtil.parse(sql1);
-		if (stmt instanceof Insert || stmt instanceof Select || stmt instanceof Update || stmt instanceof Delete || stmt instanceof Truncate) {
-			assertTrue(false);
-		} else {
-			System.out.println(stmt.getClass());
-			assertTrue(true);
+	public void testSetStrict() throws Exception {
+		String sql1 = "SET @to_date := CURRENT_DATE() - INTERVAL 1 DAY";
+		StrictSQLParser p = new StrictSQLParser();
+		p.parseScriptFromCode(sql1);
+		String log = p.getParserErrorLog();
+		if (log != null) {
+			System.out.println(log);
 		}
+		assertTrue(log == null);
 	}
 
 	@Test
@@ -286,12 +562,12 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(6, tableList.size());
+		assertEquals("wrong number of read tables", 6, tableList.size());
 		List<String> functionNames = tablesNamesFinder.getListFunctionSignatures();
 		for (String f : functionNames) {
 			System.out.println(f);
 		}
-		assertEquals(1, functionNames.size());
+		assertEquals("wrong number of functions", 1, functionNames.size());
 	}
 
 	@Test
@@ -304,7 +580,7 @@ public class TestStrictSQLParser {
 		for (String f : functionNames) {
 			System.out.println(f);
 		}
-		assertEquals(1, functionNames.size());
+		assertEquals("wrong number of functions", 1, functionNames.size());
 	}
 
 	@Test
@@ -317,7 +593,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(1, tableList.size());
+		assertEquals("wrong number of written tables", 1, tableList.size());
 	}
 
 	@Test
@@ -330,7 +606,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(1, tableList.size());
+		assertEquals("wrong number of written tables", 1, tableList.size());
 	}
 
 	@Test
@@ -343,7 +619,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(2, tableList.size());
+		assertEquals("wrong number of written tables", 2, tableList.size());
 	}
 	
 	@Test
@@ -356,7 +632,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(0, tableList.size());
+		assertEquals("wrong number of read tables", 0, tableList.size());
 	}
 	
 	@Test
@@ -374,7 +650,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(1, tableList.size());
+		assertEquals("wrong number of read tables", 1, tableList.size());
 	}
 	
 	@Test
@@ -392,7 +668,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(1, tableList.size());
+		assertEquals("wrong number of read tables", 1, tableList.size());
 	}
 
 	@Test
@@ -410,7 +686,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(2, tableList.size());
+		assertEquals("wrong number of read tables", 2, tableList.size());
 	}
 
 	@Test
@@ -425,7 +701,34 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(1, tableList.size());
+		assertEquals("wrong number of written tables", 1, tableList.size());
+	}
+
+	@Test
+	public void testInsertIntervalAndAt() throws Exception {
+		String sql1 = "CREATE TEMPORARY TABLE IF NOT EXISTS order_history_init\n" + 
+					"(KEY join2(CUSTOMER, DOC_NUMBER)) as \n" +
+					"SELECT \n" +
+					"    c.CUSTOMER, \n" +
+					"    o.DOC_NUMBER,  \n" +
+					"    COUNT(*) AS line_cou\n" + 
+					"FROM \n" +
+					"    Report.BNLX_EARLY_WARNING_CUST_SCOPE_TMP AS c \n" +
+					"    INNER JOIN ARBEIT.SAP_ORDERS AS o \n" +
+					"        ON c.CUSTOMER = o.CUSTOMER \n" +
+					"WHERE \n" +
+					"    o.CREATED_ON BETWEEN c.last_order_date - INTERVAL @history_days DAY AND c.last_order_date \n" +
+					"    AND o.DOC_NUMBER IS NOT NULL \n" +
+					"GROUP BY 1, 2;";
+		StrictSQLParser parser = new StrictSQLParser();
+		parser.parseStatementFromCode(sql1);
+		List<String> tableList = parser.getTablesRead();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals("wrong number of read tables", 2, tableList.size());
+		tableList = parser.getTablesCreated();
+		assertEquals("wrong number of create tables", 0, tableList.size());
 	}
 
 	@Test
@@ -437,7 +740,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(1, tableList.size());
+		assertEquals("wrong number of read tables", 1, tableList.size());
 	}
 
 	@Test
@@ -449,7 +752,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(1, tableList.size());
+		assertEquals("wrong number of read tables", 1, tableList.size());
 	}
 
 	@Test
@@ -461,7 +764,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(1, tableList.size());
+		assertEquals("wrong number of written tables", 1, tableList.size());
 	}
 
 	@Test
@@ -473,7 +776,7 @@ public class TestStrictSQLParser {
 		for (String t : tableList) {
 			System.out.println(t);
 		}
-		assertEquals(1, tableList.size());
+		assertEquals("wrong number of written tables", 1, tableList.size());
 	}
 
 }
