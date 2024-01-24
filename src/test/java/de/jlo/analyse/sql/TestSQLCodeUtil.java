@@ -54,4 +54,22 @@ public class TestSQLCodeUtil {
 		assertEquals("does not match", expected, actual);
 	}
 
+	@Test
+	public void testConvertCodeToSQL() throws IOException {
+		String test = "\"SELECT MAX(id) FROM Report.BENELUX_SEGMENT_KPI_CALC_VERSIONS WHERE kpi_name='STOCK_ORDERS'\"";
+		String expected = "SELECT MAX(id) FROM Report.BENELUX_SEGMENT_KPI_CALC_VERSIONS WHERE kpi_name='STOCK_ORDERS'";
+		String actual = SQLCodeUtil.convertJavaToSqlCode(test);
+		System.out.println(actual);
+		assertEquals("does not match", expected, actual);
+	}
+
+	@Test
+	public void testConvertTableNameToSQL() throws IOException {
+		String test = "\"TABLE_1\"";
+		String expected = "TABLE_1";
+		String actual = SQLCodeUtil.convertJavaToSqlCode(test);
+		System.out.println(actual);
+		assertEquals("does not match", expected, actual);
+	}
+
 }

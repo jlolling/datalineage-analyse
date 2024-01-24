@@ -31,7 +31,7 @@ public class SQLCodeUtil {
 	        if (result) {
 	            StringBuffer sb = new StringBuffer();
 	            do {
-	                m.appendReplacement(sb, "999999");
+	                m.appendReplacement(sb, "XXX");
 	                result = m.find();
 	            } while (result);
 	            m.appendTail(sb);
