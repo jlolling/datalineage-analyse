@@ -109,6 +109,17 @@ public class TestContextVarResolver {
 	}
 
 	@Test
+	public void testReplaceContextInTableName() throws Exception {
+		ContextVarResolver r = new ContextVarResolver();
+		r.addContextVar("target_table", "conditions");
+		r.addContextVar("KSCHL", "YC08");
+		String testSQL = "context.target_table + \"_\" + context.KSCHL";
+		String expected = "conditions_YC08";
+		String actual = r.replaceContextVars(testSQL);
+		assertEquals("Fail", expected, actual);
+	}
+
+	@Test
 	public void testRetrievePureSQL() throws Exception {
 		String tq = "\"SELECT\n\\\"\"+context.B17_MANAGEMENT_DB_Database+\"\\\".\\\"\" + context.B17_MANAGEMENT_DB_Schema +  \"\\\".\\\"measureconfig\\\".\\\"job_instance_id\\\"\nFROM \\\"\"+context.B17_MANAGEMENT_DB_Database+\"\\\".\\\"\"+context.B17_MANAGEMENT_DB_Schema+\"\\\".\\\"measureconfig\\\"\"";
 		System.out.println(tq);
