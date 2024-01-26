@@ -63,4 +63,22 @@ public class TestAnalyseTables {
 		assertEquals("Number written tables wrong", expected, actual);
 	}
 	
+	@Test
+	public void testAnalyseSAPRFCTableInput() throws Exception {
+		Project project = new Project();
+		project.readProject(projectRoot);
+		String testJobName = "test_sap_rfc";
+		Job testJob = project.getLatestJob(testJobName);
+		AnalyseTables a = new AnalyseTables(testJob);
+		a.analyseTables();
+		List<DatabaseTable> listInputTables = a.getListInputTables();
+		for (DatabaseTable t : listInputTables) {
+			System.out.println(t);
+		}
+		int expected = 1;
+		int actual = listInputTables.size();
+		assertEquals("Number read tables wrong", expected, actual);
+		System.out.println("--------------------------");
+	}
+
 }

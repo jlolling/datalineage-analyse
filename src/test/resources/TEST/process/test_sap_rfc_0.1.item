@@ -124,7 +124,7 @@
     <elementParameter field="TEXT" name="LANGUAGE" value="&quot;EN&quot;"/>
     <elementParameter field="TEXT" name="HOSTNAME" value="&quot;127.0.0.1&quot;"/>
     <elementParameter field="TEXT" name="SYSTEMNUMBER" value="&quot;99&quot;"/>
-    <elementParameter field="TEXT" name="SYSTEMID" show="false" value=""/>
+    <elementParameter field="TEXT" name="SYSTEMID" show="false" value="KE4"/>
     <elementParameter field="TEXT" name="GROUPNAME" show="false" value="&quot;Public&quot;"/>
     <elementParameter field="CLOSED_LIST" name="CONNECTION_METHOD" value="PROXY_SERVICE"/>
     <elementParameter field="TEXT" name="PROXY_SERVICE_URL" value="&quot;http://localhost:9999&quot;"/>
