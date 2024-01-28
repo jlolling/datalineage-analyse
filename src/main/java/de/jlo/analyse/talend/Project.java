@@ -102,6 +102,10 @@ public class Project {
     	return listAllJobs;
     }
     
+    public List<Job> getAllLatestJobs() {
+    	return getJobs(null, true);
+    }
+    
     public List<Job> getJobs(String jobNamePattern) {
     	return getJobs(jobNamePattern, false);
     }
