@@ -14,8 +14,8 @@ public class TestProject {
 	
 	@Test
 	public void testReadProject() throws Exception {
-		Project project = new Project();
-		int countJobs = project.readProject(projectRoot);
+		Project project = Project.getProject(projectRoot);
+		int countJobs = project.getCountJobs();
 		System.out.println("Count jobs: " + countJobs);
 		int expected = 6;
 		assertEquals("wrong number of jobs", expected, countJobs);

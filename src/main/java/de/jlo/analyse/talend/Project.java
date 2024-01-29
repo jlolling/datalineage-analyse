@@ -30,12 +30,22 @@ public class Project {
 	private List<Job> listAllJobs = new ArrayList<>();
 	private String projectRootDir = null;
 	private String processFolderPath = null;
+	private static Map<String, Project> projectCache = new HashMap<String, Project>();
 	
-	public Project(String projectRootFoldderPath) throws Exception {
-		readProject(projectRootFoldderPath);
+	public Project(String projectRootFolderPath) throws Exception {
+		readProject(projectRootFolderPath);
 	}
 	
 	public Project() {}
+	
+	public static Project getProject(String projectRootFolderPath) throws Exception {
+		Project p = projectCache.get(projectRootFolderPath);
+		if (p == null) {
+			p = new Project(projectRootFolderPath);
+			projectCache.put(projectRootFolderPath, p);
+		}
+		return p;
+	}
 	
 	/**
 	 * Reads all Talend jobs and fills the job map
