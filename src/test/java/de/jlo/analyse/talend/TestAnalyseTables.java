@@ -64,10 +64,10 @@ public class TestAnalyseTables {
 	}
 	
 	@Test
-	public void testAnalyseSAPRFCTableInput() throws Exception {
+	public void testAnalyseSAPRFCTableInputMessageServer() throws Exception {
 		Project project = new Project();
 		project.readProject(projectRoot);
-		String testJobName = "test_sap_rfc";
+		String testJobName = "test_sap_rfc_ms";
 		Job testJob = project.getLatestJob(testJobName);
 		AnalyseTables a = new AnalyseTables(testJob);
 		a.analyseTables();
@@ -78,6 +78,30 @@ public class TestAnalyseTables {
 		int expected = 1;
 		int actual = listInputTables.size();
 		assertEquals("Number read tables wrong", expected, actual);
+		String expectedName = "127.0.0.1:Public.VBAK";
+		String actualName = listInputTables.get(0).toString();
+		assertEquals("Table name wrong", expectedName, actualName);
+		System.out.println("--------------------------");
+	}
+
+	@Test
+	public void testAnalyseSAPRFCTableInputAppServer() throws Exception {
+		Project project = new Project();
+		project.readProject(projectRoot);
+		String testJobName = "test_sap_rfc_as";
+		Job testJob = project.getLatestJob(testJobName);
+		AnalyseTables a = new AnalyseTables(testJob);
+		a.analyseTables();
+		List<DatabaseTable> listInputTables = a.getListInputTables();
+		for (DatabaseTable t : listInputTables) {
+			System.out.println(t);
+		}
+		int expected = 1;
+		int actual = listInputTables.size();
+		assertEquals("Number read tables wrong", expected, actual);
+		String expectedName = "127.0.0.1:Public.VBAP";
+		String actualName = listInputTables.get(0).toString();
+		assertEquals("Table name wrong", expectedName, actualName);
 		System.out.println("--------------------------");
 	}
 

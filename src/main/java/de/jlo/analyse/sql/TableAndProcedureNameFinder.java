@@ -144,23 +144,25 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
     }
 
     @Override
-    public void visit(Table tableName) {
-        String tableWholeName = extractTableName(tableName);
-        if (currentStatement instanceof Select) {
-            if (!otherItemNames.contains(tableWholeName.toLowerCase()) && !listTableNamesInput.contains(tableWholeName)) {
-            	listTableNamesInput.add(tableWholeName);
-            }
-        } else if (currentStatement instanceof CreateTable || currentStatement instanceof CreateView) {
-            if (!listTableNamesCreate.contains(tableWholeName)) {
-            	listTableNamesCreate.add(tableWholeName);
-            }
-        } else if (currentStatement instanceof Insert || 
-        		currentStatement instanceof Update || 
-        		currentStatement instanceof Upsert || 
-        		currentStatement instanceof Truncate || 
-        		currentStatement instanceof Delete) {
-            if (!otherItemNames.contains(tableWholeName.toLowerCase()) && !listTableNamesOutput.contains(tableWholeName)) {
-            	listTableNamesOutput.add(tableWholeName);
+    public void visit(Table table) {
+        String tableWholeName = extractTableName(table);
+        if (tableWholeName.equalsIgnoreCase("dual") == false) { // ignore dummy table
+            if (currentStatement instanceof Select) {
+                if (!otherItemNames.contains(tableWholeName.toLowerCase()) && !listTableNamesInput.contains(tableWholeName)) {
+                	listTableNamesInput.add(tableWholeName);
+                }
+            } else if (currentStatement instanceof CreateTable || currentStatement instanceof CreateView) {
+                if (!listTableNamesCreate.contains(tableWholeName)) {
+                	listTableNamesCreate.add(tableWholeName);
+                }
+            } else if (currentStatement instanceof Insert || 
+            		currentStatement instanceof Update || 
+            		currentStatement instanceof Upsert || 
+            		currentStatement instanceof Truncate || 
+            		currentStatement instanceof Delete) {
+                if (!otherItemNames.contains(tableWholeName.toLowerCase()) && !listTableNamesOutput.contains(tableWholeName)) {
+                	listTableNamesOutput.add(tableWholeName);
+                }
             }
         }
     }

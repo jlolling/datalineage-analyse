@@ -31,6 +31,7 @@ public class AnalyseTables {
 		}
 		contextVarResolver = new ContextVarResolver();
 		contextVarResolver.setContext(job.getContext());
+		contextVarResolver.setJobName(job.getJobName());
 	}
 	
 	private void loadProperties() throws Exception {
@@ -54,7 +55,7 @@ public class AnalyseTables {
 				String schema = DatabaseTable.getSchema(combinedHostAndSchema);
 				// analyse query component
 				String queryValue = c.getComponentValueByName(attrName);
-				String query = contextVarResolver.replaceContextVars(queryValue);
+				String query = contextVarResolver.replace(queryValue);
 				query = SQLCodeUtil.convertJavaToSqlCode(query);
 				// get the host and database
 				StrictSQLParser parser = new StrictSQLParser();
@@ -85,7 +86,7 @@ public class AnalyseTables {
 				// analyse input component table name
 				String tableName = c.getComponentValueByName(attrName);
 				if (tableName != null && tableName.replace("\"", "").trim().isEmpty() == false) {
-					String cleanName = contextVarResolver.replaceContextVars(tableName);
+					String cleanName = contextVarResolver.replace(tableName);
 					if (cleanName.contains(".") == false) {
 						String dbSchema = getDatabaseSchemaForComponentInput(c);
 						if (dbSchema != null) {
@@ -100,7 +101,7 @@ public class AnalyseTables {
 			if (attrName != null) {
 				// analyse output component
 				String tableName = c.getComponentValueByName(attrName);
-				String cleanName = contextVarResolver.replaceContextVars(tableName);
+				String cleanName = contextVarResolver.replace(tableName);
 				if (cleanName.contains(".") == false) {
 					String dbSchema = getDatabaseSchemaForComponentOutput(c);
 					if (dbSchema != null) {
@@ -111,7 +112,7 @@ public class AnalyseTables {
 			}
 			if (c.getComponentName().equals("tCreateTable")) {
 				String tableName = c.getComponentValueByName("TABLE");
-				String cleanName = contextVarResolver.replaceContextVars(tableName);
+				String cleanName = contextVarResolver.replace(tableName);
 				String dbSchema = getDatabaseSchemaForComponentOutput(c);
 				if (dbSchema != null) {
 					cleanName = dbSchema + "." + cleanName;

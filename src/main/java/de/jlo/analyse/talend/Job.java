@@ -163,7 +163,24 @@ public class Job implements Comparable<Job> {
 	private void retrieveContext() throws Exception {
 		context = new ArrayList<>();
 		Element root = getItemDoc().getRootElement();
-		List<Node> contextNodes = root.selectNodes("context/contextParameter");
+		List<Node> contextNodes = new ArrayList<Node>();
+		// search context with filter
+		if (project.getDefaultContext() != null) {
+			String[] defaultContextValues = project.getDefaultContext().split(",");
+			for (String contextName : defaultContextValues) {
+				if (contextName != null && contextName.trim().isEmpty() == false) {
+					String contextXPath = "context[@name='" + contextName + "']/contextParameter";
+					contextNodes = root.selectNodes(contextXPath);
+					if (contextNodes.size() > 0) {
+						// we found a context with expected name
+						break; // do not search for more
+					}
+				}
+			}
+		}
+		if (contextNodes.size() == 0) {
+			contextNodes = root.selectNodes("context/contextParameter"); // search context without filter
+		}
 		for (Node cn : contextNodes) {
 			String id = ((Element) cn).attributeValue("internalId");
 			if (id == null) {
@@ -177,7 +194,9 @@ public class Job implements Comparable<Job> {
 			p.setValue(value);
 			p.setTalendType(type);
 			p.setComment(comment);
-			context.add(p);
+			if (context.contains(p) == false) {
+				context.add(p);
+			}
 		}
 	}
 	

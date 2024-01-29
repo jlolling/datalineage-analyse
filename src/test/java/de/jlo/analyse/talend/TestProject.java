@@ -17,7 +17,7 @@ public class TestProject {
 		Project project = Project.getProject(projectRoot);
 		int countJobs = project.getCountJobs();
 		System.out.println("Count jobs: " + countJobs);
-		int expected = 6;
+		int expected = 7;
 		assertEquals("wrong number of jobs", expected, countJobs);
 		int countConn = project.getDatabaseConnections().size();
 		System.out.println("Count db connections: " + countConn);
@@ -28,6 +28,7 @@ public class TestProject {
 	@Test
 	public void testReadJobContext() throws Exception {
 		Project project = new Project(projectRoot);
+		project.setDefaultContext("dummy");
 		String jobName = "test_job_chain";
 		Job testJob = project.getLatestJob(jobName);
 		assertEquals("wrong job version", "0.1", testJob.getVersion());

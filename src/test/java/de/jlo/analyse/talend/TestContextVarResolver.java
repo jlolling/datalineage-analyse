@@ -19,6 +19,28 @@ public class TestContextVarResolver {
 	}
 
 	@Test
+	public void testReplaceJobName() throws Exception {
+		ContextVarResolver r = new ContextVarResolver();
+		r.setJobName("test_job");
+		r.addContextVar("TABLE", "mytable");
+		String testSQL = "context.TABLE + \"_temp_\" + jobName";
+		String expected = "mytable_temp_test_job";
+		String actual = r.replace(testSQL);
+		assertEquals("Fail", expected, actual);
+	}
+
+	@Test
+	public void testReplaceJobNameSingle() throws Exception {
+		ContextVarResolver r = new ContextVarResolver();
+		r.setJobName("test_job");
+		r.addContextVar("TABLE", "mytable");
+		String testSQL = "jobName";
+		String expected = "test_job";
+		String actual = r.replace(testSQL);
+		assertEquals("Fail", expected, actual);
+	}
+
+	@Test
 	public void testReplaceContextInOutput1ToJava() throws Exception {
 		String test = "\"mytable_temp\"\"";
 		String expected = "mytable_temp";

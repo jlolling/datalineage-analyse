@@ -13,10 +13,14 @@ public class ContextVarResolver {
 	
 	private Properties contextVars = new Properties();
 	private String contextVarRegex = "[\"]{0,1}[\\s]*[+]{0,1}[\\s]*context\\.([a-z0-9\\_]{1,})[\\s]*[+]{0,1}[\\s]*[\"]{0,1}";
+	private String jobNameRegex = "[\"]{0,1}[\\s]*[+]{0,1}[\\s]*(jobName)[\\s]*[+]{0,1}[\\s]*[\"]{0,1}";
 	private Pattern contextVarPattern = null;
+	private Pattern jobNamePattern = null;
+	private String jobName = null;
 	
 	public ContextVarResolver() {
 		contextVarPattern = Pattern.compile(contextVarRegex, Pattern.CASE_INSENSITIVE);
+		jobNamePattern = Pattern.compile(jobNameRegex);
 	}
 	
 	public void setContext(List<ContextParameter> context) {
@@ -66,6 +70,11 @@ public class ContextVarResolver {
 		}
 	}
 	
+	public String replace(String code) throws Exception {
+		String s = replaceContextVars(code);
+		return replaceJobName(s);
+	}
+	
 	public String replaceContextVars(String code) throws Exception {
 		StringBuilder result = new StringBuilder();
 		Matcher matcher = contextVarPattern.matcher(code);
@@ -86,8 +95,38 @@ public class ContextVarResolver {
 		return result.toString();
 	}
 
+	public String replaceJobName(String code) throws Exception {
+		if (jobName == null || jobName.trim().isEmpty()) {
+			return code;
+		}
+		StringBuilder result = new StringBuilder();
+		Matcher matcher = jobNamePattern.matcher(code);
+		int lastEnd = 0;
+		while (matcher.find()) {
+			int startCode = matcher.start();
+			if (matcher.groupCount() > 0) {
+				// copy the SQL code until the context-code
+				result.append(code.substring(lastEnd, startCode));
+				lastEnd = matcher.end();
+				// now add the context variable value
+				String contextVarValue = jobName;
+				result.append(contextVarValue);
+			}
+		}
+		result.append(code.substring(lastEnd));
+		return result.toString();
+	}
+
 	public Properties getContextVars() {
 		return contextVars;
+	}
+
+	public String getJobName() {
+		return jobName;
+	}
+
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
 	}
 	
 }

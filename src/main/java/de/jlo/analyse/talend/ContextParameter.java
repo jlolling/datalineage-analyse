@@ -42,6 +42,20 @@ public class ContextParameter {
 	}
 	public void setComment(String comment) {
 		this.comment = comment;
-	}	
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof ContextParameter) {
+			return name.equals(((ContextParameter) o).getName());
+		} else {
+			return false;
+		}
+	}
 
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
+	
 }

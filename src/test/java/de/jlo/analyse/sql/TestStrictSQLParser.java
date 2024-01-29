@@ -69,6 +69,19 @@ public class TestStrictSQLParser {
 	}
 	
 	@Test
+	public void testIgnoreDummyTableFromSelectStrict() throws Exception {
+		String sql1 = "SELECT * FROM dual";
+		Statement stmt = CCJSqlParserUtil.parse(sql1);
+		TableAndProcedureNameFinder tablesNamesFinder = new TableAndProcedureNameFinder();
+		tablesNamesFinder.analyse(stmt);
+		List<String> tableList = tablesNamesFinder.getListTableNamesInput();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals(0, tableList.size());
+	}
+
+	@Test
 	public void testCreateTempoTableFromSelectStrict0() throws Exception {
 		String sql1 = "CREATE TEMPORARY TABLE IF NOT EXISTS new_tbl as SELECT * FROM `orig_tbls`";
 		Statement stmt = CCJSqlParserUtil.parse(sql1);

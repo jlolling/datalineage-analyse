@@ -31,6 +31,7 @@ public class Project {
 	private String projectRootDir = null;
 	private String processFolderPath = null;
 	private static Map<String, Project> projectCache = new HashMap<String, Project>();
+	private String defaultContext = "Default";
 	
 	public Project(String projectRootFolderPath) throws Exception {
 		readProject(projectRootFolderPath);
@@ -298,6 +299,16 @@ public class Project {
 	
 	public int getCountJobs() {
 		return listAllJobs.size();
+	}
+
+	public String getDefaultContext() {
+		return defaultContext;
+	}
+
+	public void setDefaultContext(String defaultContext) {
+		if (defaultContext != null && defaultContext.trim().isEmpty() == false) {
+			this.defaultContext = defaultContext;
+		}
 	}
 
 }
