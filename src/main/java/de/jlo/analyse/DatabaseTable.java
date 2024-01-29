@@ -29,6 +29,15 @@ public class DatabaseTable {
 		}
 	}
 	
+	public static String getSchema(String combinedName) {
+		int posHost = combinedName.indexOf(":");
+		if (posHost > 0) {
+			return combinedName.substring(posHost + 1);
+		} else {
+			return null;
+		}
+	}
+
 	@Override
 	public String toString() {
 		return databaseHost + ":" + tableName;

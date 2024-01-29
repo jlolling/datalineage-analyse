@@ -49,16 +49,17 @@ public class AnalyseTables {
 			key = c.getComponentName() + ".QUERY";
 			attrName = properties.getProperty(key);
 			if (attrName != null) {
-				String dbSchema = getDatabaseSchemaForComponentInput(c);
+				String combinedHostAndSchema = getDatabaseSchemaForComponentInput(c);
+				String host = DatabaseTable.getHost(combinedHostAndSchema);
+				String schema = DatabaseTable.getSchema(combinedHostAndSchema);
 				// analyse query component
 				String queryValue = c.getComponentValueByName(attrName);
 				String query = contextVarResolver.replaceContextVars(queryValue);
 				query = SQLCodeUtil.convertJavaToSqlCode(query);
 				// get the host and database
 				StrictSQLParser parser = new StrictSQLParser();
-				parser.setDefaultSchema(dbSchema);
+				parser.setDefaultSchema(schema);
 				parser.parseScriptFromCode(query);
-				String host = DatabaseTable.getHost(dbSchema);
 				for (String tableName : parser.getTablesRead()) {
 					if (host != null) {
 						tableName = host + ":" + tableName; 
