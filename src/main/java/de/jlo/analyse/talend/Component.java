@@ -60,9 +60,12 @@ public class Component {
 	}
 	
 	public ComponentAttribute getComponentAttributeByName(String attributeName) {
-		for (ComponentAttribute a : listAttributes) {
-			if (a.getName().equals(attributeName)) {
-				return a;
+		String[] attributeNames = attributeName.split(",");
+		for (String name : attributeNames) {
+			for (ComponentAttribute a : listAttributes) {
+				if (a.getName().equals(name) && a.getValue() != null) {
+					return a;
+				}
 			}
 		}
 		return null;

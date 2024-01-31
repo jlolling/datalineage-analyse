@@ -104,4 +104,14 @@ public class TestJob {
 		assertEquals("wrong number ob child jobs", 4, listComponents.size());
 	}
 
+	@Test
+	public void testGetComponentByCoalesceNames() throws Exception {
+		String jobName = "test_sap_rfc_ms";
+		Job testJob = project.getLatestJob(jobName);
+		Component c = testJob.getComponent("tSAPRFCConnection_1");
+		String actual = c.getComponentValueByName("dummy,SYSTEMID");
+		String expected = "\"KE4\"";
+		assertEquals("Wrong value", expected, actual);
+	}
+
 }

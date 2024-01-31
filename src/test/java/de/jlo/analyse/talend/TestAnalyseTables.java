@@ -78,7 +78,7 @@ public class TestAnalyseTables {
 		int expected = 1;
 		int actual = listInputTables.size();
 		assertEquals("Number read tables wrong", expected, actual);
-		String expectedName = "127.0.0.1:Public.VBAK";
+		String expectedName = "127.0.0.1:KE4.VBAK";
 		String actualName = listInputTables.get(0).toString();
 		assertEquals("Table name wrong", expectedName, actualName);
 		System.out.println("--------------------------");
@@ -99,7 +99,7 @@ public class TestAnalyseTables {
 		int expected = 1;
 		int actual = listInputTables.size();
 		assertEquals("Number read tables wrong", expected, actual);
-		String expectedName = "127.0.0.1:Public.VBAP";
+		String expectedName = "127.0.0.1:KE4.VBAP";
 		String actualName = listInputTables.get(0).toString();
 		assertEquals("Table name wrong", expectedName, actualName);
 		System.out.println("--------------------------");
