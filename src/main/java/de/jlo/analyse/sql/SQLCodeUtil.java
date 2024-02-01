@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -171,6 +173,18 @@ public class SQLCodeUtil {
 		return sb.toString().trim();
 	}
 	
+	public static String removeBraketsAroundNumbers(String text) throws IOException {
+		BufferedReader r = new BufferedReader(new StringReader(text));
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while ((line = r.readLine()) != null) {
+			line = RegexUtil.replaceByRegexGroups(line, "(\\()[0-9]{1,}(\\))", "1");
+			sb.append(line);
+			sb.append("\n");
+		}
+		return sb.toString().trim();
+	}
+	
 	public static String readContentfromFile(String filePath, String charset) throws Exception {
 		if (filePath == null) {
 			return null;
@@ -191,5 +205,4 @@ public class SQLCodeUtil {
 		}
 	}
 
-	
 }

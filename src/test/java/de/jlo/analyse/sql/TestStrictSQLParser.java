@@ -769,6 +769,18 @@ public class TestStrictSQLParser {
 	}
 
 	@Test
+	public void testSelectWithCase() throws Exception {
+		String sql1 = "SELECT\n case when f1 > 0 then 1 else 0 end as field1,\n field2 \nFROM Report.BENELUX_SEGMENT_KPI_CALC_VERSIONS";
+		StrictSQLParser p = new StrictSQLParser();
+		p.parseScriptFromCode(sql1);
+		List<String> tableList = p.getTablesRead();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals("wrong number of read tables", 1, tableList.size());
+	}
+
+	@Test
 	public void testInsertIgnore() throws Exception {
 		String sql1 = "insert ignore into ins_table (f1,f2) values('1','2')";
 		StrictSQLParser p = new StrictSQLParser();
@@ -790,6 +802,63 @@ public class TestStrictSQLParser {
 			System.out.println(t);
 		}
 		assertEquals("wrong number of written tables", 1, tableList.size());
+	}
+	
+	@Test
+	public void testAnalyseView() throws Exception {
+		String sql = "create or replace\r\n"
+				+ "view ARBEIT.DIM_DATE as\r\n"
+				+ "select\r\n"
+				+ "	`monitor`.`datalab_calendar`.`DATE_AS_INT` AS `DATE_AS_INT`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`DATE_AS_DATE` AS `date`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`DAY_OF_YEAR_AS_INT` AS `day_of_year`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`DAY_OF_WEEK_AS_INT` AS `day_of_week`,\r\n"
+				+ "	(case\r\n"
+				+ "		when (`monitor`.`datalab_calendar`.`DAY_OF_WEEK_AS_INT` > 5) then 1\r\n"
+				+ "		else 0\r\n"
+				+ "	end) AS `weekend`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`WEEK_DAY_NAME` AS `dayname`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`WEEK_DAY_SHORT_NAME` AS `dayname_s`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`WEEK_AS_INT` AS `week_of_year`,\r\n"
+				+ "	(case\r\n"
+				+ "		when (`monitor`.`datalab_calendar`.`WEEK_AS_INT` < 10) then concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', '0', `monitor`.`datalab_calendar`.`WEEK_AS_INT`)\r\n"
+				+ "		else concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', `monitor`.`datalab_calendar`.`WEEK_AS_INT`)\r\n"
+				+ "	end) AS `year_week`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`WEEK_START_DATE` AS `WEEK_START_DATE`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`WEEK_END_DATE` AS `WEEK_END_DATE`,\r\n"
+				+ "	(`monitor`.`datalab_calendar`.`WEEK_END_DATE` + interval -(1) day) AS `WEEK_LAST_DATE`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`YEAR_OF_WEEK_AS_INT` AS `YEAR_OF_WEEK_AS_INT`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`DAY_OF_MONTH_AS_INT` AS `day_of_month`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`MONTH_AS_INT` AS `MONTH_AS_INT`,\r\n"
+				+ "	(case\r\n"
+				+ "		when (`monitor`.`datalab_calendar`.`MONTH_AS_INT` < 10) then concat('0', `monitor`.`datalab_calendar`.`MONTH_AS_INT`)\r\n"
+				+ "		else `monitor`.`datalab_calendar`.`MONTH_AS_INT`\r\n"
+				+ "	end) AS `month`,\r\n"
+				+ "	(case\r\n"
+				+ "		when (`monitor`.`datalab_calendar`.`MONTH_AS_INT` < 10) then concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', '0', `monitor`.`datalab_calendar`.`MONTH_AS_INT`)\r\n"
+				+ "		else concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', `monitor`.`datalab_calendar`.`MONTH_AS_INT`)\r\n"
+				+ "	end) AS `year_month`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`MONTH_NAME` AS `monthname`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`MONTH_SHORT_NAME` AS `monthname_s`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`MONTH_START_DATE` AS `MONTH_START_DATE`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`MONTH_END_DATE` AS `MONTH_END_DATE`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`QUARTER_AS_INT` AS `quarter`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT` AS `year`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`FIN_YEAR_AS_INT` AS `FIN_YEAR_AS_INT`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`FIN_MONTH_AS_INT` AS `FIN_MONTH_AS_INT`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`FIN_QUARTER_AS_INT` AS `FIN_QUARTER_AS_INT`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`UTC_MILLISECONDS` AS `UTC_MILLISECONDS`,\r\n"
+				+ "	`monitor`.`datalab_calendar`.`IS_LAST_DAY_OF_MONTH` AS `IS_LAST_DAY_OF_MONTH`\r\n"
+				+ "from\r\n"
+				+ "	`monitor`.`datalab_calendar`";
+		StrictSQLParser p = new StrictSQLParser();
+		p.setTimeout(100000l);	
+		p.parseScriptFromCode(sql);
+		List<String> tableList = p.getTablesRead();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals("wrong number of read tables", 1, tableList.size());
 	}
 
 }

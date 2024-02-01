@@ -90,15 +90,15 @@ public class StrictSQLParser {
 		if (sql == null || sql.trim().isEmpty()) {
 			throw new IllegalArgumentException("SQL statement code cannot be null or empty");
 		}
-		String cleanedCode = SQLCodeUtil.removeIntoFromSelect(SQLCodeUtil.replaceHashCommentsAndAssignments(SQLCodeUtil.cleanupEmptyLines(sql)));
+		String cleanedCode = SQLCodeUtil.removeIntoFromSelect(
+								SQLCodeUtil.replaceHashCommentsAndAssignments(
+								SQLCodeUtil.removeBraketsAroundNumbers(
+								SQLCodeUtil.cleanupEmptyLines(sql))));
 		try {
 			CCJSqlParser parser = new CCJSqlParser(new StringProvider(cleanedCode))
 					.withTimeOut(timeout)
 					.withAllowComplexParsing(true)
 					.withSquareBracketQuotation(true);
-//			parser.getConfiguration().setValue(Feature.timeOut, timeout);
-//			parser.getConfiguration().setValue(Feature.allowComplexParsing, true);
-//			parser.getConfiguration().setValue(Feature.allowSquareBracketQuotation, true);
 			Statement stmt = CCJSqlParserUtil.parseStatements(parser, Executors.newSingleThreadExecutor()).get(0);			
 			analyseStatement(stmt);
 		} catch (Exception e) {
