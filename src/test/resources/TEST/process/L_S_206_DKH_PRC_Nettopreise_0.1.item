@@ -414,9 +414,9 @@
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tMysqlConnection_1"/>
     <elementParameter field="TEXT" name="HOST" show="false" value="&quot;1.2.3.4&quot;"/>
     <elementParameter field="TEXT" name="PORT" show="false" value="&quot;3306&quot;"/>
-    <elementParameter field="TEXT" name="DBNAME" show="false" value="&quot&quot;"/>
+    <elementParameter field="TEXT" name="DBNAME" show="false" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="TYPE" show="false" value="MYSQL"/>
-    <elementParameter field="TEXT" name="USER" show="false" value="&quot;kstallkamp&quot;"/>
+    <elementParameter field="TEXT" name="USER" show="false" value="&quot;&quot;"/>
     <elementParameter field="PASSWORD" name="PASS" show="false" value="blabla"/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
@@ -1174,7 +1174,7 @@
     <elementParameter field="TEXT" name="HOST" show="false" value="&quot;1.2.3.4&quot;"/>
     <elementParameter field="TEXT" name="PORT" show="false" value="&quot;3306&quot;"/>
     <elementParameter field="TEXT" name="DBNAME" show="false" value="&quot;DKH_pricing&quot;"/>
-    <elementParameter field="TEXT" name="USER" show="false" value="&quot;kstallkamp&quot;"/>
+    <elementParameter field="TEXT" name="USER" show="false" value="&quot;&quot;"/>
     <elementParameter field="PASSWORD" name="PASS" show="false" value="enc:system.encryption.key.v1:r8C5Nr5zEPvjb3Xui+CG9S3qSR4TzeyudM8ofEhElgQEuj8xBHkWSw=="/>
     <elementParameter field="DBTABLE" name="TABLE" value="jobName+&quot;_&quot;+context.Target_Table_Nettopreise"/>
     <elementParameter field="CLOSED_LIST" name="TABLE_ACTION" value="CREATE_IF_NOT_EXISTS"/>
@@ -1476,7 +1476,7 @@
     <elementParameter field="TEXT" name="HOST" show="false" value="&quot;1.2.3.4&quot;"/>
     <elementParameter field="TEXT" name="PORT" show="false" value="&quot;3306&quot;"/>
     <elementParameter field="TEXT" name="DBNAME" show="false" value="&quot;DKH_pricing&quot;"/>
-    <elementParameter field="TEXT" name="USER" show="false" value="&quot;kstallkamp&quot;"/>
+    <elementParameter field="TEXT" name="USER" show="false" value="&quot;&quot;"/>
     <elementParameter field="PASSWORD" name="PASS" show="false" value="enc:system.encryption.key.v1:u71bgxQdmC2iL+g3sJO5eN4q/1qjGSRzwGk12a9iAyaVUZBvfWsRuw=="/>
     <elementParameter field="DBTABLE" name="TABLE" value="jobName+&quot;_&quot;+context.Target_Table_Nettopreise"/>
     <elementParameter field="CLOSED_LIST" name="TABLE_ACTION" value="CREATE_IF_NOT_EXISTS"/>
@@ -1786,7 +1786,7 @@
     <elementParameter field="TEXT" name="HOST" show="false" value="&quot;1.2.3.4&quot;"/>
     <elementParameter field="TEXT" name="PORT" show="false" value="&quot;3306&quot;"/>
     <elementParameter field="TEXT" name="DBNAME" show="false" value="&quot;DKH_pricing&quot;"/>
-    <elementParameter field="TEXT" name="USER" show="false" value="&quot;kstallkamp&quot;"/>
+    <elementParameter field="TEXT" name="USER" show="false" value="&quot;&quot;"/>
     <elementParameter field="PASSWORD" name="PASS" show="false" value="blabla"/>
     <elementParameter field="DBTABLE" name="TABLE" value="jobName+&quot;_&quot;+context.Target_Table_Nettopreise"/>
     <elementParameter field="CLOSED_LIST" name="TABLE_ACTION" value="CREATE_IF_NOT_EXISTS"/>

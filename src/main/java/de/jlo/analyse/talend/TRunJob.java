@@ -24,6 +24,13 @@ public class TRunJob extends Component {
 				referencedJobId = referencedJobId.substring(pos + 1);
 			}
 			referencedJob = getJob().getProject().getJobById(referencedJobId);
+			if (isTransmitContext()) {
+				try {
+					referencedJob.addReplaceContext(getJob().getContext());
+				} catch (Exception e) {
+					// ignore
+				}
+			}
 		}
 	}
 
@@ -34,5 +41,9 @@ public class TRunJob extends Component {
 	public String getReferencedJobName() {
 		return referencedJobName;
 	}
-	
+
+	public boolean isTransmitContext() {
+		return "true".equals(getComponentValueByName("TRANSMIT_WHOLE_CONTEXT"));
+	}
+
 }

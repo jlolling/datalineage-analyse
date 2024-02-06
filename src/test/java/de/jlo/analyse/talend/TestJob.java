@@ -78,6 +78,17 @@ public class TestJob {
 	}
 	
 	@Test
+	public void testReadAllEmbeddedJobs() throws Exception {
+		String jobName = "test_job_chain";
+		Job testJob = project.getLatestJob(jobName);
+		List<Job> list = testJob.getAllEmbeddedJobs();
+		for (Job job : list) {
+			System.out.println(job);
+		}
+		assertEquals("wong number child jobs", 3, list.size());
+	}
+
+	@Test
 	public void testChildJobs() throws Exception {
 		String jobName = "test_job_chain";
 		Job testJob = project.getLatestJob(jobName);

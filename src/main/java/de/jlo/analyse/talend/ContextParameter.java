@@ -9,9 +9,6 @@ public class ContextParameter {
 	private String comment = null;
 	
 	public ContextParameter(String id, String name) {
-		if (id == null || id.trim().isEmpty()) {
-			throw new IllegalArgumentException("id cannot be null or empty");
-		}
 		if (name == null || name.trim().isEmpty()) {
 			throw new IllegalArgumentException("name cannot be null or empty");
 		}
@@ -19,27 +16,43 @@ public class ContextParameter {
 		this.name = name;
 	}
 	
+	public ContextParameter(String name) {
+		if (name == null || name.trim().isEmpty()) {
+			throw new IllegalArgumentException("name cannot be null or empty");
+		}
+		this.name = name;
+	}
+
 	public String getId() {
 		return id;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public String getValue() {
 		return value;
 	}
+	
 	public void setValue(String value) {
-		this.value = value;
+		if (value != null && value.replace("\"", "").trim().isEmpty() == false) {
+			this.value = value;
+		}
 	}
+
 	public String getTalendType() {
 		return talendType;
 	}
+	
 	public void setTalendType(String talendType) {
 		this.talendType = talendType;
 	}
+	
 	public String getComment() {
 		return comment;
 	}
+	
 	public void setComment(String comment) {
 		this.comment = comment;
 	}

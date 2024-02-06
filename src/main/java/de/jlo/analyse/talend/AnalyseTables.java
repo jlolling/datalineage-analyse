@@ -19,6 +19,7 @@ public class AnalyseTables {
 	private static boolean loadPropertiesDone = false;
 	private static final String propertiesFileName = "table-components.properties";
 	private ContextVarResolver contextVarResolver = null;
+	private String tableSeparator = ",";
 	
 	public AnalyseTables(Job job) throws Exception {
 		if (job == null) {
@@ -87,13 +88,8 @@ public class AnalyseTables {
 				String tableName = c.getComponentValueByName(attrName);
 				if (tableName != null && tableName.replace("\"", "").trim().isEmpty() == false) {
 					String cleanName = contextVarResolver.replace(tableName);
-					if (cleanName.contains(".") == false) {
-						String dbSchema = getDatabaseSchemaForComponentInput(c);
-						if (dbSchema != null) {
-							cleanName = dbSchema + "." + cleanName;
-						}
-					}
-					addInputTable(new DatabaseTable(cleanName.replace("\"", "")));
+					String dbSchema = getDatabaseSchemaForComponentInput(c);
+					addInputTables(getDatabaseTables(dbSchema, cleanName));
 				}
 			}
 			key = c.getComponentName() + ".TARGET_TABLE";
@@ -102,29 +98,47 @@ public class AnalyseTables {
 				// analyse output component
 				String tableName = c.getComponentValueByName(attrName);
 				String cleanName = contextVarResolver.replace(tableName);
-				if (cleanName.contains(".") == false) {
-					String dbSchema = getDatabaseSchemaForComponentOutput(c);
-					if (dbSchema != null) {
-						cleanName = dbSchema + "." + cleanName;
-					}
-				}
-				addOutputTable(new DatabaseTable(cleanName.replace("\"", "")));
+				String dbSchema = getDatabaseSchemaForComponentOutput(c);
+				addOutputTables(getDatabaseTables(dbSchema, cleanName));
 			}
 			if (c.getComponentName().equals("tCreateTable")) {
 				String tableName = c.getComponentValueByName("TABLE");
 				String cleanName = contextVarResolver.replace(tableName);
 				String dbSchema = getDatabaseSchemaForComponentOutput(c);
-				if (dbSchema != null) {
-					cleanName = dbSchema + "." + cleanName;
-				}
-				addCreateTable(new DatabaseTable(cleanName.replace("\"", "")));
+				addCreateTables(getDatabaseTables(dbSchema, cleanName));
 			}
 		}
+	}
+	
+	private List<DatabaseTable> getDatabaseTables(String dbschema, String listString) {
+		listString = listString.replace("\"", "");
+		List<DatabaseTable> list = new ArrayList<>();
+		if (tableSeparator != null) {
+			String[] names = listString.split(tableSeparator);
+			for (String name : names) {
+				if (name != null && name.trim().isEmpty() == false) {
+					if (dbschema != null && name.contains(".") == false) {
+						name = dbschema + "." + name;
+					}
+					DatabaseTable t = new DatabaseTable(name);
+					list.add(t);
+				}
+			}
+		}
+		return list;
 	}
 	
 	private void addInputTable(DatabaseTable t) {
 		if (listInputTables.contains(t) == false) {
 			listInputTables.add(t);
+		}
+	}
+	
+	private void addInputTables(List<DatabaseTable> list) {
+		for (DatabaseTable t : list) {
+			if (listInputTables.contains(t) == false) {
+				listInputTables.add(t);
+			}
 		}
 	}
 	
@@ -134,9 +148,25 @@ public class AnalyseTables {
 		}
 	}
 	
+	private void addOutputTables(List<DatabaseTable> list) {
+		for (DatabaseTable t : list) {
+			if (listOutputTables.contains(t) == false) {
+				listOutputTables.add(t);
+			}
+		}
+	}
+	
 	private void addCreateTable(DatabaseTable t) {
 		if (listCreateTables.contains(t) == false) {
 			listCreateTables.add(t);
+		}
+	}
+	
+	private void addCreateTables(List<DatabaseTable> list) {
+		for (DatabaseTable t : list) {
+			if (listCreateTables.contains(t) == false) {
+				listCreateTables.add(t);
+			}
 		}
 	}
 	

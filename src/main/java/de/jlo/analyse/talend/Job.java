@@ -182,21 +182,46 @@ public class Job implements Comparable<Job> {
 			contextNodes = root.selectNodes("context/contextParameter"); // search context without filter
 		}
 		for (Node cn : contextNodes) {
-			String id = ((Element) cn).attributeValue("internalId");
-			if (id == null) {
-				id = ((Element) cn).attributeValue("repositoryContextId");
-			}
-			String name = ((Element) cn).attributeValue("name");
 			String value = ((Element) cn).attributeValue("value");
-			String type = ((Element) cn).attributeValue("type");
-			String comment = ((Element) cn).attributeValue("comment");
-			ContextParameter p = new ContextParameter(id, name);
-			p.setValue(value);
-			p.setTalendType(type);
-			p.setComment(comment);
-			if (context.contains(p) == false) {
+			if (value != null && value.replace("\"", "").trim().isEmpty() == false) {
+				// we should ignore empty context variables
+				String name = ((Element) cn).attributeValue("name");
+				String type = ((Element) cn).attributeValue("type");
+				String comment = ((Element) cn).attributeValue("comment");
+				String contextId = ((Element) cn).attributeValue("internalId");
+				if (contextId == null) {
+					contextId = ((Element) cn).attributeValue("repositoryContextId");
+				}
+				ContextParameter p = new ContextParameter(contextId, name);
+				p.setValue(value);
+				p.setTalendType(type);
+				p.setComment(comment);
+				if (context.contains(p) == false) {
+					context.add(p);
+				}
+			}
+		}
+	}
+	
+	public void addReplaceContext(List<ContextParameter> otherContext) {
+		for (ContextParameter p : otherContext) {
+			if (p.getValue() != null) {
+				if (context.contains(p)) {
+					context.remove(p);
+				}
 				context.add(p);
 			}
+		}
+	}
+	
+	public void addReplaceContextVariable(String key, String value) {
+		ContextParameter p = new ContextParameter(key);
+		p.setValue(value);
+		if (p.getValue() != null) {
+			if (context.contains(p)) {
+				context.remove(p);
+			}
+			context.add(p);
 		}
 	}
 	
@@ -225,6 +250,26 @@ public class Job implements Comparable<Job> {
 			retrieveTRunJobs();
 		}
 		return embeddedJobs;
+	}
+	
+	public List<Job> getAllEmbeddedJobs() throws Exception {
+		if (embeddedJobs == null) {
+			retrieveTRunJobs();
+		}
+		List<Job> list = new ArrayList<>();
+		collectEmbeddedJobs(list, this);
+		return list;
+	}
+	
+	private void collectEmbeddedJobs(List<Job> list, Job parentJob) throws Exception {
+		List<TRunJob> listTrun = parentJob.getEmbeddedJobs();
+		for (TRunJob tr : listTrun) {
+			Job child = tr.getReferencedTalendjob();
+			if (list.contains(child) == false) {
+				list.add(child);
+			}
+			collectEmbeddedJobs(list, child);
+		}
 	}
 	
 	public List<ContextParameter> getContext() throws Exception {

@@ -17,6 +17,7 @@ public class TestAnalyseTables {
 	public void testAnalyseTables() throws Exception {
 		Project project = new Project();
 		project.readProject(projectRoot);
+		project.setDefaultContext("production,Default");
 		String testJobName = "test_child_job1";
 		Job testJob = project.getLatestJob(testJobName);
 		AnalyseTables a = new AnalyseTables(testJob);
@@ -36,6 +37,40 @@ public class TestAnalyseTables {
 		expected = 1;
 		actual = listOutputTables.size();
 		assertEquals("Number written tables wrong", expected, actual);
+	}
+
+	@Test
+	public void testAnalyseTables2() throws Exception {
+		Project project = new Project();
+		project.readProject(projectRoot);
+		project.setDefaultContext("production,Default");
+		String testJobName = "L_S_206_DKH_PRC_Nettopreise";
+		Job testJob = project.getLatestJob(testJobName);
+		AnalyseTables a = new AnalyseTables(testJob);
+		a.analyseTables();
+		List<DatabaseTable> listInputTables = a.getListInputTables();
+		for (DatabaseTable t : listInputTables) {
+			System.out.println(t);
+		}
+		int expected = 10;
+		int actual = listInputTables.size();
+		assertEquals("Number read tables wrong", expected, actual);
+		System.out.println("--------------------------");
+		List<DatabaseTable> listOutputTables = a.getListOutputTables();
+		for (DatabaseTable t : listOutputTables) {
+			System.out.println(t);
+		}
+		expected = 1;
+		actual = listOutputTables.size();
+		assertEquals("Number written tables wrong", expected, actual);
+		System.out.println("--------------------------");
+		List<DatabaseTable> listCreateTables = a.getListCreateTables();
+		for (DatabaseTable t : listCreateTables) {
+			System.out.println(t);
+		}
+		expected = 1;
+		actual = listCreateTables.size();
+		assertEquals("Number create tables wrong", expected, actual);
 	}
 
 	@Test
