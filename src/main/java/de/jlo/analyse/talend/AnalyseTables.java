@@ -206,7 +206,7 @@ public class AnalyseTables {
 	private String getHost(Component dbComponent) throws Exception {
 		String attr = properties.getProperty(dbComponent.getComponentName() + ".HOST");
 		if (attr != null) {
-			return contextVarResolver.replaceContextVars(dbComponent.getComponentValueByName(attr)).replace("\"", "");
+			return contextVarResolver.replace(dbComponent.getComponentValueByName(attr)).replace("\"", "");
 		}
 		return null;
 	}
@@ -214,7 +214,7 @@ public class AnalyseTables {
 	private String getDatabaseName(Component dbComponent) throws Exception {
 		String attr = properties.getProperty(dbComponent.getComponentName() + ".DBNAME");
 		if (attr != null) {
-			String name = contextVarResolver.replaceContextVars(dbComponent.getComponentValueByName(attr)).replace("\"", "");
+			String name = contextVarResolver.replace(dbComponent.getComponentValueByName(attr)).replace("\"", "");
 			if (name != null && name.trim().isEmpty() == false) {
 				return name;
 			}
@@ -225,7 +225,7 @@ public class AnalyseTables {
 	private String getSchemaName(Component dbComponent) throws Exception {
 		String attr = properties.getProperty(dbComponent.getComponentName() + ".SCHEMA");
 		if (attr != null) {
-			String schema = contextVarResolver.replaceContextVars(dbComponent.getComponentValueByName(attr)).replace("\"", "");
+			String schema = contextVarResolver.replace(dbComponent.getComponentValueByName(attr)).replace("\"", "");
 			if (schema != null && schema.trim().isEmpty() == false) {
 				return schema;
 			}

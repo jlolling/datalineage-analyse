@@ -196,4 +196,16 @@ public class TestContextVarResolver {
 		assertEquals("Convert context vars failed", expected, actual);
 	}
 
+	@Test
+	public void testReplaceContextMultiple() throws Exception {
+		ContextVarResolver r = new ContextVarResolver();
+		r.setJobName("testjob");
+		r.addContextVar("Target_Table_ZAVE009", "TABLE_ZAVE009");
+		r.addContextVar("Price_Condition", "YDXX");
+		String testSQL = "CREATE TABLE IF NOT EXISTS `\"+jobName+\"_\"+context.Target_Table_ZAVE009+\"_\"+context.Price_Condition+\"` (";
+		String expected = "CREATE TABLE IF NOT EXISTS `testjob_TABLE_ZAVE009_YDXX` (";
+		String actual = r.replace(testSQL);
+		assertEquals("Fail", expected, actual);
+	}
+
 }

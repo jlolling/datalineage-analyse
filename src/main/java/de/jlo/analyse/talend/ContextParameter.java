@@ -37,7 +37,7 @@ public class ContextParameter {
 	
 	public void setValue(String value) {
 		if (value != null && value.replace("\"", "").trim().isEmpty() == false) {
-			this.value = value;
+			this.value = value.trim();
 		}
 	}
 
