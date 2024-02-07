@@ -1,5 +1,9 @@
 package de.jlo.analyse.talend;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
 public class ContextParameter {
 	
 	private String id = null;
@@ -7,6 +11,9 @@ public class ContextParameter {
 	private String value = null;
 	private String talendType = null;
 	private String comment = null;
+	private String delimiter = null;
+	private List<String> listValues = null; 
+	private final String listKey = "list-delimiter=";
 	
 	public ContextParameter(String id, String name) {
 		if (name == null || name.trim().isEmpty()) {
@@ -35,6 +42,26 @@ public class ContextParameter {
 		return value;
 	}
 	
+	public boolean isValueList() {
+		return delimiter != null; 
+	}
+	
+	public List<String> getValues() {
+		if (listValues == null) {
+			listValues = new ArrayList<>();
+			if (value != null && delimiter != null) {
+				StringTokenizer st = new StringTokenizer(value, delimiter);
+				while (st.hasMoreTokens()) {
+					String v = st.nextToken();
+					if (v != null && v.trim().isEmpty() == false) {
+						listValues.add(v);
+					}
+				}
+			}
+		}
+		return listValues;
+	}
+	
 	public void setValue(String value) {
 		if (value != null && value.replace("\"", "").trim().isEmpty() == false) {
 			this.value = value.trim();
@@ -55,6 +82,18 @@ public class ContextParameter {
 	
 	public void setComment(String comment) {
 		this.comment = comment;
+		if (comment != null) {
+			int pos = comment.indexOf(listKey);
+			if (pos != -1) {
+				pos = pos + listKey.length();
+				if (pos < comment.length()) {
+					delimiter = comment.substring(pos, pos+1);
+					if (delimiter != null && delimiter.isEmpty()) {
+						delimiter = null; // we do not want empty Strings
+					}
+				}
+			}
+		}
 	}
 	
 	@Override

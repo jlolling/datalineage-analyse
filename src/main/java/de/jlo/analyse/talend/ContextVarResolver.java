@@ -52,10 +52,7 @@ public class ContextVarResolver {
 	}
 	
 	public String getVariableValue(String name) {
-		if (name.startsWith("context.")) {
-			name = name.substring("context.".length());
-		}
-		return contextVars.getProperty(name);
+		return contextVars.getProperty(name, name);
 	}
 	
 	public void readContextVars(String code) {
@@ -87,7 +84,7 @@ public class ContextVarResolver {
 				lastEnd = matcher.end();
 				// now add the context variable value
 				String contextVarName = matcher.group(1);
-				String contextVarValue = contextVars.getProperty(contextVarName, contextVarName.replace("context.", "context_"));
+				String contextVarValue = getVariableValue(contextVarName);
 				result.append(contextVarValue);
 			}
 		}

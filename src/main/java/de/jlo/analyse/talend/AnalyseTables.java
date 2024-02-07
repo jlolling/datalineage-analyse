@@ -235,7 +235,7 @@ public class AnalyseTables {
 	
 	private String getDatabaseSchemaForComponentOutput(Component c) throws Exception {
 		if (c == null) {
-			throw new IllegalArgumentException("component cannot be null");
+			throw new Exception("component cannot be null");
 		}
 		boolean useAlwaysConnection = "true".equals(properties.get(c.getComponentName() + ".USE_ALWAYS_CONN"));
 		boolean useExternalConnection = useAlwaysConnection || "true".equals(c.getComponentValueByName("USE_EXISTING_CONNECTION"));
