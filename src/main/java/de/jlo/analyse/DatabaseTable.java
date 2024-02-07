@@ -8,6 +8,12 @@ public class DatabaseTable {
 	public DatabaseTable(String host, String table) {
 		this.databaseHost = host;
 		this.tableName = table;
+		if (table == null || table.trim().isEmpty()) {
+			throw new IllegalArgumentException("table cannot be null or empty");
+		}
+		if (table.startsWith("null.")) {
+			throw new IllegalArgumentException("table name contains null schema! table: " + table);
+		}
 	}
 	
 	public DatabaseTable(String combinedName) {
@@ -17,6 +23,9 @@ public class DatabaseTable {
 			this.tableName = combinedName.substring(posHost + 1);
 		} else {
 			this.tableName = combinedName;
+		}
+		if (tableName.startsWith("null.")) {
+			throw new IllegalArgumentException("table name contains String null as schema! table: " + tableName);
 		}
 	}
 	
@@ -40,7 +49,7 @@ public class DatabaseTable {
 
 	@Override
 	public String toString() {
-		return databaseHost + ":" + tableName;
+		return (databaseHost != null ? databaseHost + ":" : "") + tableName;
 	}
 	
 	@Override

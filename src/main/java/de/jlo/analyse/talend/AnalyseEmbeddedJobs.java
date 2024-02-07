@@ -16,7 +16,7 @@ public class AnalyseEmbeddedJobs {
 	}
 	
 	public void analyse() throws Exception {
-		List<TRunJob> jobs = job.getEmbeddedJobs();
+		List<TRunJob> jobs = job.getTRunJobs();
 		for (TRunJob tr : jobs) {
 			if (embeddedJobs.contains(tr.getReferencedJobName()) == false) {
 				embeddedJobs.add(tr.getReferencedJobName());

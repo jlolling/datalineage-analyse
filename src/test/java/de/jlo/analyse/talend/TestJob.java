@@ -13,7 +13,7 @@ import de.jlo.analyse.TestUtil;
 public class TestJob {
 	
 	@Test
-	public void testVersionCompare1() {
+	public void testVersionCompare1() throws Exception {
 		Project model = new Project();
 		Job job1 = new Job(model);
 		job1.setId("12345");
@@ -28,7 +28,7 @@ public class TestJob {
 	}
 
 	@Test
-	public void testVersionCompare2() {
+	public void testVersionCompare2() throws Exception {
 		Project model = new Project();
 		Job job1 = new Job(model);
 		job1.setId("12345");
@@ -43,7 +43,7 @@ public class TestJob {
 	}
 
 	@Test
-	public void testVersionCompare3() {
+	public void testVersionCompare3() throws Exception {
 		Project model = new Project();
 		Job job1 = new Job(model);
 		job1.setId("12345");
@@ -92,7 +92,7 @@ public class TestJob {
 	public void testChildJobs() throws Exception {
 		String jobName = "test_job_chain";
 		Job testJob = project.getLatestJob(jobName);
-		List<TRunJob> listChildJobs = testJob.getEmbeddedJobs();
+		List<TRunJob> listChildJobs = testJob.getTRunJobs();
 		assertEquals("wrong number ob child jobs", 2, listChildJobs.size());
 		for (int i = 0; i < listChildJobs.size(); i++) {
 			TRunJob job = listChildJobs.get(i);

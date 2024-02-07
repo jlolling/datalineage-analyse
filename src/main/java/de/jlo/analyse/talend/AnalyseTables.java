@@ -118,7 +118,13 @@ public class AnalyseTables {
 			for (String name : names) {
 				if (name != null && name.trim().isEmpty() == false) {
 					if (dbschema != null && name.contains(".") == false) {
-						name = dbschema + "." + name;
+						if (dbschema.endsWith(":")) {
+							// dbschema contains only the host
+							name = dbschema + name;
+						} else {
+							// dbschema contains a real schema and not only the host
+							name = dbschema + "." + name;
+						}
 					}
 					DatabaseTable t = new DatabaseTable(name);
 					list.add(t);
@@ -208,7 +214,10 @@ public class AnalyseTables {
 	private String getDatabaseName(Component dbComponent) throws Exception {
 		String attr = properties.getProperty(dbComponent.getComponentName() + ".DBNAME");
 		if (attr != null) {
-			return contextVarResolver.replaceContextVars(dbComponent.getComponentValueByName(attr)).replace("\"", "");
+			String name = contextVarResolver.replaceContextVars(dbComponent.getComponentValueByName(attr)).replace("\"", "");
+			if (name != null && name.trim().isEmpty() == false) {
+				return name;
+			}
 		}
 		return null;
 	}
@@ -216,7 +225,10 @@ public class AnalyseTables {
 	private String getSchemaName(Component dbComponent) throws Exception {
 		String attr = properties.getProperty(dbComponent.getComponentName() + ".SCHEMA");
 		if (attr != null) {
-			return contextVarResolver.replaceContextVars(dbComponent.getComponentValueByName(attr)).replace("\"", "");
+			String schema = contextVarResolver.replaceContextVars(dbComponent.getComponentValueByName(attr)).replace("\"", "");
+			if (schema != null && schema.trim().isEmpty() == false) {
+				return schema;
+			}
 		}
 		return null;
 	}
@@ -246,7 +258,7 @@ public class AnalyseTables {
 		}
 		String host = getHost(c);
 		if (host != null) {
-			dbSchema = host + ":" + dbSchema;
+			dbSchema = host + ":" + (dbSchema != null ? dbSchema : "");
 		}
 		return dbSchema;
 	}
@@ -264,7 +276,7 @@ public class AnalyseTables {
 		if (database != null) {
 			dbSchema = database;
 		}
-		if (schema != null) {
+		if (schema != null && schema.trim().isEmpty() == false) {
 			if (dbSchema != null) {
 				dbSchema = dbSchema + "." + schema;
 			} else {

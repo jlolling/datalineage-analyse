@@ -19,11 +19,11 @@ public class Job implements Comparable<Job> {
 	private String pathWithoutExtension = null;
 	private Document itemDoc = null;
 	private List<ContextParameter> context = null;
-	private List<TRunJob> embeddedJobs = null;
+	private List<TRunJob> tRunJobs = null;
 	private List<Component> listComponents = null;
 	private Project project = null;
 	
-	public Job(Project project) {
+	public Job(Project project) throws Exception {
 		if (project == null) {
 			throw new IllegalArgumentException("model cannot be null");
 		}
@@ -35,7 +35,7 @@ public class Job implements Comparable<Job> {
 	}
 	
 	public void addTRunjob(TRunJob tRunjob) {
-		embeddedJobs.add(tRunjob);
+		tRunJobs.add(tRunjob);
 	}
 	
 	public String getId() {
@@ -203,9 +203,12 @@ public class Job implements Comparable<Job> {
 		}
 	}
 	
-	public void addReplaceContext(List<ContextParameter> otherContext) {
+	public void addReplaceContext(List<ContextParameter> otherContext) throws Exception {
 		for (ContextParameter p : otherContext) {
 			if (p.getValue() != null) {
+				if (context == null) {
+					retrieveContext();
+				}
 				if (context.contains(p)) {
 					context.remove(p);
 				}
@@ -214,10 +217,13 @@ public class Job implements Comparable<Job> {
 		}
 	}
 	
-	public void addReplaceContextVariable(String key, String value) {
+	public void addReplaceContextVariable(String key, String value) throws Exception {
 		ContextParameter p = new ContextParameter(key);
 		p.setValue(value);
 		if (p.getValue() != null) {
+			if (context == null) {
+				retrieveContext();
+			}
 			if (context.contains(p)) {
 				context.remove(p);
 			}
@@ -226,12 +232,12 @@ public class Job implements Comparable<Job> {
 	}
 	
 	private void retrieveTRunJobs() throws Exception {
-		embeddedJobs = new ArrayList<>();
+		tRunJobs = new ArrayList<>();
 		Element root = getItemDoc().getRootElement();
 		List<Node> tRunJobNodes = root.selectNodes("node[@componentName='tRunJob']");
 		for (Node cn : tRunJobNodes) {
 			TRunJob tRunJob = new TRunJob(this, (Element) cn);
-			embeddedJobs.add(tRunJob);
+			tRunJobs.add(tRunJob);
 		}
 	}
 	
@@ -245,24 +251,21 @@ public class Job implements Comparable<Job> {
 		}
 	}
 
-	public List<TRunJob> getEmbeddedJobs() throws Exception {
-		if (embeddedJobs == null) {
+	public List<TRunJob> getTRunJobs() throws Exception {
+		if (tRunJobs == null) {
 			retrieveTRunJobs();
 		}
-		return embeddedJobs;
+		return tRunJobs;
 	}
 	
 	public List<Job> getAllEmbeddedJobs() throws Exception {
-		if (embeddedJobs == null) {
-			retrieveTRunJobs();
-		}
 		List<Job> list = new ArrayList<>();
 		collectEmbeddedJobs(list, this);
 		return list;
 	}
 	
 	private void collectEmbeddedJobs(List<Job> list, Job parentJob) throws Exception {
-		List<TRunJob> listTrun = parentJob.getEmbeddedJobs();
+		List<TRunJob> listTrun = parentJob.getTRunJobs();
 		for (TRunJob tr : listTrun) {
 			Job child = tr.getReferencedTalendjob();
 			if (list.contains(child) == false) {
