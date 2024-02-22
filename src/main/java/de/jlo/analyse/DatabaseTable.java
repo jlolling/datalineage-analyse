@@ -30,21 +30,23 @@ public class DatabaseTable {
 	}
 	
 	public static String getHost(String combinedName) {
-		int posHost = combinedName.indexOf(":");
-		if (posHost > 0) {
-			return combinedName.substring(0, posHost);
-		} else {
-			return null;
+		if (combinedName != null) {
+			int posHost = combinedName.indexOf(":");
+			if (posHost > 0) {
+				return combinedName.substring(0, posHost);
+			}
 		}
+		return null;
 	}
 	
 	public static String getSchema(String combinedName) {
-		int posHost = combinedName.indexOf(":");
-		if (posHost > 0) {
-			return combinedName.substring(posHost + 1);
-		} else {
-			return null;
+		if (combinedName != null) {
+			int posHost = combinedName.indexOf(":");
+			if (posHost > 0) {
+				return combinedName.substring(posHost + 1);
+			}
 		}
+		return null;
 	}
 
 	@Override

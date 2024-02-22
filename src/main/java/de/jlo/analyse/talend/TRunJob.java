@@ -7,12 +7,12 @@ public class TRunJob extends Component {
 	private Job referencedJob = null;
 	private String referencedJobName = null;
 	
-	public TRunJob(Job job, Element element) {
+	public TRunJob(Job job, Element element) throws Exception {
 		super(job, element);
 		retrieveReferencedJob();
 	}
 	
-	public void retrieveReferencedJob() {
+	public void retrieveReferencedJob() throws Exception {
 		String referencedJobId = getComponentValueByName("PROCESS:PROCESS_TYPE_PROCESS");
 		referencedJobName = getComponentValueByName("PROCESS");
 		if (referencedJobId == null) {
@@ -42,7 +42,7 @@ public class TRunJob extends Component {
 		return referencedJobName;
 	}
 
-	public boolean isTransmitContext() {
+	public boolean isTransmitContext() throws Exception {
 		return "true".equals(getComponentValueByName("TRANSMIT_WHOLE_CONTEXT"));
 	}
 

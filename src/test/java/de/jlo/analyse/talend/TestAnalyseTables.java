@@ -109,6 +109,32 @@ public class TestAnalyseTables {
 	}
 
 	@Test
+	public void testAnalyseTablesWithJDBC() throws Exception {
+		Project project = new Project();
+		project.readProject(projectRoot);
+		project.setDefaultContext("production,Default");
+		String testJobName = "L_D_020_LOAD_DIMENSION_MATERIAL";
+		Job testJob = project.getLatestJob(testJobName);
+		AnalyseTables a = new AnalyseTables(testJob);
+		a.analyseTables();
+		List<DatabaseTable> listInputTables = a.getListInputTables();
+		for (DatabaseTable t : listInputTables) {
+			System.out.println(t);
+		}
+		int expected = 12;
+		int actual = listInputTables.size();
+		assertEquals("Number read tables wrong", expected, actual);
+		System.out.println("--------------------------");
+		List<DatabaseTable> listOutputTables = a.getListOutputTables();
+		for (DatabaseTable t : listOutputTables) {
+			System.out.println(t);
+		}
+		expected = 1;
+		actual = listOutputTables.size();
+		assertEquals("Number written tables wrong", expected, actual);
+	}
+
+	@Test
 	public void testAnalyseTableTransfer() throws Exception {
 		Project project = new Project();
 		project.readProject(projectRoot);

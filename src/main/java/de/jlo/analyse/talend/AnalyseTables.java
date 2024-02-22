@@ -56,6 +56,7 @@ public class AnalyseTables {
 				String schema = DatabaseTable.getSchema(combinedHostAndSchema);
 				// analyse query component
 				String queryValue = c.getComponentValueByName(attrName);
+//				System.out.println("\n\n############ " + c.getUniqueId() + " #########\n" + queryValue);
 				String query = contextVarResolver.replace(queryValue);
 				query = SQLCodeUtil.convertJavaToSqlCode(query);
 				// get the host and database
@@ -238,7 +239,11 @@ public class AnalyseTables {
 			throw new Exception("component cannot be null");
 		}
 		boolean useAlwaysConnection = "true".equals(properties.get(c.getComponentName() + ".USE_ALWAYS_CONN"));
-		boolean useExternalConnection = useAlwaysConnection || "true".equals(c.getComponentValueByName("USE_EXISTING_CONNECTION"));
+		String attr = (String) properties.get(c.getComponentName() + ".USE_EXISTING_CONNECTION");
+		if (attr == null) {
+			attr = "USE_EXISTING_CONNECTION";
+		}
+		boolean useExternalConnection = useAlwaysConnection || "true".equals(c.getComponentValueByName(attr));
 		if (useExternalConnection) {
 			Component cc = getReferencedConnectionComponentForOutput(c);
 			return getDatabaseSchemaForComponentOutput(cc);
@@ -282,6 +287,10 @@ public class AnalyseTables {
 			} else {
 				dbSchema = schema;
 			}
+		}
+		String host = getHost(c);
+		if (host != null) {
+			dbSchema = host + ":" + (dbSchema != null ? dbSchema : "");
 		}
 		return dbSchema;
 	}

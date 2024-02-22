@@ -13,7 +13,7 @@ public class Component {
 	private String componentName = null;
 	private List<ComponentAttribute> listAttributes = new ArrayList<>();
 	
-	public Component(Job job, Element element) {
+	public Component(Job job, Element element) throws Exception {
 		if (element == null) {
 			throw new IllegalArgumentException("element cannot be null");
 		}
@@ -39,7 +39,7 @@ public class Component {
 		return componentName;
 	}
 	
-	private void retrieveComponentAttributes() {
+	private void retrieveComponentAttributes() throws Exception {
 		List<Element> params = element.elements();
 		for (Element param : params) {
 			ComponentAttribute a = new ComponentAttribute();
@@ -50,7 +50,7 @@ public class Component {
 		}
 	}
 	
-	public String getComponentValueByName(String attributeName) {
+	public String getComponentValueByName(String attributeName) throws Exception {
 		ComponentAttribute a = getComponentAttributeByName(attributeName);
 		if (a != null) {
 			return a.getValue();
@@ -59,11 +59,20 @@ public class Component {
 		}
 	}
 	
-	public ComponentAttribute getComponentAttributeByName(String attributeName) {
+	public ComponentAttribute getComponentAttributeByName(String attributeName) throws Exception {
 		String[] attributeNames = attributeName.split(",");
 		for (String name : attributeNames) {
+			String actualName = name;
+			String jsonPath = null;
+			// we get for new components the attribute values inside a json object
+			int pos = name.indexOf('$');
+			if (pos > 0) {
+				actualName = name.substring(0, pos);
+				jsonPath = name.substring(pos);
+			}
 			for (ComponentAttribute a : listAttributes) {
-				if (a.getName().equals(name) && a.getValue() != null) {
+				a.setJsonPath(jsonPath); // if not null the the value will be extracted by json path
+				if (a.getName().equals(actualName) && a.getValue() != null) {
 					return a;
 				}
 			}

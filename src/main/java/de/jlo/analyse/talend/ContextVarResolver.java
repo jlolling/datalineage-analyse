@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 public class ContextVarResolver {
 	
 	private Properties contextVars = new Properties();
+	private List<ContextParameter> context = null;
 	private String contextVarRegex = "[\"]{0,1}[\\s]*[+]{0,1}[\\s]*context\\.([a-z0-9\\_]{1,})[\\s]*[+]{0,1}[\\s]*[\"]{0,1}";
 	private String jobNameRegex = "[\"]{0,1}[\\s]*[+]{0,1}[\\s]*(jobName)[\\s]*[+]{0,1}[\\s]*[\"]{0,1}";
 	private Pattern contextVarPattern = null;
@@ -24,6 +25,7 @@ public class ContextVarResolver {
 	}
 	
 	public void setContext(List<ContextParameter> context) {
+		this.context = context;
 		for (ContextParameter p : context) {
 			addContextVar(p.getName(), p.getValue());
 		}
