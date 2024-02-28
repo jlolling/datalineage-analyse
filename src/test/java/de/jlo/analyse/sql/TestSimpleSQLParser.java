@@ -119,9 +119,9 @@ public class TestSimpleSQLParser {
 			    + "+ \" as display_string\n"
 			    + "from \" + context.B17_CORE_DB_Schema + \".\" + context.target_table + \" \" + (String)globalMap.get(\"whereClause\")";
 		ContextVarResolver r = new ContextVarResolver();
-		r.addContextVar("B17_CORE_DB_Schema", "b17_core");
-		r.addContextVar("target_table", "businessobject");
-		String sql = r.replaceContextVars(code);
+		r.setContextParameter("B17_CORE_DB_Schema", "b17_core", null);
+		r.setContextParameter("target_table", "businessobject", null);
+		String sql = r.replace(code);
 		SimpleSQLParser parser = new SimpleSQLParser();
 		parser.parseScript(sql);
 		List<SQLStatement> stats = parser.getStatements();

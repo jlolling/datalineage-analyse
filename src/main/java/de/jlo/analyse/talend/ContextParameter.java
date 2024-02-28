@@ -100,6 +100,8 @@ public class ContextParameter {
 	public boolean equals(Object o) {
 		if (o instanceof ContextParameter) {
 			return name.equals(((ContextParameter) o).getName());
+		} else if (o instanceof String) {
+			return name.equals((String) o);
 		} else {
 			return false;
 		}
@@ -108,6 +110,14 @@ public class ContextParameter {
 	@Override
 	public int hashCode() {
 		return name.hashCode();
+	}
+
+	public String getDelimiter() {
+		return delimiter;
+	}
+
+	public void setDelimiter(String delimiter) {
+		this.delimiter = delimiter;
 	}
 	
 }
