@@ -17,7 +17,7 @@ public class DatabaseTable {
 	}
 	
 	public DatabaseTable(String combinedName) {
-		int posHost = combinedName.indexOf(":");
+		int posHost = combinedName.lastIndexOf(":");
 		if (posHost > 0) {
 			this.databaseHost = getHost(combinedName);
 			this.tableName = combinedName.substring(posHost + 1);
@@ -31,7 +31,11 @@ public class DatabaseTable {
 	
 	public static String getHost(String combinedName) {
 		if (combinedName != null) {
-			int posHost = combinedName.indexOf(":");
+			int posSlash = combinedName.indexOf("//");
+			if (posSlash > 0) {
+				combinedName = combinedName.substring(posSlash + 2);
+			}
+			int posHost = combinedName.lastIndexOf(":");
 			if (posHost > 0) {
 				return combinedName.substring(0, posHost);
 			}
@@ -41,7 +45,7 @@ public class DatabaseTable {
 	
 	public static String getSchema(String combinedName) {
 		if (combinedName != null) {
-			int posHost = combinedName.indexOf(":");
+			int posHost = combinedName.lastIndexOf(":");
 			if (posHost > 0) {
 				return combinedName.substring(posHost + 1);
 			}

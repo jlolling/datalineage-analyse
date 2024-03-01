@@ -269,11 +269,14 @@ public class AnalyseTables {
 	}
 
 	private String getDatabaseSchemaForComponentInput(Component c) throws Exception {
+		if (c == null) {
+			throw new Exception("component cannot be null");
+		}
 		boolean useAlwaysConnection = "true".equals(properties.get(c.getComponentName() + ".USE_ALWAYS_CONN"));
 		boolean useExternalConnection = useAlwaysConnection || "true".equals(c.getComponentValueByName("USE_EXISTING_CONNECTION"));
 		if (useExternalConnection) {
 			Component cc = getReferencedConnectionComponentForInput(c);
-			return getDatabaseSchemaForComponentOutput(cc);
+			return getDatabaseSchemaForComponentInput(cc);
 		}
 		String database = getDatabaseName(c);
 		String schema = getSchemaName(c);
