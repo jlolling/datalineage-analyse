@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.jlolling</groupId>
 	<artifactId>jlo-talend-analyse</artifactId>
-	<version>1.10</version>
+	<version>1.11</version>
 	<repositories>
 		<repository>
 			<id>jsqlparser-snapshots</id>

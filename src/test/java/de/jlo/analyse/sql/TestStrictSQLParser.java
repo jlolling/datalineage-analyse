@@ -806,50 +806,50 @@ public class TestStrictSQLParser {
 	
 	@Test
 	public void testAnalyseView() throws Exception {
-		String sql = "create or replace\r\n"
-				+ "view ARBEIT.DIM_DATE as\r\n"
-				+ "select\r\n"
-				+ "	`monitor`.`datalab_calendar`.`DATE_AS_INT` AS `DATE_AS_INT`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`DATE_AS_DATE` AS `date`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`DAY_OF_YEAR_AS_INT` AS `day_of_year`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`DAY_OF_WEEK_AS_INT` AS `day_of_week`,\r\n"
-				+ "	(case\r\n"
-				+ "		when (`monitor`.`datalab_calendar`.`DAY_OF_WEEK_AS_INT` > 5) then 1\r\n"
-				+ "		else 0\r\n"
-				+ "	end) AS `weekend`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`WEEK_DAY_NAME` AS `dayname`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`WEEK_DAY_SHORT_NAME` AS `dayname_s`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`WEEK_AS_INT` AS `week_of_year`,\r\n"
-				+ "	(case\r\n"
-				+ "		when (`monitor`.`datalab_calendar`.`WEEK_AS_INT` < 10) then concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', '0', `monitor`.`datalab_calendar`.`WEEK_AS_INT`)\r\n"
-				+ "		else concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', `monitor`.`datalab_calendar`.`WEEK_AS_INT`)\r\n"
-				+ "	end) AS `year_week`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`WEEK_START_DATE` AS `WEEK_START_DATE`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`WEEK_END_DATE` AS `WEEK_END_DATE`,\r\n"
-				+ "	(`monitor`.`datalab_calendar`.`WEEK_END_DATE` + interval -(1) day) AS `WEEK_LAST_DATE`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`YEAR_OF_WEEK_AS_INT` AS `YEAR_OF_WEEK_AS_INT`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`DAY_OF_MONTH_AS_INT` AS `day_of_month`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`MONTH_AS_INT` AS `MONTH_AS_INT`,\r\n"
-				+ "	(case\r\n"
-				+ "		when (`monitor`.`datalab_calendar`.`MONTH_AS_INT` < 10) then concat('0', `monitor`.`datalab_calendar`.`MONTH_AS_INT`)\r\n"
-				+ "		else `monitor`.`datalab_calendar`.`MONTH_AS_INT`\r\n"
-				+ "	end) AS `month`,\r\n"
-				+ "	(case\r\n"
-				+ "		when (`monitor`.`datalab_calendar`.`MONTH_AS_INT` < 10) then concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', '0', `monitor`.`datalab_calendar`.`MONTH_AS_INT`)\r\n"
-				+ "		else concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', `monitor`.`datalab_calendar`.`MONTH_AS_INT`)\r\n"
-				+ "	end) AS `year_month`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`MONTH_NAME` AS `monthname`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`MONTH_SHORT_NAME` AS `monthname_s`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`MONTH_START_DATE` AS `MONTH_START_DATE`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`MONTH_END_DATE` AS `MONTH_END_DATE`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`QUARTER_AS_INT` AS `quarter`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT` AS `year`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`FIN_YEAR_AS_INT` AS `FIN_YEAR_AS_INT`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`FIN_MONTH_AS_INT` AS `FIN_MONTH_AS_INT`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`FIN_QUARTER_AS_INT` AS `FIN_QUARTER_AS_INT`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`UTC_MILLISECONDS` AS `UTC_MILLISECONDS`,\r\n"
-				+ "	`monitor`.`datalab_calendar`.`IS_LAST_DAY_OF_MONTH` AS `IS_LAST_DAY_OF_MONTH`\r\n"
-				+ "from\r\n"
+		String sql = "create or replace\n"
+				+ "view ARBEIT.DIM_DATE as\n"
+				+ "select\n"
+				+ "	`monitor`.`datalab_calendar`.`DATE_AS_INT` AS `DATE_AS_INT`,\n"
+				+ "	`monitor`.`datalab_calendar`.`DATE_AS_DATE` AS `date`,\n"
+				+ "	`monitor`.`datalab_calendar`.`DAY_OF_YEAR_AS_INT` AS `day_of_year`,\n"
+				+ "	`monitor`.`datalab_calendar`.`DAY_OF_WEEK_AS_INT` AS `day_of_week`,\n"
+				+ "	(case\n"
+				+ "		when (`monitor`.`datalab_calendar`.`DAY_OF_WEEK_AS_INT` > 5) then 1\n"
+				+ "		else 0\n"
+				+ "	end) AS `weekend`,\n"
+				+ "	`monitor`.`datalab_calendar`.`WEEK_DAY_NAME` AS `dayname`,\n"
+				+ "	`monitor`.`datalab_calendar`.`WEEK_DAY_SHORT_NAME` AS `dayname_s`,\n"
+				+ "	`monitor`.`datalab_calendar`.`WEEK_AS_INT` AS `week_of_year`,\n"
+				+ "	(case\n"
+				+ "		when (`monitor`.`datalab_calendar`.`WEEK_AS_INT` < 10) then concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', '0', `monitor`.`datalab_calendar`.`WEEK_AS_INT`)\n"
+				+ "		else concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', `monitor`.`datalab_calendar`.`WEEK_AS_INT`)\n"
+				+ "	end) AS `year_week`,\n"
+				+ "	`monitor`.`datalab_calendar`.`WEEK_START_DATE` AS `WEEK_START_DATE`,\n"
+				+ "	`monitor`.`datalab_calendar`.`WEEK_END_DATE` AS `WEEK_END_DATE`,\n"
+				+ "	(`monitor`.`datalab_calendar`.`WEEK_END_DATE` + interval -(1) day) AS `WEEK_LAST_DATE`,\n"
+				+ "	`monitor`.`datalab_calendar`.`YEAR_OF_WEEK_AS_INT` AS `YEAR_OF_WEEK_AS_INT`,\n"
+				+ "	`monitor`.`datalab_calendar`.`DAY_OF_MONTH_AS_INT` AS `day_of_month`,\n"
+				+ "	`monitor`.`datalab_calendar`.`MONTH_AS_INT` AS `MONTH_AS_INT`,\n"
+				+ "	(case\n"
+				+ "		when (`monitor`.`datalab_calendar`.`MONTH_AS_INT` < 10) then concat('0', `monitor`.`datalab_calendar`.`MONTH_AS_INT`)\n"
+				+ "		else `monitor`.`datalab_calendar`.`MONTH_AS_INT`\n"
+				+ "	end) AS `month`,\n"
+				+ "	(case\n"
+				+ "		when (`monitor`.`datalab_calendar`.`MONTH_AS_INT` < 10) then concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', '0', `monitor`.`datalab_calendar`.`MONTH_AS_INT`)\n"
+				+ "		else concat(`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT`, '_', `monitor`.`datalab_calendar`.`MONTH_AS_INT`)\n"
+				+ "	end) AS `year_month`,\n"
+				+ "	`monitor`.`datalab_calendar`.`MONTH_NAME` AS `monthname`,\n"
+				+ "	`monitor`.`datalab_calendar`.`MONTH_SHORT_NAME` AS `monthname_s`,\n"
+				+ "	`monitor`.`datalab_calendar`.`MONTH_START_DATE` AS `MONTH_START_DATE`,\n"
+				+ "	`monitor`.`datalab_calendar`.`MONTH_END_DATE` AS `MONTH_END_DATE`,\n"
+				+ "	`monitor`.`datalab_calendar`.`QUARTER_AS_INT` AS `quarter`,\n"
+				+ "	`monitor`.`datalab_calendar`.`CAL_YEAR_AS_INT` AS `year`,\n"
+				+ "	`monitor`.`datalab_calendar`.`FIN_YEAR_AS_INT` AS `FIN_YEAR_AS_INT`,\n"
+				+ "	`monitor`.`datalab_calendar`.`FIN_MONTH_AS_INT` AS `FIN_MONTH_AS_INT`,\n"
+				+ "	`monitor`.`datalab_calendar`.`FIN_QUARTER_AS_INT` AS `FIN_QUARTER_AS_INT`,\n"
+				+ "	`monitor`.`datalab_calendar`.`UTC_MILLISECONDS` AS `UTC_MILLISECONDS`,\n"
+				+ "	`monitor`.`datalab_calendar`.`IS_LAST_DAY_OF_MONTH` AS `IS_LAST_DAY_OF_MONTH`\n"
+				+ "from\n"
 				+ "	`monitor`.`datalab_calendar`";
 		StrictSQLParser p = new StrictSQLParser();
 		p.setTimeout(100000l);	
@@ -859,6 +859,41 @@ public class TestStrictSQLParser {
 			System.out.println(t);
 		}
 		assertEquals("wrong number of read tables", 1, tableList.size());
+	}
+	
+	@Test
+	public void testAnalyseView2() throws Exception {
+		String sql = "CREATE OR REPLACE\n"
+				+ "ALGORITHM = UNDEFINED VIEW `Report`.`vLogisticVehiclePosition` AS\n"
+				+ "select\n"
+				+ "    `Report`.`LogisticVehiclePosition`.`SITE` AS `SITE`,\n"
+				+ "    `Report`.`LogisticVehiclePosition`.`TKNUM` AS `TKNUM`,\n"
+				+ "    `Report`.`LogisticVehiclePosition`.`DPTBG` AS `DPTBG`,\n"
+				+ "    `Report`.`LogisticVehiclePosition`.`TRUCK_ID` AS `TRUCK_ID`,\n"
+				+ "    `Report`.`LogisticVehiclePosition`.`TIMESTAMP` AS `TIMESTAMP`,\n"
+				+ "    `Report`.`LogisticVehiclePosition`.`LONGITUDE` AS `LONGITUDE`,\n"
+				+ "    `Report`.`LogisticVehiclePosition`.`LATITUDE` AS `LATITUDE`,\n"
+				+ "    `Report`.`LogisticVehiclePosition`.`EVENT_ID` AS `EVENT_ID`\n"
+				+ "    ,row_number() OVER (PARTITION BY `Report`.`LogisticVehiclePosition`.`TKNUM` "
+				+ "ORDER BY "
+				+ "    `Report`.`LogisticVehiclePosition`.`UTC_TIMESTAMP` ) AS `DRIVE_ORDER`\n"
+				+ "    ,cast(NULL as char(30) charset utf8mb3) AS `CUSTOMER_NAME`\n"
+				+ "from\n"
+				+ "    `Report`.`LogisticVehiclePosition`;";
+		StrictSQLParser p = new StrictSQLParser();
+		p.setThrowExeptionInsteadOfErrorText(true);
+		p.setTimeout(100000l);	
+		p.parseScriptFromCode(sql);
+		List<String> tableList = p.getTablesRead();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals("wrong number of read tables", 1, tableList.size());
+		tableList = p.getTablesCreated();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals("wrong number of created tables", 1, tableList.size());
 	}
 
 }

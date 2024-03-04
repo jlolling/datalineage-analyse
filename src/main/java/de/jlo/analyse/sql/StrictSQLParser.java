@@ -29,6 +29,7 @@ public class StrictSQLParser {
 	private String defaultSchema = null;
 	private StringBuilder errorText = new StringBuilder();
 	private long timeout = 10000l;
+	private boolean throwExeptionInsteadOfErrorText = false;
 	
 	public StrictSQLParser() {}
 	
@@ -90,10 +91,11 @@ public class StrictSQLParser {
 		if (sql == null || sql.trim().isEmpty()) {
 			throw new IllegalArgumentException("SQL statement code cannot be null or empty");
 		}
-		String cleanedCode = SQLCodeUtil.removeIntoFromSelect(
+		String cleanedCode = SQLCodeUtil.removeDisturbingTerms(
+								SQLCodeUtil.removeIntoFromSelect(
 								SQLCodeUtil.replaceHashCommentsAndAssignments(
 								SQLCodeUtil.removeBraketsAroundNumbers(
-								SQLCodeUtil.cleanupEmptyLines(sql))));
+								SQLCodeUtil.cleanupEmptyLines(sql)))));
 		try {
 			CCJSqlParser parser = new CCJSqlParser(new StringProvider(cleanedCode))
 					.withTimeOut(timeout)
@@ -218,15 +220,19 @@ public class StrictSQLParser {
 				parseStatementFromCode(stat.getSQL());
 			} catch (Exception e) {
 				String message = "Statement #" + index + " starting at line: " + stat.getStartLineNumber() + " SQL:\n" + stat.getSQL() + "\nfails: " + e.getMessage();
-				if (errorText.length() > 0) {
-					errorText.append("\n##############################\n");
+				if (throwExeptionInsteadOfErrorText) {
+					throw new Exception(message, e);
+				} else {
+					if (errorText.length() > 0) {
+						errorText.append("\n##############################\n");
+					}
+					errorText.append(message);
+					StringWriter sw = new StringWriter();
+					PrintWriter pw = new PrintWriter(sw);
+					e.printStackTrace(pw);
+					errorText.append("\nStacktrace:\n");
+					errorText.append(sw.toString());
 				}
-				errorText.append(message);
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
-				e.printStackTrace(pw);
-				errorText.append("\nStacktrace:\n");
-				errorText.append(sw.toString());
 			}
 		}
 	}
@@ -261,6 +267,14 @@ public class StrictSQLParser {
 		if (timeout != null) {
 			this.timeout = timeout;
 		}
+	}
+
+	public boolean isThrowExeptionInsteadOfErrorText() {
+		return throwExeptionInsteadOfErrorText;
+	}
+
+	public void setThrowExeptionInsteadOfErrorText(boolean throwExeptionInsteadOfErrorText) {
+		this.throwExeptionInsteadOfErrorText = throwExeptionInsteadOfErrorText;
 	}
 	
 }

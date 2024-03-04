@@ -202,5 +202,14 @@ public class SQLCodeUtil {
 			return null;
 		}
 	}
+	
+	public static String removeDisturbingTerms(String code) {
+		String[] termsPattern = {"(ALGORITHM[\\s]{1,}=[\\s]{1,}UNDEFINED)","(\\bdefault\\b[\\s]{1,}\\bcharset\\b[\\s]{1,}[a-z0-9]{1,})","(\\bcharset\\b[\\s]{1,}[a-z0-9]{1,})"};
+		String result = code;
+		for (String p : termsPattern) {
+			result = RegexUtil.replaceByRegexGroups(result, p, "");
+		}
+		return result;
+	}
 
 }

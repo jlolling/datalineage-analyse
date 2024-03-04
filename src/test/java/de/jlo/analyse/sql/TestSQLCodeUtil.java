@@ -72,4 +72,30 @@ public class TestSQLCodeUtil {
 		assertEquals("does not match", expected, actual);
 	}
 
+	@Test
+	public void testRemoveDisturbing() throws IOException {
+		String test = "CREATE OR REPLACE\n"
+				+ "ALGORITHM = UNDEFINED VIEW `Report`.`vLogisticVehiclePosition` AS\n"
+				+ "select cast(NULL as char(30) charset utf8mb3) AS `CUSTOMER_NAME` from table";
+		String expected = "CREATE OR REPLACE\n"
+				+ " VIEW `Report`.`vLogisticVehiclePosition` AS\n"
+				+ "select cast(NULL as char(30) ) AS `CUSTOMER_NAME` from table";
+		String actual = SQLCodeUtil.removeDisturbingTerms(test);
+		System.out.println(actual);
+		assertEquals("does not match", expected, actual);
+	}
+
+	@Test
+	public void testRemoveDisturbing2() throws IOException {
+		String test = "CREATE\n"
+				+ "ALGORITHM = UNDEFINED TABLE TEST AS\n"
+				+ "field varchar(10) default charset utf8mb3;";
+		String expected = "CREATE\n"
+				+ " TABLE TEST AS\n"
+				+ "field varchar(10) ;";
+		String actual = SQLCodeUtil.removeDisturbingTerms(test);
+		System.out.println(actual);
+		assertEquals("does not match", expected, actual);
+	}
+
 }
