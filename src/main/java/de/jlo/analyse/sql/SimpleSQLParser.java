@@ -50,9 +50,13 @@ public final class SimpleSQLParser {
     private static Pattern withNamePattern1 = null;
     private static Pattern withNamePattern2 = null;
     private static Pattern insertUpdateTablePattern = null;
-	private static final String fromTableRegex = "\\s{1,}(from|join)[\\s]{1,}([a-z_]{1}[a-z0-9_\\.]*)";
+    private static Pattern createViewNamePattern = null;
+    private static Pattern createTableNamePattern = null;
+	private static final String fromTableRegex = "\\s{1,}(from|join)[\\s]{1,}[(]{0,}([\"`a-z_]{1}[\"`a-z0-9_\\.]*)";
 	private static final String withNameRegex1 = "with\\s{1,}([a-z_]{1}[a-z_0-9]*)\\s{1,}as\\s*\\(";
 	private static final String withNameRegex2 = "\\)\\s*[,]\\s*([a-z_]{1}[a-z_0-9]*)\\s{1,}as\\s*\\(";
+	private static final String createViewNameRegex = "create[\\s]{1,}.{0,}[\\s]{0,}view[\\s]{1,}([\"`a-z_]{1}[\"`a-z0-9_\\.]*)";
+	private static final String createTableNameRegex = "create[\\s]{1,}table[\\s]{1,}([\"`a-z_]{1}[\"`a-z0-9_\\.]*)";
     static String[]         plsqlKeyWords   = {
             "DECLARE",
             "CREATE OR REPLACE PROCEDURE",
@@ -77,6 +81,8 @@ public final class SimpleSQLParser {
     	withNamePattern1 = Pattern.compile(withNameRegex1, Pattern.CASE_INSENSITIVE);
     	withNamePattern2 = Pattern.compile(withNameRegex2, Pattern.CASE_INSENSITIVE);
 		insertUpdateTablePattern = Pattern.compile(insertUpdateTableRegex, Pattern.CASE_INSENSITIVE);
+		createViewNamePattern = Pattern.compile(createViewNameRegex, Pattern.CASE_INSENSITIVE);
+		createTableNamePattern = Pattern.compile(createTableNameRegex, Pattern.CASE_INSENSITIVE);
     }
 
     public SimpleSQLParser() {
@@ -1267,13 +1273,17 @@ public final class SimpleSQLParser {
         			int end = matcher.end(i);
                     if (start < end) {
                     	String table = matcher.group(i);
-                    	if (table != null && 
-                    			table.trim().isEmpty() == false && 
-                    			"from".equalsIgnoreCase(table) == false && 
-                            	"lateral".equalsIgnoreCase(table) == false && 
-                    			"join".equalsIgnoreCase(table) == false) {
-                    		if (withNames.contains(table) == false && tables.contains(table) == false) {
-                        		tables.add(table);
+                    	if (table != null) {
+                    		table = table.replace("\"", "").replace("[", "").replace("]", "").replace("`", "");
+                    		if (table.trim().isEmpty() == false && 
+                        			"from".equalsIgnoreCase(table) == false && 
+                                	"cte".equalsIgnoreCase(table) == false &&
+                                	"select".equalsIgnoreCase(table) == false &&
+                                	"lateral".equalsIgnoreCase(table) == false && 
+                        			"join".equalsIgnoreCase(table) == false) {
+                        		if (withNames.contains(table) == false && tables.contains(table) == false) {
+                            		tables.add(table);
+                        		}
                     		}
                     	}
                     }
@@ -1328,4 +1338,32 @@ public final class SimpleSQLParser {
 		return null;
 	}
 	
+	public static String findCreateViewName(String sql) {
+		Matcher matcher = createViewNamePattern.matcher(sql);
+		while (matcher.find()) {
+			int lastGroupId = matcher.groupCount();
+			if (lastGroupId > 0) {
+				String tableName = matcher.group(lastGroupId);
+				if (tableName != null && tableName.trim().isEmpty() == false) {
+					return tableName.trim().replace("\"", "").replace("[", "").replace("]", "").replace("`", "");
+				}
+			}
+		}
+		return null;
+	}
+
+	public static String findCreateTableName(String sql) {
+		Matcher matcher = createTableNamePattern.matcher(sql);
+		while (matcher.find()) {
+			int lastGroupId = matcher.groupCount();
+			if (lastGroupId > 0) {
+				String tableName = matcher.group(lastGroupId);
+				if (tableName != null && tableName.trim().isEmpty() == false) {
+					return tableName.trim().replace("\"", "").replace("[", "").replace("]", "").replace("`", "");
+				}
+			}
+		}
+		return null;
+	}
+
 }

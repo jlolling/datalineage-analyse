@@ -213,4 +213,30 @@ public class TestSimpleSQLParser {
 		assertEquals("Table not found", expected, actual);
 	}
 
+	@Test
+	public void testSelectMysql() {
+		String expected = "db.mytable";
+		String test = "select * from ((`db`.`mytable`))";
+		List<String> tables = SimpleSQLParser.findFromTables(test);
+		System.out.println(tables.get(0));
+		assertEquals("Table not found", expected, tables.get(0));
+	}
+
+	@Test
+	public void testCreateView() {
+		String expected = "db.mytable";
+		String test = "create view `db`.`mytable` AS select * from TABLE";
+		String actual = SimpleSQLParser.findCreateViewName(test);
+		System.out.println(actual);
+		assertEquals("Table not found", expected, actual);
+	}
+
+	@Test
+	public void testCreateTable() {
+		String expected = "db.mytable";
+		String test = "create table `db`.`mytable` (id int)";
+		String actual = SimpleSQLParser.findCreateTableName(test);
+		System.out.println(actual);
+		assertEquals("Table not found", expected, actual);
+	}
 }

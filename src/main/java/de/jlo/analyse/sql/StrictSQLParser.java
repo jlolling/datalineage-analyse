@@ -30,6 +30,7 @@ public class StrictSQLParser {
 	private StringBuilder errorText = new StringBuilder();
 	private long timeout = 10000l;
 	private boolean throwExeptionInsteadOfErrorText = false;
+	private String parsedSQLCode = null;
 	
 	public StrictSQLParser() {}
 	
@@ -73,7 +74,7 @@ public class StrictSQLParser {
 				index++;
 				parseStatementFromCode(stat.getSQL());
 			} catch (Exception e) {
-				String message = "Statement #" + index + " starting at line: " + stat.getStartLineNumber() + " SQL:\n" + stat.getSQL() + "\nfails: " + e.getMessage();
+				String message = "Statement #" + index + " starting at line: " + stat.getStartLineNumber() + " SQL:\n" + getParsedSQLCode() + "\nfails: " + e.getMessage();
 				if (errorText.length() > 0) {
 					errorText.append("\n##############################\n");
 				}
@@ -87,17 +88,38 @@ public class StrictSQLParser {
 		}
 	}
 	
+	public void parseStatementFromCodeSimple(String sql) {
+		List<String> tables = SimpleSQLParser.findFromTables(parsedSQLCode);
+		for (String name : tables) {
+			if (listInputTables.contains(name) == false && listCreateTempTables.contains(name) == false) {
+				listInputTables.add(name);
+			}
+		}
+		String tableName = SimpleSQLParser.findCreateViewName(parsedSQLCode);
+		if (tableName != null) {
+			if (listCreateTables.contains(tableName) == false) {
+				listCreateTables.add(tableName);
+			}
+		}
+		tableName = SimpleSQLParser.findCreateTableName(parsedSQLCode);
+		if (tableName != null) {
+			if (listCreateTables.contains(tableName) == false) {
+				listCreateTables.add(tableName);
+			}
+		}
+	}
+	
 	public void parseStatementFromCode(String sql) throws Exception {
 		if (sql == null || sql.trim().isEmpty()) {
 			throw new IllegalArgumentException("SQL statement code cannot be null or empty");
 		}
-		String cleanedCode = SQLCodeUtil.removeDisturbingTerms(
+		parsedSQLCode = SQLCodeUtil.removeDisturbingTerms(
 								SQLCodeUtil.removeIntoFromSelect(
 								SQLCodeUtil.replaceHashCommentsAndAssignments(
 								SQLCodeUtil.removeBraketsAroundNumbers(
 								SQLCodeUtil.cleanupEmptyLines(sql)))));
 		try {
-			CCJSqlParser parser = new CCJSqlParser(new StringProvider(cleanedCode))
+			CCJSqlParser parser = new CCJSqlParser(new StringProvider(parsedSQLCode))
 					.withTimeOut(timeout)
 					.withAllowComplexParsing(true)
 					.withSquareBracketQuotation(true);
@@ -105,10 +127,11 @@ public class StrictSQLParser {
 			analyseStatement(stmt);
 		} catch (Exception e) {
 			if (e.getMessage().contains("unexpected token: \"@\"")) {
-				cleanedCode = cleanedCode.replace("@", ":");
-				Statement stmt = CCJSqlParserUtil.parseStatements(cleanedCode).get(0);
+				parsedSQLCode = parsedSQLCode.replace("@", ":");
+				Statement stmt = CCJSqlParserUtil.parseStatements(parsedSQLCode).get(0);
 				analyseStatement(stmt);
 			} else {
+				parseStatementFromCodeSimple(parsedSQLCode);
 				throw e;
 			}
 		}
@@ -275,6 +298,14 @@ public class StrictSQLParser {
 
 	public void setThrowExeptionInsteadOfErrorText(boolean throwExeptionInsteadOfErrorText) {
 		this.throwExeptionInsteadOfErrorText = throwExeptionInsteadOfErrorText;
+	}
+
+	public String getParsedSQLCode() {
+		return parsedSQLCode;
+	}
+
+	public void setParsedSQLCode(String parsedSQLCode) {
+		this.parsedSQLCode = parsedSQLCode;
 	}
 	
 }

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.jlolling</groupId>
 	<artifactId>jlo-talend-analyse</artifactId>
-	<version>1.11</version>
+	<version>1.12</version>
 	<repositories>
 		<repository>
 			<id>jsqlparser-snapshots</id>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>com.github.jsqlparser</groupId>
 			<artifactId>jsqlparser</artifactId>
-			<version>4.8</version>
+			<version>4.9-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
