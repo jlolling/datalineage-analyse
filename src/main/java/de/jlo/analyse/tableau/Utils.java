@@ -21,7 +21,7 @@ public class Utils {
     			LOG.error("File: " + f.getAbsolutePath() + " contains merge conflicts! File will be skipped.");
     			return null;
     		}
-    		// cleanup strange tag names
+    		// cleanup strange tag names because jdom cannot work with original tags
     		fileContent = fileContent.replace("_.fcp.", "").replace(".true...", "-").replace(".false...", "-");  	
     		return DocumentHelper.parseText(fileContent);
     	} catch (Throwable e) {
