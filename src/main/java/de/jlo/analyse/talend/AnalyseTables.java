@@ -56,8 +56,8 @@ public class AnalyseTables {
 				String schema = DatabaseTable.getSchema(combinedHostAndSchema);
 				// analyse query component
 				String queryValue = c.getComponentValueByName(attrName);
-//				System.out.println("\n\n############ " + c.getUniqueId() + " #########\n" + queryValue);
 				String query = contextVarResolver.replace(queryValue);
+				query = SQLCodeUtil.replaceGlobalMapVars(query);
 				query = SQLCodeUtil.convertJavaToSqlCode(query);
 				// get the host and database
 				StrictSQLParser parser = new StrictSQLParser();
@@ -111,11 +111,11 @@ public class AnalyseTables {
 		}
 	}
 	
-	private List<DatabaseTable> getDatabaseTables(String dbschema, String listString) {
-		listString = listString.replace("\"", "");
+	private List<DatabaseTable> getDatabaseTables(String dbschema, String tableName) {
+		tableName = tableName.replace("\"", "");
 		List<DatabaseTable> list = new ArrayList<>();
 		if (tableSeparator != null) {
-			String[] names = listString.split(tableSeparator);
+			String[] names = tableName.split(tableSeparator);
 			for (String name : names) {
 				if (name != null && name.trim().isEmpty() == false) {
 					if (dbschema != null && name.contains(".") == false) {
@@ -215,7 +215,7 @@ public class AnalyseTables {
 	private String getDatabaseName(Component dbComponent) throws Exception {
 		String attr = properties.getProperty(dbComponent.getComponentName() + ".DBNAME");
 		if (attr != null) {
-			String name = contextVarResolver.replace(dbComponent.getComponentValueByName(attr)).replace("\"", "");
+			String name = contextVarResolver.replace(dbComponent.getComponentValueByName(attr)).replace("\"", "").replace(ContextVarResolver.PLACEHOLDER, "%");
 			if (name != null && name.trim().isEmpty() == false) {
 				return name;
 			}
@@ -226,7 +226,7 @@ public class AnalyseTables {
 	private String getSchemaName(Component dbComponent) throws Exception {
 		String attr = properties.getProperty(dbComponent.getComponentName() + ".SCHEMA");
 		if (attr != null) {
-			String schema = contextVarResolver.replace(dbComponent.getComponentValueByName(attr)).replace("\"", "");
+			String schema = contextVarResolver.replace(dbComponent.getComponentValueByName(attr)).replace("\"", "").replace(ContextVarResolver.PLACEHOLDER, "%");
 			if (schema != null && schema.trim().isEmpty() == false) {
 				return schema;
 			}

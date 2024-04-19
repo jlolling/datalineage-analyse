@@ -13,7 +13,7 @@ public class ContextVarResolver {
 	private Pattern contextVarPattern = null;
 	private Pattern jobNamePattern = null;
 	private String jobName = null;
-	private static String PLACEHOLDER = "PLACEHOLDER";
+	public static final String PLACEHOLDER = "PLACEHOLDER";
 	
 	public ContextVarResolver() {
 		contextVarPattern = Pattern.compile(contextVarRegex, Pattern.CASE_INSENSITIVE);

@@ -92,6 +92,8 @@ public class ContextParameter {
 						delimiter = null; // we do not want empty Strings
 					}
 				}
+			} else if (comment.contains("list")) {
+				delimiter = ","; // this is the simplest way to declare a parameter as list
 			}
 		}
 	}
