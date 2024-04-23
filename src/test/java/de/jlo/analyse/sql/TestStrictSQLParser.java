@@ -1165,5 +1165,46 @@ public class TestStrictSQLParser {
 		}
 		assertEquals("wrong number of created tables", 0, tableList.size());
 	}
+	
+	@Test
+	public void testSelectWithDoubleQuoteStrict() throws Exception {
+		String sql1 = "/* ApplicationName=L_L_013_VehiclePosition_PARCON_DTGPS_PS.tMysqlTableTransfer_1 */\n"
+				+ "SELECT \n"
+				+ "    MANDT,\n"
+				+ "    GUID,\n"
+				+ "    UTC_TIMESTAMP,\n"
+				+ "    CASE WHEN UTC_DATE IS NOT NULL AND UTC_DATE > '00000000' THEN to_date(UTC_DATE,'YYYYMMDD') ELSE NULL end AS UTC_DATE,\n"
+				+ "    CASE WHEN UTC_TIME IS NOT NULL AND UTC_TIME > '000000' THEN to_time(UTC_TIME,'HHMISS') ELSE NULL end AS UTC_TIME,\n"
+				+ "    SOURCE_APP,\n"
+				+ "    SOURCE_DEVICE,\n"
+				+ "    LONGITUDE,\n"
+				+ "    LATITUDE,\n"
+				+ "    ALTITUDE,\n"
+				+ "    POS_TEXT,\n"
+				+ "    SPEED,\n"
+				+ "    COURSE,\n"
+				+ "    NUMSAT,\n"
+				+ "    ACCURACY,\n"
+				+ "    RELATION_TYPE,\n"
+				+ "    RELATION_KEY,\n"
+				+ "    DRIVER,\n"
+				+ "    REL_DRIVER,\n"
+				+ "    TAG1,\n"
+				+ "    TAG2\n"
+				+ "FROM\n"
+				+ "    SAPSR3.\"/PARCON/DTGPS_PS\"\n"
+				+ "WHERE\n"
+				+ "	UTC_TIMESTAMP > '20240419111542'";
+		StrictSQLParser p = new StrictSQLParser();
+		p.setThrowExeptionInsteadOfErrorText(true);
+		p.setTimeout(100000l);	
+		p.parseScriptFromCode(sql1);
+		List<String> tableList = p.getTablesRead();
+		for (String t : tableList) {
+			System.out.println(t);
+		}
+		assertEquals("wrong number of read tables", 1, tableList.size());
+	}
+
 
 }

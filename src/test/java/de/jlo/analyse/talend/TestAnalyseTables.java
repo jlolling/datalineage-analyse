@@ -160,6 +160,31 @@ public class TestAnalyseTables {
 	}
 	
 	@Test
+	public void testAnalyseTableTransfer2() throws Exception {
+		Project project = new Project();
+		project.readProject(projectRoot);
+		String testJobName = "L_L_013_VehiclePosition_PARCON_DTGPS_PS";
+		Job testJob = project.getLatestJob(testJobName);
+		AnalyseTables a = new AnalyseTables(testJob);
+		a.analyseTables();
+		List<DatabaseTable> listInputTables = a.getListInputTables();
+		for (DatabaseTable t : listInputTables) {
+			System.out.println(t);
+		}
+		int expected = 2;
+		int actual = listInputTables.size();
+		assertEquals("Number read tables wrong", expected, actual);
+		System.out.println("--------------------------");
+		List<DatabaseTable> listOutputTables = a.getListOutputTables();
+		for (DatabaseTable t : listOutputTables) {
+			System.out.println(t);
+		}
+		expected = 1;
+		actual = listOutputTables.size();
+		assertEquals("Number written tables wrong", expected, actual);
+	}
+
+	@Test
 	public void testAnalyseSAPRFCTableInputMessageServer() throws Exception {
 		Project project = new Project();
 		project.readProject(projectRoot);
