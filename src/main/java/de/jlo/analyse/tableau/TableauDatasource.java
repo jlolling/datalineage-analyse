@@ -16,6 +16,7 @@ public class TableauDatasource {
 	private String name = null;
 	private Document doc = null;
 	private List<DatabaseTable> tables = new ArrayList<>();
+	private String id = null;
 	
 	public TableauDatasource(String tdsFilePath) {
 		if (tdsFilePath == null || tdsFilePath.trim().isEmpty()) {
@@ -33,16 +34,11 @@ public class TableauDatasource {
 	}
 	
 	public void parseDatasource() throws Exception {
-		List<Node> connectionNodes = getConnections();
-		for (Node cn : connectionNodes) {
-			analyseConnection((Element) cn);
-		}
-	}
-	
-	private List<Node> getConnections() throws Exception {
 		Element root = getDocument().getRootElement();
-		List<Node> connectionNodes = root.selectNodes("/workbook/datasources/datasource/connection");
-		return connectionNodes;
+		Node connectionNode = root.selectSingleNode("/datasource/connection");
+		Element rn = (Element) root.selectSingleNode("/datasource/repository-location");
+		id = rn.attributeValue("id");
+		analyseConnection((Element) connectionNode);
 	}
 	
 	private void analyseConnection(Element connectionNode) throws Exception {
@@ -104,6 +100,10 @@ public class TableauDatasource {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 }

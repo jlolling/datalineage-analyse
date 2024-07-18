@@ -13,6 +13,9 @@ public class TestUtil {
 
 	public static void saveResourceAsFile(String resourceName, String targetFilePath) throws Exception {
 		InputStream is = Utils.class.getResourceAsStream(resourceName);
+		if (is == null) {
+			throw new Exception("Resource: " + resourceName + " does not exist");
+		}
 		try (BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(new File(targetFilePath)))) {
 			byte[] buffer = new byte[1024];
 			int len = 0;
