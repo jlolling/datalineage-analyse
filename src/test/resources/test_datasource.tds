@@ -1,0 +1,1637 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20233.23.1227.1336                               -->
+<datasource formatted-name='orders_data' inline='true' source-platform='linux' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
+    <_.fcp.ObjectModelExtractV2.true...ObjectModelExtractV2 />
+    <_.fcp.ObjectModelTableType.true...ObjectModelTableType />
+    <_.fcp.SchemaViewerObjectModel.true...SchemaViewerObjectModel />
+    <_.fcp.VConnDownstreamExtractsWithWarnings.true...VConnDownstreamExtractsWithWarnings />
+  </document-format-change-manifest>
+  <repository-location derived-from='/datasources/orders_data?rev=1.1' id='orders_data' path='/datasources' revision='1.2' />
+  <connection class='federated'>
+    <named-connections>
+      <named-connection caption='10.248.253.13' name='mysql.15llzy41h274u413a4ikk0np6o17'>
+        <connection authentication='' class='mysql' dbname='Report' odbc-native-protocol='' one-time-sql='' port='3306' server='10.248.253.13' server-oauth='' source-charset='' username='tbl_usr' workgroup-auth-mode='prompt' />
+      </named-connection>
+      <named-connection caption='10.248.253.13 (2)' name='mysql.0ynzlft00psvff1d9npox0a32som'>
+        <connection authentication='' class='mysql' dbname='Report' odbc-native-protocol='' one-time-sql='' port='3306' server='10.248.253.13' server-oauth='' source-charset='' username='tbl_usr' workgroup-auth-mode='prompt' />
+      </named-connection>
+    </named-connections>
+    <_.fcp.ObjectModelEncapsulateLegacy.false...relation connection='mysql.0ynzlft00psvff1d9npox0a32som' name='New_KPIs_Orders' table='[New_KPIs_Orders]' type='table' />
+    <_.fcp.ObjectModelEncapsulateLegacy.true...relation type='collection'>
+      <relation connection='mysql.0ynzlft00psvff1d9npox0a32som' name='New_KPIs_Orders' table='[New_KPIs_Orders]' type='table' />
+      <relation connection='mysql.0ynzlft00psvff1d9npox0a32som' name='New_KPIs_Targets' table='[New_KPIs_Targets]' type='table' />
+    </_.fcp.ObjectModelEncapsulateLegacy.true...relation>
+    <cols>
+      <map key='[CREATED_ON]' value='[New_KPIs_Orders].[CREATED_ON]' />
+      <map key='[CUSTOMER]' value='[New_KPIs_Orders].[CUSTOMER]' />
+      <map key='[CUSTOMER_TYPE]' value='[New_KPIs_Orders].[CUSTOMER_TYPE]' />
+      <map key='[Country]' value='[New_KPIs_Orders].[Country]' />
+      <map key='[Order_Type2]' value='[New_KPIs_Orders].[Order_Type2]' />
+      <map key='[Order_Type3]' value='[New_KPIs_Orders].[Order_Type3]' />
+      <map key='[Order_Type]' value='[New_KPIs_Orders].[Order_Type]' />
+      <map key='[SALESORG]' value='[New_KPIs_Orders].[SALESORG]' />
+      <map key='[SALES_OFF]' value='[New_KPIs_Orders].[SALES_OFF]' />
+      <map key='[Salesorg]' value='[New_KPIs_Targets].[Salesorg]' />
+      <map key='[Salesorg_Name]' value='[New_KPIs_Orders].[Salesorg_Name]' />
+      <map key='[Target_Year]' value='[New_KPIs_Targets].[Target_Year]' />
+      <map key='[Target_percentage]' value='[New_KPIs_Targets].[Target_percentage]' />
+      <map key='[Target_value]' value='[New_KPIs_Targets].[Target_value]' />
+      <map key='[country_segment]' value='[New_KPIs_Orders].[country_segment]' />
+      <map key='[doc_number]' value='[New_KPIs_Orders].[doc_number]' />
+      <map key='[metric]' value='[New_KPIs_Targets].[metric]' />
+      <map key='[updated_on (New_KPIs_Targets)]' value='[New_KPIs_Targets].[updated_on]' />
+      <map key='[updated_on]' value='[New_KPIs_Orders].[updated_on]' />
+    </cols>
+    <metadata-records>
+      <metadata-record class='column'>
+        <remote-name>CREATED_ON</remote-name>
+        <remote-type>7</remote-type>
+        <local-name>[CREATED_ON]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>CREATED_ON</remote-alias>
+        <ordinal>1</ordinal>
+        <local-type>date</local-type>
+        <aggregation>Year</aggregation>
+        <contains-null>true</contains-null>
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_TYPE_DATE&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_TYPE_DATE&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>doc_number</remote-name>
+        <remote-type>20</remote-type>
+        <local-name>[doc_number]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>doc_number</remote-alias>
+        <ordinal>2</ordinal>
+        <local-type>integer</local-type>
+        <aggregation>Sum</aggregation>
+        <precision>19</precision>
+        <contains-null>true</contains-null>
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_BIGINT&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_SBIGINT&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>SALESORG</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[SALESORG]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>SALESORG</remote-alias>
+        <ordinal>3</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>4</width>
+        <contains-null>true</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>SALES_OFF</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[SALES_OFF]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>SALES_OFF</remote-alias>
+        <ordinal>4</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>4</width>
+        <contains-null>true</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>Salesorg_Name</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[Salesorg_Name]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>Salesorg_Name</remote-alias>
+        <ordinal>5</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>8</width>
+        <contains-null>false</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>Country</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[Country]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>Country</remote-alias>
+        <ordinal>6</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>5</width>
+        <contains-null>false</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>country_segment</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[country_segment]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>country_segment</remote-alias>
+        <ordinal>7</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>9</width>
+        <contains-null>false</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>CUSTOMER_TYPE</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[CUSTOMER_TYPE]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>CUSTOMER_TYPE</remote-alias>
+        <ordinal>8</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>341</width>
+        <contains-null>true</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>CUSTOMER</remote-name>
+        <remote-type>3</remote-type>
+        <local-name>[CUSTOMER]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>CUSTOMER</remote-alias>
+        <ordinal>9</ordinal>
+        <local-type>integer</local-type>
+        <aggregation>Sum</aggregation>
+        <precision>10</precision>
+        <contains-null>true</contains-null>
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_INTEGER&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_SLONG&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>Order_Type</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[Order_Type]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>Order_Type</remote-alias>
+        <ordinal>10</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>20</width>
+        <contains-null>false</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>Order_Type2</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[Order_Type2]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>Order_Type2</remote-alias>
+        <ordinal>11</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>20</width>
+        <contains-null>false</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>Order_Type3</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[Order_Type3]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>Order_Type3</remote-alias>
+        <ordinal>12</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>20</width>
+        <contains-null>true</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>updated_on</remote-name>
+        <remote-type>7</remote-type>
+        <local-name>[updated_on]</local-name>
+        <parent-name>[New_KPIs_Orders]</parent-name>
+        <remote-alias>updated_on</remote-alias>
+        <ordinal>13</ordinal>
+        <local-type>datetime</local-type>
+        <aggregation>Year</aggregation>
+        <contains-null>true</contains-null>
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_TYPE_TIMESTAMP&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_TYPE_TIMESTAMP&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>Salesorg</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[Salesorg]</local-name>
+        <parent-name>[New_KPIs_Targets]</parent-name>
+        <remote-alias>Salesorg</remote-alias>
+        <ordinal>15</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>255</width>
+        <contains-null>true</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>Target_value</remote-name>
+        <remote-type>131</remote-type>
+        <local-name>[Target_value]</local-name>
+        <parent-name>[New_KPIs_Targets]</parent-name>
+        <remote-alias>Target_value</remote-alias>
+        <ordinal>16</ordinal>
+        <local-type>real</local-type>
+        <aggregation>Sum</aggregation>
+        <precision>63</precision>
+        <scale>4</scale>
+        <contains-null>true</contains-null>
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_DECIMAL&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_NUMERIC&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>Target_percentage</remote-name>
+        <remote-type>131</remote-type>
+        <local-name>[Target_percentage]</local-name>
+        <parent-name>[New_KPIs_Targets]</parent-name>
+        <remote-alias>Target_percentage</remote-alias>
+        <ordinal>17</ordinal>
+        <local-type>real</local-type>
+        <aggregation>Sum</aggregation>
+        <precision>63</precision>
+        <scale>4</scale>
+        <contains-null>true</contains-null>
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_DECIMAL&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_NUMERIC&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>metric</remote-name>
+        <remote-type>130</remote-type>
+        <local-name>[metric]</local-name>
+        <parent-name>[New_KPIs_Targets]</parent-name>
+        <remote-alias>metric</remote-alias>
+        <ordinal>18</ordinal>
+        <local-type>string</local-type>
+        <aggregation>Count</aggregation>
+        <width>255</width>
+        <contains-null>true</contains-null>
+        <collation charset='296' flag='1' name='LROOT_S2' />
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_WVARCHAR&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_WCHAR&quot;</attribute>
+          <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>Target_Year</remote-name>
+        <remote-type>3</remote-type>
+        <local-name>[Target_Year]</local-name>
+        <parent-name>[New_KPIs_Targets]</parent-name>
+        <remote-alias>Target_Year</remote-alias>
+        <ordinal>19</ordinal>
+        <local-type>integer</local-type>
+        <aggregation>Sum</aggregation>
+        <precision>10</precision>
+        <contains-null>true</contains-null>
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_INTEGER&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_SLONG&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+      <metadata-record class='column'>
+        <remote-name>updated_on</remote-name>
+        <remote-type>7</remote-type>
+        <local-name>[updated_on (New_KPIs_Targets)]</local-name>
+        <parent-name>[New_KPIs_Targets]</parent-name>
+        <remote-alias>updated_on</remote-alias>
+        <ordinal>20</ordinal>
+        <local-type>datetime</local-type>
+        <aggregation>Year</aggregation>
+        <contains-null>true</contains-null>
+        <attributes>
+          <attribute datatype='string' name='DebugRemoteType'>&quot;SQL_TYPE_TIMESTAMP&quot;</attribute>
+          <attribute datatype='string' name='DebugWireType'>&quot;SQL_C_TYPE_TIMESTAMP&quot;</attribute>
+        </attributes>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+      </metadata-record>
+    </metadata-records>
+  </connection>
+  <aliases enabled='yes' />
+  <column caption='#Orders 22' datatype='integer' name='[#Orders (copy)_1610318403165937664]' role='measure' type='quantitative'>
+    <calculation class='tableau' formula='// countd(if Year([CREATED_ON])=Year(TODAY())-1 then [doc_number] end)&#13;&#10;&#13;&#10;countd(if Year([CREATED_ON])=2022 then [doc_number] end)' />
+  </column>
+  <column caption='% OnlineShop' datatype='real' name='[% WEB (copy)_488922093513015297]' role='measure' type='quantitative'>
+    <calculation class='tableau' formula='sum({exCLUDE [Calculation_2809120292895010824]:countd([doc_number])})/&#13;&#10;sum({exCLUDE [Order_Type]:countd([doc_number])})' />
+  </column>
+  <column caption='Customer Type' datatype='string' name='[CUSTOMER_TYPE]' role='dimension' type='nominal' />
+  <column caption='Overall Target' datatype='real' name='[Calculation_1071856753447329792]' role='measure' type='quantitative'>
+    <calculation class='tableau' formula='case [Parameters].[UK Target (copy)]&#13;&#10;&#13;&#10;when 2024 then [Parameters].[Overall Orders Target 2023 (copy)_1071856753449865218] &#13;&#10;&#13;&#10;end' />
+  </column>
+  <column caption='Target Name' datatype='string' name='[Calculation_1071856753448775681]' role='dimension' type='nominal'>
+    <calculation class='tableau' formula='&quot;Target &quot;+ str([Parameters].[UK Target (copy)])' />
+  </column>
+  <column caption='Target Year Filter' datatype='boolean' name='[Calculation_143270805671006208]' role='dimension' type='nominal'>
+    <calculation class='tableau' formula='Case [Parameters].[UK Target (copy)]&#13;&#10;&#13;&#10;when 2022&#13;&#10;then&#13;&#10;&#13;&#10;[Target_Year]=2022&#13;&#10;&#13;&#10;when 2023&#13;&#10;then&#13;&#10;&#13;&#10;[Target_Year]=2023&#13;&#10;&#13;&#10;&#13;&#10;when 2024&#13;&#10;then&#13;&#10;&#13;&#10;[Target_Year]=2024&#13;&#10;&#13;&#10;end' />
+  </column>
+  <column caption='Time Period' datatype='string' name='[Calculation_1539949655624499201]' role='dimension' type='nominal'>
+    <calculation class='tableau' formula='Case [Parameters].[DE Target (copy 2)]&#13;&#10;&#13;&#10;&#13;&#10;when &apos;YTD&apos; then str(YEAR([CREATED_ON]))&#13;&#10;when &apos;Month&apos; then DATENAME(&apos;month&apos;,[CREATED_ON])&#13;&#10;when &apos;CW&apos; then &apos;CW&apos;+ str(isoweek([CREATED_ON]))&#13;&#10;when &apos;Quarter&apos; then &apos;Q&apos;+ str(QUARTER([CREATED_ON]))&#13;&#10;&#13;&#10;end' />
+  </column>
+  <column caption='Year Filter' datatype='boolean' datatype-customized='true' name='[Calculation_1539949655627911171]' role='dimension' type='nominal'>
+    <calculation class='tableau' formula='Case [Parameters].[UK Target (copy)]&#13;&#10;&#13;&#10;when 2022&#13;&#10;then&#13;&#10;&#13;&#10;Case [Parameters].[DE Target (copy 2)]&#13;&#10;when &apos;YTD&apos; then year([CREATED_ON])=2022 &#13;&#10;when &apos;Month&apos; then year([CREATED_ON])=2022 &#13;&#10;when &apos;Quarter&apos; then year([CREATED_ON])=2022 &#13;&#10;when &apos;CW&apos; then isoyear([CREATED_ON])=2022 &#13;&#10;end&#13;&#10;&#13;&#10;when 2023&#13;&#10;then&#13;&#10;&#13;&#10;Case [Parameters].[DE Target (copy 2)]&#13;&#10;when &apos;YTD&apos; then year([CREATED_ON])=2023 &#13;&#10;when &apos;Month&apos; then year([CREATED_ON])=2023 &#13;&#10;when &apos;Quarter&apos; then year([CREATED_ON])=2023&#13;&#10;when &apos;CW&apos; then isoyear([CREATED_ON])=2023&#13;&#10;&#13;&#10;end&#13;&#10;&#13;&#10;&#13;&#10;when 2024&#13;&#10;then&#13;&#10;&#13;&#10;Case [Parameters].[DE Target (copy 2)]&#13;&#10;when &apos;YTD&apos; then year([CREATED_ON])=2024&#13;&#10;when &apos;Month&apos; then year([CREATED_ON])=2024 &#13;&#10;when &apos;Quarter&apos; then year([CREATED_ON])=2024&#13;&#10;when &apos;CW&apos; then isoyear([CREATED_ON])=2024&#13;&#10;&#13;&#10;end&#13;&#10;end' />
+  </column>
+  <column caption='Orders Segment Target' datatype='real' name='[Calculation_2809120292885041155]' role='measure' type='quantitative'>
+    <calculation class='tableau' formula='Case [country_segment]&#13;&#10;&#13;&#10;when &apos;KM_EU&apos; then  &#13;&#10;Case [Parameters].[UK Target (copy)]&#13;&#10;//when 2023 then [KMNEU Orders Target 2023]&#13;&#10;when 2024 then [Parameters].[KMNEU Orders Target 2023 (copy)_1071856753456119812]end&#13;&#10;&#13;&#10;&#13;&#10;when &apos;KM_NON_EU&apos; then &#13;&#10;Case [Parameters].[UK Target (copy)]&#13;&#10;//when 2023 then [KM NON-EU Orders Target 2023]&#13;&#10;when 2024 then [Parameters].[KM NON-EU Orders Target 2023 (copy)_1071856753456201734] end&#13;&#10;&#13;&#10;when &apos;KM_US&apos; then &#13;&#10;Case [Parameters].[UK Target (copy)]&#13;&#10;//when 2023 then [US Orders Target 2023] &#13;&#10;when 2024 then [Parameters].[US Orders Target 2023 (copy)_1071856753457639432] &#13;&#10;end&#13;&#10;end' />
+  </column>
+  <column caption='Order_Type Table' datatype='string' name='[Calculation_2809120292895010824]' role='dimension' type='nominal'>
+    <calculation class='tableau' formula='if [Salesorg_Name]=&apos;DKG 2000&apos; or [Salesorg_Name]=&apos;DKG 3000&apos; then &apos;&apos;&#13;&#10;else&#13;&#10;&#13;&#10;&#13;&#10;&#13;&#10;case [Order_Type]&#13;&#10;&#13;&#10;when &apos;ONLINESHOP&apos; then [Order_Type3] &#13;&#10;when &apos;Direct 1&apos; then [Order_Type3] &#13;&#10;when &apos;Direct 2.0&apos; then [Order_Type3] &#13;&#10;when &apos;OFFLINE&apos; then  &apos;&apos;&#13;&#10;when &apos;EDI&apos; then&apos;&apos;&#13;&#10;when &apos;Part Manager&apos; then &apos;&apos;&#13;&#10;when &apos;Other Tools&apos; then &apos;&apos;&#13;&#10;when &apos;K Assistant&apos; then &apos;&apos;&#13;&#10;when &apos;CONTRACT&apos; then &apos;&apos;&#13;&#10;when &apos;Online Email Quote&apos; then &apos;&apos;&#13;&#10;&#13;&#10;end&#13;&#10;end&#13;&#10;&#13;&#10;//[Order Type] != &apos;ONLINESHOP&apos; or [Order Type] != &apos;Direct 1&apos; or [Order Type] != &apos;Direct 2.0&apos;  then &apos;&apos; else' />
+  </column>
+  <column caption='#Orders' datatype='integer' name='[Calculation_729020249070084096]' role='measure' type='quantitative'>
+    <calculation class='tableau' formula='COUNTD([doc_number])' />
+  </column>
+  <column caption='Digital Order' datatype='integer' name='[Calculation_729020249070878721]' role='measure' type='quantitative'>
+    <calculation class='tableau' formula='COUNTD([Calculation_977562645442629632])' />
+  </column>
+  <column caption='latest date' datatype='date' name='[Calculation_808677662740705282]' role='measure' type='ordinal'>
+    <calculation class='tableau' formula='max([CREATED_ON])' />
+  </column>
+  <column caption='is week completed' datatype='string' name='[Calculation_808677662749380611]' role='measure' type='nominal'>
+    <calculation class='tableau' formula='if DATEPART(&apos;weekday&apos;,[Calculation_808677662740705282],&apos;Monday&apos;)=7 then &quot;1&quot; else &quot;0&quot; end' />
+  </column>
+  <column caption='show_last_8_weeks' datatype='boolean' name='[Calculation_866661475926679552]' role='dimension' type='nominal'>
+    <calculation class='tableau' formula='isoWeek([CREATED_ON]) &gt;= isoWeek({MAX([CREATED_ON])})-7' />
+  </column>
+  <column caption='Digital doc_number' datatype='integer' name='[Calculation_977562645442629632]' role='measure' type='quantitative'>
+    <calculation class='tableau' formula='CASE [Order_Type3] &#13;&#10;when &apos;CONTRACT/Partmanager&apos; then [doc_number]&#13;&#10;when &apos;K Assistant&apos; then [doc_number]&#13;&#10;when &apos;EDI&apos; then [doc_number]&#13;&#10;when &apos;ONLINESHOP/Direct&apos; then [doc_number]&#13;&#10;when &apos;WEB Order&apos; then [doc_number]&#13;&#10;when &apos;WEB Quote&apos; then [doc_number]&#13;&#10;when &apos;Other Tools&apos; then [doc_number]&#13;&#10;when &apos;Online Email Quote&apos; then [doc_number]&#13;&#10;END' />
+  </column>
+  <column caption='Digital Orders %' datatype='real' name='[Calculation_977562645454254081]' role='measure' type='quantitative'>
+    <calculation class='tableau' formula='[Calculation_729020249070878721]/TOTAL([Calculation_729020249070084096])'>
+      <table-calc ordering-type='Rows' />
+    </calculation>
+  </column>
+  <column datatype='string' name='[Country]' role='dimension' semantic-role='[Country].[ISO3166_2]' type='nominal' />
+  <column caption='Orders Share' datatype='real' name='[Digital Orders % (copy 3)_1573163703809294337]' role='measure' type='quantitative'>
+    <calculation class='tableau' formula='[Calculation_729020249070084096]/TOTAL([Calculation_729020249070084096])'>
+      <table-calc ordering-type='Rows' />
+    </calculation>
+  </column>
+  <column caption='Digital doc_number 2022' datatype='integer' name='[Digital doc_number (copy)_1610318403167223810]' role='measure' type='quantitative'>
+    <calculation class='tableau' formula='//Year(TODAY())-1&#13;&#10;&#13;&#10;&#13;&#10;if Year([CREATED_ON])=2022 then &#13;&#10;&#13;&#10;CASE [Order_Type2] &#13;&#10;when &apos;CONTRACT/Partmanager&apos; then [doc_number]&#13;&#10;when &apos;K Assistant&apos; then [doc_number]&#13;&#10;when &apos;EDI&apos; then [doc_number]&#13;&#10;when &apos;ONLINESHOP/Direct&apos; then [doc_number]&#13;&#10;when &apos;Other Tools&apos; then [doc_number]&#13;&#10;END&#13;&#10;end' />
+  </column>
+  <column datatype='string' name='[Order_Type2]' role='dimension' type='nominal' />
+  <column datatype='string' name='[Order_Type3 (group)]' role='dimension' type='nominal'>
+    <calculation class='categorical-bin' column='[Order_Type3]' new-bin='true'>
+      <bin default-name='true' value='&quot;WEB Order &amp; WEB Quote&quot;'>
+        <value>&quot;WEB Order&quot;</value>
+        <value>&quot;WEB Quote&quot;</value>
+      </bin>
+    </calculation>
+  </column>
+  <column datatype='string' name='[Order_Type3]' role='dimension' type='nominal' />
+  <column caption='Order Type' datatype='string' name='[Order_Type]' role='dimension' type='nominal' />
+  <column aggregation='Sum' caption='Year' datatype='integer' name='[Quarter (copy)_407857300245299202]' role='dimension' type='ordinal'>
+    <calculation class='tableau' formula='Year([CREATED_ON])' />
+  </column>
+  <column caption='Salesorg' datatype='string' name='[SALESORG]' role='dimension' type='nominal' />
+  <column caption='Sales Off' datatype='string' name='[SALES_OFF]' role='dimension' type='nominal' />
+  <column caption='Salesorg1' datatype='string' name='[Salesorg]' role='dimension' type='nominal' />
+  <column datatype='string' name='[Salesorg_Name]' role='dimension' type='nominal' />
+  <column caption='Target Year' datatype='integer' name='[Target_Year]' role='dimension' type='quantitative' />
+  <column caption='Target percentage' datatype='real' name='[Target_percentage]' role='measure' type='quantitative' />
+  <column caption='Target value' datatype='real' name='[Target_value]' role='measure' type='quantitative' />
+  <_.fcp.ObjectModelTableType.true...column caption='New_KPIs_Orders' datatype='table' name='[__tableau_internal_object_id__].[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]' role='measure' type='quantitative' />
+  <_.fcp.ObjectModelTableType.true...column caption='New_KPIs_Targets' datatype='table' name='[__tableau_internal_object_id__].[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]' role='measure' type='quantitative' />
+  <column datatype='string' name='[country_segment]' role='dimension' semantic-role='[Country].[ISO3166_2]' type='nominal' />
+  <column caption='Metric' datatype='string' name='[metric]' role='dimension' type='nominal' />
+  <column caption='Updated On' datatype='datetime' name='[updated_on]' role='dimension' type='ordinal' />
+  <column-instance column='[Calculation_2809120292885041155]' derivation='Attribute' name='[attr:Calculation_2809120292885041155:qk]' pivot='key' type='quantitative' />
+  <column-instance column='[Target_percentage]' derivation='Attribute' name='[attr:Target_percentage:qk]' pivot='key' type='quantitative' />
+  <column-instance column='[Target_percentage]' derivation='Attribute' name='[attr:Target_percentage:vtnone:qk]' pivot='key' type='quantitative' visual-totals='None' />
+  <column-instance column='[Calculation_1071856753447329792]' derivation='Max' name='[max:Calculation_1071856753447329792:qk]' pivot='key' type='quantitative' />
+  <column-instance column='[Calculation_2809120292885041155]' derivation='Max' name='[max:Calculation_2809120292885041155:qk]' pivot='key' type='quantitative' />
+  <column-instance column='[Calculation_2809120292885041155]' derivation='Min' name='[min:Calculation_2809120292885041155:qk]' pivot='key' type='quantitative' />
+  <column-instance column='[Target_percentage]' derivation='Min' name='[min:Target_percentage:qk]' pivot='key' type='quantitative' />
+  <column-instance column='[Target_percentage]' derivation='Min' name='[min:Target_percentage:vtnone:qk]' pivot='key' type='quantitative' visual-totals='None' />
+  <column-instance column='[Calculation_1539949655624499201]' derivation='None' name='[none:Calculation_1539949655624499201:nk]' pivot='key' type='nominal' />
+  <column-instance column='[Order_Type2]' derivation='None' name='[none:Order_Type2:nk]' pivot='key' type='nominal' />
+  <column-instance column='[Order_Type3]' derivation='None' name='[none:Order_Type3:nk]' pivot='key' type='nominal' />
+  <column-instance column='[Quarter (copy)_407857300245299202]' derivation='None' name='[none:Quarter (copy)_407857300245299202:ok]' pivot='key' type='ordinal' />
+  <column-instance column='[SALESORG]' derivation='None' name='[none:SALESORG:nk]' pivot='key' type='nominal' />
+  <column-instance column='[Salesorg_Name]' derivation='None' name='[none:Salesorg_Name:nk]' pivot='key' type='nominal' />
+  <column-instance column='[country_segment]' derivation='None' name='[none:country_segment:nk]' pivot='key' type='nominal' />
+  <column-instance column='[Calculation_977562645442629632]' derivation='Sum' name='[sum:Calculation_977562645442629632:qk]' pivot='key' type='quantitative' />
+  <column-instance column='[Calculation_729020249070084096]' derivation='User' name='[usr:Calculation_729020249070084096:qk]' pivot='key' type='quantitative' />
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:10]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[Order_Type]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:11]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[Salesorg_Name]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:12]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='CellInPane' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:13]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[SALESORG]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:14]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[Quarter (copy)_407857300245299202]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:15]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='RowInPane' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:17]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='Pane' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:18]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='PaneCol' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:1]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='Columns' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:3]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='ColumnInPane' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:4]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[none:SALESORG:nk]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:5]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:6]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[none:Calculation_1539949655624499201:nk]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:7]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[Calculation_1539949655624499201]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:8]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[Order_Type2]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk:9]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[period]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Calculation_977562645454254081]' derivation='User' name='[usr:Calculation_977562645454254081:qk]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='Rows' />
+  </column-instance>
+  <column-instance column='[Digital Orders % (copy 3)_1573163703809294337]' derivation='User' name='[usr:Digital Orders % (copy 3)_1573163703809294337:qk:2]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='Table' />
+  </column-instance>
+  <column-instance column='[Digital Orders % (copy 3)_1573163703809294337]' derivation='User' name='[usr:Digital Orders % (copy 3)_1573163703809294337:qk:3]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[Calculation_1539949655624499201]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Digital Orders % (copy 3)_1573163703809294337]' derivation='User' name='[usr:Digital Orders % (copy 3)_1573163703809294337:qk:4]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='TableCol' />
+  </column-instance>
+  <column-instance column='[Digital Orders % (copy 3)_1573163703809294337]' derivation='User' name='[usr:Digital Orders % (copy 3)_1573163703809294337:qk:5]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='Pane' />
+  </column-instance>
+  <column-instance column='[Digital Orders % (copy 3)_1573163703809294337]' derivation='User' name='[usr:Digital Orders % (copy 3)_1573163703809294337:qk:6]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='PaneCol' />
+  </column-instance>
+  <column-instance column='[Digital Orders % (copy 3)_1573163703809294337]' derivation='User' name='[usr:Digital Orders % (copy 3)_1573163703809294337:qk:7]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[Salesorg_Name]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Digital Orders % (copy 3)_1573163703809294337]' derivation='User' name='[usr:Digital Orders % (copy 3)_1573163703809294337:qk:8]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[Order_Type2]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Digital Orders % (copy 3)_1573163703809294337]' derivation='User' name='[usr:Digital Orders % (copy 3)_1573163703809294337:qk:9]' pivot='key' type='quantitative'>
+    <table-calc ordering-field='[orders_data].[Order_Type3]' ordering-type='Field' />
+  </column-instance>
+  <column-instance column='[Digital Orders % (copy 3)_1573163703809294337]' derivation='User' name='[usr:Digital Orders % (copy 3)_1573163703809294337:qk]' pivot='key' type='quantitative'>
+    <table-calc ordering-type='Rows' />
+  </column-instance>
+  <extract _.fcp.ObjectModelExtractV2.true...object-id='digital_efficiency2_2CB5FA9784674E05BEB79549383B4322' _.fcp.VConnDownstreamExtractsWithWarnings.true...user-specific='false' count='-1' enabled='true' units='records'>
+    <connection access_mode='readonly' author-locale='en_US' class='hyper' dbname='extract/16/f6/{2DA8F48C-E398-4005-87D5-AEE1F357020B}/orders_data.hyper' extract-engine='true' schema='Extract' sslmode='' tablename='Extract' update-time='07/15/2024 08:02:27 AM'>
+      <_.fcp.ObjectModelEncapsulateLegacy.false...relation name='digital_efficiency2_2CB5FA9784674E05BEB79549383B4322' table='[Extract].[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]' type='table' />
+      <_.fcp.ObjectModelEncapsulateLegacy.true...relation type='collection'>
+        <relation name='digital_efficiency2_2CB5FA9784674E05BEB79549383B4322' table='[Extract].[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]' type='table' />
+        <relation name='digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564' table='[Extract].[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]' type='table' />
+      </_.fcp.ObjectModelEncapsulateLegacy.true...relation>
+      <cols>
+        <map key='[CREATED_ON]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[CREATED_ON]' />
+        <map key='[CUSTOMER]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[CUSTOMER]' />
+        <map key='[CUSTOMER_TYPE]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[CUSTOMER_TYPE]' />
+        <map key='[Country]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[Country]' />
+        <map key='[Order_Type2]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[Order_Type2]' />
+        <map key='[Order_Type3]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[Order_Type3]' />
+        <map key='[Order_Type]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[Order_Type]' />
+        <map key='[SALESORG]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[SALESORG]' />
+        <map key='[SALES_OFF]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[SALES_OFF]' />
+        <map key='[Salesorg]' value='[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564].[Salesorg]' />
+        <map key='[Salesorg_Name]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[Salesorg_Name]' />
+        <map key='[Target_Year]' value='[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564].[Target_Year]' />
+        <map key='[Target_percentage]' value='[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564].[Target_percentage]' />
+        <map key='[Target_value]' value='[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564].[Target_value]' />
+        <map key='[country_segment]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[country_segment]' />
+        <map key='[doc_number]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[doc_number]' />
+        <map key='[metric]' value='[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564].[metric]' />
+        <map key='[updated_on (New_KPIs_Targets)]' value='[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564].[updated_on]' />
+        <map key='[updated_on]' value='[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322].[updated_on]' />
+      </cols>
+      <metadata-records>
+        <metadata-record class='column'>
+          <remote-name>CREATED_ON</remote-name>
+          <remote-type>133</remote-type>
+          <local-name>[CREATED_ON]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>CREATED_ON</remote-alias>
+          <ordinal>0</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>date</local-type>
+          <aggregation>Year</aggregation>
+          <approx-count>1790</approx-count>
+          <contains-null>true</contains-null>
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>doc_number</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[doc_number]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>doc_number</remote-alias>
+          <ordinal>1</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <approx-count>6661656</approx-count>
+          <contains-null>true</contains-null>
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>SALESORG</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[SALESORG]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>SALESORG</remote-alias>
+          <ordinal>2</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>10</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>SALES_OFF</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[SALES_OFF]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>SALES_OFF</remote-alias>
+          <ordinal>3</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>175</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Salesorg_Name</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Salesorg_Name]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>Salesorg_Name</remote-alias>
+          <ordinal>4</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>9</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Country</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Country]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>Country</remote-alias>
+          <ordinal>5</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>8</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>country_segment</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[country_segment]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>country_segment</remote-alias>
+          <ordinal>6</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>3</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CUSTOMER_TYPE</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[CUSTOMER_TYPE]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>CUSTOMER_TYPE</remote-alias>
+          <ordinal>7</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>4</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>CUSTOMER</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[CUSTOMER]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>CUSTOMER</remote-alias>
+          <ordinal>8</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <approx-count>98986</approx-count>
+          <contains-null>true</contains-null>
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Order_Type</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Order_Type]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>Order_Type</remote-alias>
+          <ordinal>9</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>10</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Order_Type2</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Order_Type2]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>Order_Type2</remote-alias>
+          <ordinal>10</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>6</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Order_Type3</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Order_Type3]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>Order_Type3</remote-alias>
+          <ordinal>11</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>8</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>updated_on</remote-name>
+          <remote-type>135</remote-type>
+          <local-name>[updated_on]</local-name>
+          <parent-name>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</parent-name>
+          <remote-alias>updated_on</remote-alias>
+          <ordinal>12</ordinal>
+          <family>New_KPIs_Orders</family>
+          <local-type>datetime</local-type>
+          <aggregation>Year</aggregation>
+          <approx-count>41</approx-count>
+          <contains-null>true</contains-null>
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Salesorg</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[Salesorg]</local-name>
+          <parent-name>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</parent-name>
+          <remote-alias>Salesorg</remote-alias>
+          <ordinal>13</ordinal>
+          <family>New_KPIs_Targets</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>10</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Target_value</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Target_value]</local-name>
+          <parent-name>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</parent-name>
+          <remote-alias>Target_value</remote-alias>
+          <ordinal>14</ordinal>
+          <family>New_KPIs_Targets</family>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <approx-count>1</approx-count>
+          <contains-null>true</contains-null>
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Target_percentage</remote-name>
+          <remote-type>5</remote-type>
+          <local-name>[Target_percentage]</local-name>
+          <parent-name>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</parent-name>
+          <remote-alias>Target_percentage</remote-alias>
+          <ordinal>15</ordinal>
+          <family>New_KPIs_Targets</family>
+          <local-type>real</local-type>
+          <aggregation>Sum</aggregation>
+          <approx-count>43</approx-count>
+          <contains-null>true</contains-null>
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>metric</remote-name>
+          <remote-type>129</remote-type>
+          <local-name>[metric]</local-name>
+          <parent-name>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</parent-name>
+          <remote-alias>metric</remote-alias>
+          <ordinal>16</ordinal>
+          <family>New_KPIs_Targets</family>
+          <local-type>string</local-type>
+          <aggregation>Count</aggregation>
+          <approx-count>2</approx-count>
+          <contains-null>true</contains-null>
+          <collation flag='1' name='LROOT_S2' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>Target_Year</remote-name>
+          <remote-type>20</remote-type>
+          <local-name>[Target_Year]</local-name>
+          <parent-name>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</parent-name>
+          <remote-alias>Target_Year</remote-alias>
+          <ordinal>17</ordinal>
+          <family>New_KPIs_Targets</family>
+          <local-type>integer</local-type>
+          <aggregation>Sum</aggregation>
+          <approx-count>3</approx-count>
+          <contains-null>true</contains-null>
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+        <metadata-record class='column'>
+          <remote-name>updated_on</remote-name>
+          <remote-type>135</remote-type>
+          <local-name>[updated_on (New_KPIs_Targets)]</local-name>
+          <parent-name>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</parent-name>
+          <remote-alias>updated_on</remote-alias>
+          <ordinal>18</ordinal>
+          <family>New_KPIs_Targets</family>
+          <local-type>datetime</local-type>
+          <aggregation>Year</aggregation>
+          <approx-count>10</approx-count>
+          <contains-null>true</contains-null>
+          <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+        </metadata-record>
+      </metadata-records>
+    </connection>
+  </extract>
+  <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' _.fcp.SchemaViewerObjectModel.true...common-percentage='0.664411' _.fcp.SchemaViewerObjectModel.true...user-set-layout-v2='true' dim-ordering='alphabetic' measure-ordering='alphabetic' parameter-percentage='0.335589' show-structure='false' />
+  <style>
+    <style-rule element='mark'>
+      <encoding attr='color' field='[none:Salesorg_Name:nk]' palette='winter_10_0' type='palette'>
+        <map to='#6b6b6b'>
+          <bucket>&quot;KMUK&quot;</bucket>
+        </map>
+        <map to='#90728f'>
+          <bucket>&quot;KMA&quot;</bucket>
+        </map>
+        <map to='#9d9b3d'>
+          <bucket>&quot;KMC&quot;</bucket>
+        </map>
+        <map to='#aa8780'>
+          <bucket>&quot;DKG 3000&quot;</bucket>
+        </map>
+        <map to='#b9a0b4'>
+          <bucket>&quot;KMBE&quot;</bucket>
+        </map>
+        <map to='#bab2ae'>
+          <bucket>&quot;DKG 2000&quot;</bucket>
+        </map>
+        <map to='#cecb76'>
+          <bucket>&quot;KMFR&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;KMG&quot;</bucket>
+        </map>
+        <map to='#ff9888'>
+          <bucket>&quot;KMNL&quot;</bucket>
+        </map>
+      </encoding>
+      <encoding attr='color' field='[none:Quarter (copy)_407857300245299202:ok]&#10;[:Measure Names]' type='palette'>
+        <map to='#4e79a7'>
+          <multibucket>
+            <bucket>2021</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:12]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#59a14f'>
+          <multibucket>
+            <bucket>2024</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:12]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>2023</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:12]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>2023</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:14]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>2023</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:15]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>2023</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:17]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>2023</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:18]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>2023</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:3]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>2023</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:7]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>2023</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#9c755f'>
+          <multibucket>
+            <bucket>%all%</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:14]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#bab0ac'>
+          <multibucket>
+            <bucket>2022</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:12]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#bab0ac'>
+          <multibucket>
+            <bucket>2022</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:14]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#bab0ac'>
+          <multibucket>
+            <bucket>2022</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:15]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#bab0ac'>
+          <multibucket>
+            <bucket>2022</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:17]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#bab0ac'>
+          <multibucket>
+            <bucket>2022</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:18]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#bab0ac'>
+          <multibucket>
+            <bucket>2022</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:3]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#bab0ac'>
+          <multibucket>
+            <bucket>2022</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:7]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#bab0ac'>
+          <multibucket>
+            <bucket>2022</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e15759'>
+          <multibucket>
+            <bucket>%all%</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:12]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e15759'>
+          <multibucket>
+            <bucket>%all%</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:15]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e15759'>
+          <multibucket>
+            <bucket>%all%</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:17]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e15759'>
+          <multibucket>
+            <bucket>%all%</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:18]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e15759'>
+          <multibucket>
+            <bucket>%all%</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:3]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e15759'>
+          <multibucket>
+            <bucket>%all%</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:7]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e15759'>
+          <multibucket>
+            <bucket>%all%</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+      </encoding>
+      <encoding attr='color' field='[Order_Type3 (group)]' type='palette'>
+        <map to='#4e79a7'>
+          <bucket>&quot;CONTRACT/Partmanager&quot;</bucket>
+        </map>
+        <map to='#59a14f'>
+          <bucket>&quot;WEB Order&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;OFFLINE&quot;</bucket>
+        </map>
+        <map to='#b07aa1'>
+          <bucket>&quot;WEB Order &amp; WEB Quote&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;K Assistant&quot;</bucket>
+        </map>
+        <map to='#edc948'>
+          <bucket>&quot;WEB Quote&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;EDI&quot;</bucket>
+        </map>
+      </encoding>
+      <encoding attr='color' field='[none:country_segment:nk]' palette='sf_default' type='palette'>
+        <map to='#52b7d8'>
+          <bucket>&quot;KM_EU&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>%all%</bucket>
+        </map>
+        <map to='#e16032'>
+          <bucket>&quot;KM_NON_EU&quot;</bucket>
+        </map>
+        <map to='#ffb03b'>
+          <bucket>&quot;KM_US&quot;</bucket>
+        </map>
+      </encoding>
+      <encoding attr='color' field='[none:Order_Type2:nk]' type='palette'>
+        <map to='#4e79a7'>
+          <bucket>&quot;CONTRACT/Partmanager&quot;</bucket>
+        </map>
+        <map to='#59a14f'>
+          <bucket>&quot;OFFLINE&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;ONLINESHOP/Direct&quot;</bucket>
+        </map>
+        <map to='#b07aa1'>
+          <bucket>&quot;Online Email Quote&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;K Assistant&quot;</bucket>
+        </map>
+        <map to='#edc948'>
+          <bucket>&quot;Other Tools&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;EDI&quot;</bucket>
+        </map>
+        <map to='#ff9da7'>
+          <bucket>&quot;XOM&quot;</bucket>
+        </map>
+      </encoding>
+      <encoding attr='color' field='[none:Order_Type3:nk]' type='palette'>
+        <map to='#4e79a7'>
+          <bucket>&quot;CONTRACT/Partmanager&quot;</bucket>
+        </map>
+        <map to='#59a14f'>
+          <bucket>&quot;WEB Order&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;OFFLINE&quot;</bucket>
+        </map>
+        <map to='#9c755f'>
+          <bucket>&quot;ONLINESHOP/Direct&quot;</bucket>
+        </map>
+        <map to='#b07aa1'>
+          <bucket>%all%</bucket>
+        </map>
+        <map to='#bab0ac'>
+          <bucket>&quot;Online Email Quote&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;K Assistant&quot;</bucket>
+        </map>
+        <map to='#edc948'>
+          <bucket>&quot;WEB Quote&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;EDI&quot;</bucket>
+        </map>
+        <map to='#ff9da7'>
+          <bucket>&quot;Other Tools&quot;</bucket>
+        </map>
+      </encoding>
+      <encoding attr='color' field='[none:country_segment:nk]&#10;[:Measure Names]' type='palette'>
+        <map to='#52b7d8'>
+          <multibucket>
+            <bucket>&quot;KM_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:3]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#52b7d8'>
+          <multibucket>
+            <bucket>&quot;KM_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:5]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>&quot;KM_NON_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[attr:Calculation_2809120292885041155:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>&quot;KM_NON_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[max:Calculation_2809120292885041155:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>&quot;KM_NON_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[min:Calculation_2809120292885041155:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#76b7b2'>
+          <multibucket>
+            <bucket>&quot;KM_NON_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1610318403168071684:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#9c755f'>
+          <multibucket>
+            <bucket>&quot;KM_US&quot;</bucket>
+            <bucket>&quot;[orders_data].[attr:Target_percentage:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#9c755f'>
+          <multibucket>
+            <bucket>&quot;KM_US&quot;</bucket>
+            <bucket>&quot;[orders_data].[attr:Target_percentage:vtnone:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#9c755f'>
+          <multibucket>
+            <bucket>&quot;KM_US&quot;</bucket>
+            <bucket>&quot;[Parameters].[Year Parameter]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#b07aa1'>
+          <multibucket>
+            <bucket>&quot;KM_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1610318403168071684:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e15759'>
+          <multibucket>
+            <bucket>&quot;KM_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[attr:Target_percentage:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e15759'>
+          <multibucket>
+            <bucket>&quot;KM_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[attr:Target_percentage:vtnone:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e15759'>
+          <multibucket>
+            <bucket>&quot;KM_EU&quot;</bucket>
+            <bucket>&quot;[Parameters].[Year Parameter]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e16032'>
+          <multibucket>
+            <bucket>&quot;KM_NON_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:3]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#e16032'>
+          <multibucket>
+            <bucket>&quot;KM_NON_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:5]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#edc948'>
+          <multibucket>
+            <bucket>&quot;KM_NON_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[attr:Target_percentage:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#edc948'>
+          <multibucket>
+            <bucket>&quot;KM_NON_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[attr:Target_percentage:vtnone:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#edc948'>
+          <multibucket>
+            <bucket>&quot;KM_NON_EU&quot;</bucket>
+            <bucket>&quot;[Parameters].[Year Parameter]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#edc948'>
+          <multibucket>
+            <bucket>&quot;KM_US&quot;</bucket>
+            <bucket>&quot;[orders_data].[attr:Calculation_2809120292885041155:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#edc948'>
+          <multibucket>
+            <bucket>&quot;KM_US&quot;</bucket>
+            <bucket>&quot;[orders_data].[max:Calculation_2809120292885041155:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#edc948'>
+          <multibucket>
+            <bucket>&quot;KM_US&quot;</bucket>
+            <bucket>&quot;[orders_data].[min:Calculation_2809120292885041155:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#f28e2b'>
+          <multibucket>
+            <bucket>&quot;KM_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[attr:Calculation_2809120292885041155:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#f28e2b'>
+          <multibucket>
+            <bucket>&quot;KM_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[max:Calculation_2809120292885041155:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#f28e2b'>
+          <multibucket>
+            <bucket>&quot;KM_EU&quot;</bucket>
+            <bucket>&quot;[orders_data].[min:Calculation_2809120292885041155:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#ff9da7'>
+          <multibucket>
+            <bucket>&quot;KM_US&quot;</bucket>
+            <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1610318403168071684:qk]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#ffb03b'>
+          <multibucket>
+            <bucket>&quot;KM_US&quot;</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:3]&quot;</bucket>
+          </multibucket>
+        </map>
+        <map to='#ffb03b'>
+          <multibucket>
+            <bucket>&quot;KM_US&quot;</bucket>
+            <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:5]&quot;</bucket>
+          </multibucket>
+        </map>
+      </encoding>
+      <encoding attr='color' field='[:Measure Names]' type='palette'>
+        <map to='#4e79a7'>
+          <bucket>&quot;[orders_data].[sum:Calculation_977562645442629632:qk]&quot;</bucket>
+        </map>
+        <map to='#4e79a7'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:5]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[federated.1s2fyf30uklq1i16bq55o062g6tu].[sum:Offers:qk]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[pcto:sum:Orders:qk:1]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[pcto:sum:Orders:qk:10]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[pcto:sum:Orders:qk:11]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[pcto:sum:Orders:qk:2]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[pcto:sum:Orders:qk:4]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[pcto:sum:Orders:qk:5]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[pcto:sum:Orders:qk:7]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[pcto:sum:Orders:qk:9]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[pcto:sum:Orders:qk]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[sum:Orders:qk]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[usr:Calculation_729020249070084096:qk]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1573163703809294337:qk:2]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1573163703809294337:qk:3]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1573163703809294337:qk:4]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1573163703809294337:qk:5]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1573163703809294337:qk:6]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1573163703809294337:qk:7]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1573163703809294337:qk:8]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1573163703809294337:qk:9]&quot;</bucket>
+        </map>
+        <map to='#76b7b2'>
+          <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy 3)_1573163703809294337:qk]&quot;</bucket>
+        </map>
+        <map to='#bab0ac'>
+          <bucket>&quot;[orders_data].[attr:Calculation_2809120292885041155:qk]&quot;</bucket>
+        </map>
+        <map to='#bab0ac'>
+          <bucket>&quot;[orders_data].[max:Calculation_2809120292885041155:qk]&quot;</bucket>
+        </map>
+        <map to='#bab0ac'>
+          <bucket>&quot;[orders_data].[min:Calculation_2809120292885041155:qk]&quot;</bucket>
+        </map>
+        <map to='#bab0ac'>
+          <bucket>&quot;[orders_data].[min:Target_percentage:qk]&quot;</bucket>
+        </map>
+        <map to='#bab0ac'>
+          <bucket>&quot;[orders_data].[min:Target_percentage:vtnone:qk]&quot;</bucket>
+        </map>
+        <map to='#bab0ac'>
+          <bucket>&quot;[Parameters].[Overall Target 2022 (copy)_1221319989277958144]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[diff:usr:Digital Orders \% (copy)_416583019503689728:qk:2]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[diff:usr:Digital Orders \% (copy)_416583019503689728:qk:3]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[diff:usr:Digital Orders \% (copy)_416583019503689728:qk:4]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[diff:usr:Digital Orders \% (copy)_416583019503689728:qk]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_416583019569057799:qk:7]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_416583019569057799:qk]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:1]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:10]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:11]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:12]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:13]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:14]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:15]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:17]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:18]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:3]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:7]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:8]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:9]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Digital Orders \% (copy)_416583019503689728:qk:1]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[orders_data].[usr:Order Type YTD \% (copy)_416583019582595086:qk]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[Parameters].[DE Target (copy)]&quot;</bucket>
+        </map>
+        <map to='#e15759'>
+          <bucket>&quot;[Parameters].[Year Parameter]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[orders_data].[max:Calculation_1071856753447329792:qk]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:4]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[orders_data].[usr:Calculation_977562645454254081:qk:6]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[Parameters].[BE Target (copy)]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[Parameters].[Digital Orders \% (copy) Parameter]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[Parameters].[Digital Orders \% (selected Order type) Parameter]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[Parameters].[KM NON-EU Orders Target 2023 (copy)_2809120292872638464]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[Parameters].[KMNEU Orders Target 2023 (copy)_2809120292872654849]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[Parameters].[Year Parameter 2]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[Parameters].[Year Parameter 3]&quot;</bucket>
+        </map>
+        <map to='#f28e2b'>
+          <bucket>&quot;[Parameters].[Year Parameter 4]&quot;</bucket>
+        </map>
+      </encoding>
+    </style-rule>
+  </style>
+  <semantic-values>
+    <semantic-value key='[Country].[Name]' value='&quot;Germany&quot;' />
+  </semantic-values>
+  <date-options start-of-week='monday' />
+  <datasource-dependencies datasource='Parameters'>
+    <column caption='US Target ' datatype='real' default-format='p0.0%' name='[BE Target (copy)]' param-domain-type='list' role='measure' type='quantitative' value='0.331'>
+      <calculation class='tableau' formula='0.331' />
+      <members>
+        <member value='0.331' />
+      </members>
+    </column>
+    <column caption='Period' datatype='string' name='[DE Target (copy 2)]' param-domain-type='list' role='measure' type='nominal' value='&quot;CW&quot;'>
+      <calculation class='tableau' formula='&quot;CW&quot;' />
+      <members>
+        <member value='&quot;YTD&quot;' />
+        <member value='&quot;Month&quot;' />
+        <member value='&quot;CW&quot;' />
+        <member value='&quot;Quarter&quot;' />
+      </members>
+    </column>
+    <column caption='KM NON-EU Orders Target 2024' datatype='real' default-format='p0.0%' name='[KM NON-EU Orders Target 2023 (copy)_1071856753456201734]' param-domain-type='list' role='measure' type='quantitative' value='0.28'>
+      <calculation class='tableau' formula='0.28' />
+      <members>
+        <member value='0.28' />
+      </members>
+    </column>
+    <column caption='KM NON-EU Quotes Target 2023' datatype='real' default-format='p0.0%' name='[KM NON-EU Orders Target 2023 (copy)_2809120292872638464]' param-domain-type='list' role='measure' type='quantitative' value='0.054'>
+      <calculation class='tableau' formula='0.054' />
+      <members>
+        <member value='0.054' />
+      </members>
+    </column>
+    <column caption='KMNEU Orders Target 2024' datatype='real' default-format='p0.0%' name='[KMNEU Orders Target 2023 (copy)_1071856753456119812]' param-domain-type='list' role='measure' type='quantitative' value='0.36'>
+      <calculation class='tableau' formula='0.36' />
+      <members>
+        <member value='0.36' />
+      </members>
+    </column>
+    <column caption='KMNEU Quotes Target 2023' datatype='real' default-format='p0.0%' name='[KMNEU Orders Target 2023 (copy)_2809120292872654849]' param-domain-type='list' role='measure' type='quantitative' value='0.235'>
+      <calculation class='tableau' formula='0.235' />
+      <members>
+        <member value='0.235' />
+      </members>
+    </column>
+    <column caption='Overall Orders Target 2024' datatype='real' default-format='p0.0%' name='[Overall Orders Target 2023 (copy)_1071856753449865218]' param-domain-type='list' role='measure' type='quantitative' value='0.36'>
+      <calculation class='tableau' formula='0.36' />
+      <members>
+        <member value='0.36' />
+      </members>
+    </column>
+    <column caption='Overall Orders Target 2023' datatype='real' default-format='p0.0%' name='[Overall Target 2022 (copy)_1221319989277958144]' param-domain-type='list' role='measure' type='quantitative' value='0.488'>
+      <calculation class='tableau' formula='0.488' />
+      <members>
+        <member value='0.488' />
+      </members>
+    </column>
+    <column alias='2024' caption='Year Parameter' datatype='integer' name='[UK Target (copy)]' param-domain-type='list' role='measure' type='quantitative' value='2024'>
+      <calculation class='tableau' formula='2024' />
+      <aliases>
+        <alias key='2022' value='2022' />
+        <alias key='2023' value='2023' />
+        <alias key='2024' value='2024' />
+      </aliases>
+      <members>
+        <member alias='2024' value='2024' />
+        <member alias='2023' value='2023' />
+        <member alias='2022' value='2022' />
+      </members>
+    </column>
+    <column caption='US Orders Target 2024' datatype='real' default-format='p0.0%' name='[US Orders Target 2023 (copy)_1071856753457639432]' param-domain-type='list' role='measure' type='quantitative' value='0.38'>
+      <calculation class='tableau' formula='0.38' />
+      <members>
+        <member value='0.38' />
+      </members>
+    </column>
+  </datasource-dependencies>
+  <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+    <objects>
+      <object caption='New_KPIs_Orders' id='digital_efficiency2_2CB5FA9784674E05BEB79549383B4322'>
+        <properties context=''>
+          <relation connection='mysql.0ynzlft00psvff1d9npox0a32som' name='New_KPIs_Orders' table='[New_KPIs_Orders]' type='table' />
+        </properties>
+        <properties context='extract'>
+          <relation name='digital_efficiency2_2CB5FA9784674E05BEB79549383B4322' table='[Extract].[digital_efficiency2_2CB5FA9784674E05BEB79549383B4322]' type='table' />
+        </properties>
+      </object>
+      <object caption='New_KPIs_Targets' id='digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564'>
+        <properties context=''>
+          <relation connection='mysql.0ynzlft00psvff1d9npox0a32som' name='New_KPIs_Targets' table='[New_KPIs_Targets]' type='table' />
+        </properties>
+        <properties context='extract'>
+          <relation name='digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564' table='[Extract].[digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564]' type='table' />
+        </properties>
+      </object>
+    </objects>
+    <relationships>
+      <relationship>
+        <expression op='='>
+          <expression op='[Salesorg_Name]' />
+          <expression op='[Salesorg]' />
+        </expression>
+        <first-end-point object-id='digital_efficiency2_2CB5FA9784674E05BEB79549383B4322' />
+        <second-end-point object-id='digital_efficiency_targets_126EEACBB21E4FF18764C237537CE564' unique-key='true' />
+      </relationship>
+    </relationships>
+  </_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+</datasource>

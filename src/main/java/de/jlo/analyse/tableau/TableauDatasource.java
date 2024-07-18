@@ -10,52 +10,32 @@ import org.dom4j.Node;
 import de.jlo.analyse.DatabaseTable;
 import de.jlo.analyse.sql.StrictSQLParser;
 
-public class TableauWorkbook {
+public class TableauDatasource {
 	
-	private String twbFilePath = null;
+	private String tdsFilePath = null;
 	private String name = null;
 	private Document doc = null;
 	private List<DatabaseTable> tables = new ArrayList<>();
-	private List<String> datasourceNames = new ArrayList<>();
 	
-	public TableauWorkbook(String twbFilePath) {
-		if (twbFilePath == null || twbFilePath.trim().isEmpty()) {
-			throw new IllegalArgumentException("twbFilePath cannot be null or empty");
+	public TableauDatasource(String tdsFilePath) {
+		if (tdsFilePath == null || tdsFilePath.trim().isEmpty()) {
+			throw new IllegalArgumentException("tdsFilePath cannot be null or empty");
 		}
-		this.twbFilePath = twbFilePath;
-		name = Utils.getFileNameWithoutExt(this.twbFilePath);
+		this.tdsFilePath = tdsFilePath;
+		name = Utils.getFileNameWithoutExt(this.tdsFilePath);
 	}
 	
 	public Document getDocument() throws Exception {
 		if (doc == null) {
-			doc = Utils.readDocument(twbFilePath);
+			doc = Utils.readDocument(tdsFilePath);
 		}
 		return doc;
 	}
 	
-	public void parseWorkbook() throws Exception {
+	public void parseDatasource() throws Exception {
 		List<Node> connectionNodes = getConnections();
 		for (Node cn : connectionNodes) {
 			analyseConnection((Element) cn);
-		}
-		collectDatasources();
-	}
-	
-	private void collectDatasources() throws Exception {
-		Element root = getDocument().getRootElement();
-		List<Node> nodes = root.selectNodes("/workbook/datasources/datasource/repository-location");
-		for (Node node: nodes) {
-			Element rl = (Element) node;
-			String path = rl.attributeValue("path");
-			if ("/datasources".equals(path)) {
-				// it is a remote datasource
-				String name = rl.attributeValue("id");
-				if (name != null && name.trim().isEmpty() == false) {
-					if (datasourceNames.contains(name) == false) {
-						datasourceNames.add(name);
-					}
-				}
-			}
 		}
 	}
 	
@@ -68,6 +48,7 @@ public class TableauWorkbook {
 	private void analyseConnection(Element connectionNode) throws Exception {
 		List<Node> objectNodes = connectionNode.selectNodes("ObjectModelEncapsulateLegacy-relation");
 		if (objectNodes.size() > 0) {
+			// we have table data, now find out on which database
 			List<Node> serverNodes = connectionNode.selectNodes("named-connections/named-connection/connection");
 			if (serverNodes.size() > 0) {
 				Element serverNode = (Element) serverNodes.get(0);
@@ -83,6 +64,7 @@ public class TableauWorkbook {
 						} else if ("table".equals(type)) {
 							// extract the dbname
 							String dbname = serverNode.attributeValue("dbname");
+							// extract table
 							String tableName = ((Element) objectNode).attributeValue("table");
 							// Tableau added square brackets to the table name
 							tableName = tableName.replace("[", "").replace("]", "");
@@ -122,10 +104,6 @@ public class TableauWorkbook {
 
 	public String getName() {
 		return name;
-	}
-
-	public List<String> getDatasourceNames() {
-		return datasourceNames;
 	}
 
 }
