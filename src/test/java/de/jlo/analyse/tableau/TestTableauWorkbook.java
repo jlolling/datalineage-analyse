@@ -67,5 +67,18 @@ public class TestTableauWorkbook {
 		assertTrue("No datasources", tables.size() > 0);
 	}
 
-
+	@Test
+	public void testRetrieveDatasourcesOtherInstance() throws Exception {
+		String resource = "/test_workbook_other_instance_with_ds.twb";
+		String path = "/temp" + resource;
+		TestUtil.saveResourceAsFile(resource, path);
+		TableauWorkbook tb = new TableauWorkbook(path);
+		tb.parseWorkbook();
+		List<String> tables = tb.getDatasourceNames();
+		for (String t : tables) {
+			System.out.println(t);
+		}
+		assertTrue("No datasources", tables.size() > 0);
+	}
+	
 }
