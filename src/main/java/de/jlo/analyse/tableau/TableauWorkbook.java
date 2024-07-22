@@ -47,7 +47,7 @@ public class TableauWorkbook {
 		for (Node node: nodes) {
 			Element rl = (Element) node;
 			String path = rl.attributeValue("path");
-			if ("/datasources".equals(path)) {
+			if (path != null && path.endsWith("/datasources")) {
 				// it is a remote datasource
 				String name = rl.attributeValue("id");
 				if (name != null && name.trim().isEmpty() == false) {
