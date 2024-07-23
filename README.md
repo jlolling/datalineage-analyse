@@ -38,6 +38,7 @@ try {
 	globalMap.put("errorLog", e.getMessage());
 }
 ```
+### Get the embedded jobs in a flow
 Now in a new flow get the parser and get the job chain
 Do it in a tJavaFlex in the Start part
 ```
@@ -68,12 +69,14 @@ if (job == null) {
 }
 globalMap.put("job", job);
 ```
+### Add the task specific context to the job
 Because table names could be potentially build by context variables and and also one job could work for different tables in different task it is important to run this analysis in context of a task and provide the whole task-specific context variables to the job. The next code assumes you read in a flow the context variables (parameter name and value) and let the flow end in a tJavaRow.
 One good choice is to read them from the TMC via TMC API (get tasks)
 ```
 de.jlo.analyse.talend.Job job = (de.jlo.analyse.talend.Job) globalMap.get("job");
 job.addReplaceContextVariable(input_row.parameter_name, input_row.parameter_value);
 ```
+### Analyse the table usage
 Now analyse the job for table usage. We use here the Job object previously put into the globalMap.
 We keep the new parser in the globalMap to use it in various flows for the results.
 ```
@@ -89,6 +92,7 @@ try {
 }
 ```
 Now we are ready to get the results.
+### Get the tables read
 Get the tables read first
 In a tJavaFlex add this to the Start part:
 ```
@@ -103,7 +107,7 @@ The database and also the db schema name is part of the table name.
 read.table_name = table.getTableName();
 read.database_host = table.getDatabaseHost();
 ```
-Get the tables written
+### Get the tables written
 In a tJavaFlex add this to the Start part:
 ```
 de.jlo.analyse.talend.AnalyseTables parser = (de.jlo.analyse.talend.AnalyseTables) globalMap.get("parser");
@@ -117,7 +121,7 @@ The database and also the db schema name is part of the table name.
 write.table_name = table.getTableName();
 write.database_host = table.getDatabaseHost();
 ```
-Get the tables created/dropped
+### Get the tables created/dropped
 In a tJavaFlex add this to the Start part:
 ```
 de.jlo.analyse.talend.AnalyseTables parser = (de.jlo.analyse.talend.AnalyseTables) globalMap.get("parser");
