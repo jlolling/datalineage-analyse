@@ -82,6 +82,12 @@ public class Project {
 		}
 	}
 	
+	/** Returns a job with a concrete version
+	 * 
+	 * @param jobName the name of the job (without version number)
+	 * @param version the job version
+	 * @return an Object of type Job
+	 */
 	public Job getJobByVersion(String jobName, String version) {
 		if (version == null || version.equals("Latest")) {
 			return getLatestJob(jobName);
@@ -98,6 +104,11 @@ public class Project {
 		}
 	}
 	
+	/**
+	 * get the latest version of a job
+	 * @param jobName name of the job
+	 * @return Object of type Job
+	 */
     public Job getLatestJob(String jobName) {
 		List<Job> list = mapNameJobs.get(jobName);
 		if (list != null && list.isEmpty() == false) {
