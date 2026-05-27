@@ -52,6 +52,7 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 		currentStatement = null;
 	    otherItemNames = new ArrayList<>();
 	    listTempTableNames = new ArrayList<>();
+	    super.init(false);
 	}
 	
 	/**
@@ -63,7 +64,7 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 		statement.accept(this);
 		listFunctionSignatures = new ArrayList<String>();
         for (Function f : listFunctions) {
-        	listFunctionSignatures.add(f.toString());
+        		listFunctionSignatures.add(f.toString());
         }
 	}
 	
@@ -81,8 +82,8 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
 	
     @Override
     public void visit(PlainSelect plainSelect) {
-    	currentStatement = plainSelect;
-    	super.visit(plainSelect);
+	    	currentStatement = plainSelect;
+	    	super.visit(plainSelect);
     }
 
 	@Override
@@ -149,11 +150,11 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
         if (tableWholeName.equalsIgnoreCase("dual") == false) { // ignore dummy table
             if (currentStatement instanceof Select) {
                 if (!otherItemNames.contains(tableWholeName.toLowerCase()) && !listTableNamesInput.contains(tableWholeName)) {
-                	listTableNamesInput.add(tableWholeName);
+                		listTableNamesInput.add(tableWholeName);
                 }
             } else if (currentStatement instanceof CreateTable || currentStatement instanceof CreateView) {
                 if (!listTableNamesCreate.contains(tableWholeName)) {
-                	listTableNamesCreate.add(tableWholeName);
+                		listTableNamesCreate.add(tableWholeName);
                 }
             } else if (currentStatement instanceof Insert || 
             		currentStatement instanceof Update || 
@@ -161,7 +162,7 @@ public class TableAndProcedureNameFinder extends TablesNamesFinder {
             		currentStatement instanceof Truncate || 
             		currentStatement instanceof Delete) {
                 if (!otherItemNames.contains(tableWholeName.toLowerCase()) && !listTableNamesOutput.contains(tableWholeName)) {
-                	listTableNamesOutput.add(tableWholeName);
+                		listTableNamesOutput.add(tableWholeName);
                 }
             }
         }
